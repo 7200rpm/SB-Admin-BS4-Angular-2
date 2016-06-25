@@ -17,6 +17,10 @@ export class CustomerService {
       .catch(this.handleError);
   }
 
+  getCustomer(id){
+    return this.customers(id)
+  }
+
   addCustomer(name: string): Observable<Customer> {
     let body = JSON.stringify({ name });
     let headers = new Headers({ 'Content-Type': 'application/json' });
@@ -29,6 +33,7 @@ export class CustomerService {
 
   private extractData(res: Response) {
     let body = res.json();
+    this.customers = body;
     return body.data || {};
   }
 

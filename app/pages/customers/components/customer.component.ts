@@ -2,11 +2,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ROUTER_DIRECTIVES } 	from '@angular/router';
 import {CustomerService} 			from '../customer.service'
 import {Customer} 						from '../customer'
+import { Router }              from '@angular/router';
 
 @Component({
   moduleId: module.id,
-  selector: 'tables-cmp',
-  templateUrl: 'tables.html',
+  selector: 'customer-cmp',
+  templateUrl: 'customer.component.html',
   directives: [ROUTER_DIRECTIVES]
 })
 
@@ -15,7 +16,9 @@ export class CustomerComponent implements OnInit {
   customers: Customer[]
   mode = 'Observable'
 
-  constructor(private customerService: CustomerService) { }
+  constructor(
+    private router: Router,
+    private customerService: CustomerService) { }
 
   ngOnInit() { this.getCustomers() }
 
@@ -33,6 +36,10 @@ export class CustomerComponent implements OnInit {
       .subscribe(
       customer => this.customers.push(customer),
       error => this.errorMessage = <any>error)
-		
+
+  }
+
+  onSelect(customer: Customer) {
+    this.router.navigate(['/customer', customer.id]);
   }
 }
