@@ -1,5 +1,6 @@
 import {Component, ViewEncapsulation, ViewContainerRef} from '@angular/core';
-import { ROUTER_DIRECTIVES, Routes } from '@angular/router';
+import { ROUTER_DIRECTIVES } from '@angular/router';
+import { HTTP_PROVIDERS } from '@angular/http';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
@@ -12,19 +13,19 @@ import {LoginComponent} from '../../pages/login/components/login';
 import {SignupComponent} from '../../pages/signup/components/signup';
 import {DashboardComponent} from '../dashboard/components/dashboard';
 
+import {CustomerService} from '../../pages/customers/customer.service'
+
 @Component({
 	moduleId: module.id,
     selector: 'sd-app',
     templateUrl: 'base.html',
     encapsulation: ViewEncapsulation.None,
+		providers: [
+			CustomerService,
+			HTTP_PROVIDERS
+		],
     directives: [ROUTER_DIRECTIVES]
 })
-
-@Routes([
-    { path: '/', component: LoginComponent },
-    { path: '/signup', component: SignupComponent },
-    { path: 'dashboard', component: DashboardComponent }
-])
 
 export class AppComponent {
 	viewContainerRef: any = null;

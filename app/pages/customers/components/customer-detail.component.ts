@@ -42,7 +42,7 @@ export class CustomerDetailComponent implements OnInit {
 
     // (+) converts string 'id' to a number
     let id = +this.route.snapshot.params['id'];
-    this.customerService.getCustomer(id).then(customer => this.customer = customer);
+    this.customerService.getCustomer(id);
   }
 
   goBack() { this.router.navigate(['/customers']); }

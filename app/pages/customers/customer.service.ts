@@ -6,10 +6,11 @@ import { Observable }     from 'rxjs/Observable';
 
 @Injectable()
 export class CustomerService {
+
+  private customerURL = 'http://wakeapi.azurewebsites.net/demo/customers';  // URL to web API
+  private customers: Customer[]
+
   constructor(private http: Http) { }
-
-  private customerURL = 'app/heroes';  // URL to web API
-
 
   getCustomers(): Observable<Customer[]> {
     return this.http.get(this.customerURL)
@@ -17,8 +18,8 @@ export class CustomerService {
       .catch(this.handleError);
   }
 
-  getCustomer(id){
-    return this.customers(id)
+  getCustomer(id: number) {
+    return this.customers.filter(customer => customer.id === id)
   }
 
   addCustomer(name: string): Observable<Customer> {
@@ -34,7 +35,8 @@ export class CustomerService {
   private extractData(res: Response) {
     let body = res.json();
     this.customers = body;
-    return body.data || {};
+    //return body.data || {};
+    return body;
   }
 
   private handleError(error: any) {

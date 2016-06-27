@@ -31,11 +31,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let c of customers" (click)="onSelect(hero)">
+                            <tr *ngFor="let c of customers" (click)="onSelect(c)">
                                 <th scope="row">1</th>
-                                <td>{{c.id}}</td>
-                                <td>{{c.name}}</td>
-                                <td>@mdo</td>
+                                <td>{{c.first_name}}</td>
+                                <td>{{c.last_name}}</td>
+                                <td>{{c.email}}</td>
                             </tr>
                         </tbody>
                     </table>
