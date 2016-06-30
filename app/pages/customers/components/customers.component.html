@@ -17,7 +17,7 @@
     </div>
     <!-- /.row -->
     <div class="row">
-        <div class="col-xl-6 col-lg-12">
+        <div class="col-xl-12 col-lg-12">
             <h4>Basic example</h4>
             <div class="card card-block">
                 <div class="table-responsive">
@@ -25,17 +25,21 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Username</th>
+                                <th>Name</th>
+                                <th>Location</th>
+                                <th>Contact</th>
+                                <th>Order<th>
+                                <th>Status<th>
+                                <th>Wakē<th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let c of customers" (click)="onSelect(c)">
                                 <th scope="row">{{c.customerID}}</th>
-                                <td>{{c.first_name}}</td>
-                                <td>{{c.last_name}}</td>
-                                <td>{{c.email}}</td>
+                                <td>{{c.last_name}}, {{c.first_name}}</td>
+                                <td><a href="http://maps.google.com/?q={{c.street_address}} {{c.city}} {{c.state}} {{c.zip_code}}" target="_blank">{{c.street_address}}<br />{{c.city}}, {{c.state}} {{c.zip_code}}</a></td>
+                                <td><a href="mailto: {{c.email}}">{{c.email}}</a><br />{{c.phone_number}}</td>
+                                <td>{{c.order.order_date}}</td>
                             </tr>
                         </tbody>
                     </table>
