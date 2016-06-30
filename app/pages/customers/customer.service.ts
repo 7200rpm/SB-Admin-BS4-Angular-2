@@ -18,8 +18,14 @@ export class CustomerService {
       .catch(this.handleError);
   }
 
-  getCustomer(id: number) {
-    return this.customers.filter(customer => customer.id === id)
+  getCustomer(id: number): Customer {
+    //console.log(this.customers)
+    //return this.customers.filter(customer => customer.customerID === id)
+    return this.http.get(this.customerURL)
+      .toPromise()
+      .then(res => res.json())
+      .then(cus => cus.filter(c => c.customerID === id)[0])
+
   }
 
   addCustomer(name: string): Observable<Customer> {
@@ -35,6 +41,7 @@ export class CustomerService {
   private extractData(res: Response) {
     let body = res.json();
     this.customers = body;
+    //console.log(this.customers)
     //return body.data || {};
     return body;
   }
