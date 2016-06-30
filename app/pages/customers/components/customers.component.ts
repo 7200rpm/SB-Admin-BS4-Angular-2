@@ -7,7 +7,7 @@ import { Router }              from '@angular/router';
 @Component({
   moduleId: module.id,
   selector: 'customer-cmp',
-  templateUrl: 'customer.component.html',
+  templateUrl: 'customers.component.html',
   directives: [ROUTER_DIRECTIVES]
 })
 
