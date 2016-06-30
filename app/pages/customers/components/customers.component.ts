@@ -40,6 +40,6 @@ export class CustomerComponent implements OnInit {
   }
 
   onSelect(customer: Customer) {
-    this.router.navigate(['/customer', customer.id]);
+    this.router.navigate(['/dashboard/customer', customer.customerID]);
   }
 }

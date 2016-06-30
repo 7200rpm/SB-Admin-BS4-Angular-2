@@ -7,11 +7,11 @@ import { Router, ActivatedRoute }       from '@angular/router';
   selector: 'customer-detail-cmp',
   template: `
     <div *ngIf="customer">
-      <h2>{{customer.name}} details!</h2>
-      <div><label>id: </label>{{customer.id}}</div>
+      <h2>{{customer.first_name}} {{customer.last_name}}</h2>
+      <div><label>id: </label>{{customer.customerID}}</div>
       <div>
         <label>name: </label>
-        <input [(ngModel)]="customer.name" placeholder="name"/>
+        <input [(ngModel)]="customer.first_name" placeholder="name"/>
       </div>
     </div>
     <p>
@@ -21,8 +21,8 @@ import { Router, ActivatedRoute }       from '@angular/router';
 })
 
 export class CustomerDetailComponent implements OnInit {
-  @Input() customer: Customer;
-  @Output() close = new EventEmitter();
+  //@Input() customer: Customer;
+  //@Output() close = new EventEmitter();
   error: any;
   navigated = false; // true if navigated here
 
@@ -42,10 +42,10 @@ export class CustomerDetailComponent implements OnInit {
 
     // (+) converts string 'id' to a number
     let id = +this.route.snapshot.params['id'];
-    this.customerService.getCustomer(id);
+    this.customerService.getCustomer(id).then(cus => this.customer = cus);
   }
 
-  goBack() { this.router.navigate(['/customers']); }
+  goBack() { this.router.navigate(['/dashboard/customers']); }
 
   // ngOnDestroy() {
   //   this.sub.unsubscribe()
