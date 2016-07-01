@@ -18,13 +18,13 @@ export class CustomerService {
       .catch(this.handleError);
   }
 
-  getCustomer(id: number): Customer {
+  getCustomer(id: number): Promise<Customer> {
     //console.log(this.customers)
     //return this.customers.filter(customer => customer.customerID === id)
     return this.http.get(this.customerURL)
       .toPromise()
       .then(res => res.json())
-      .then(cus => cus.filter(c => c.customerID === id)[0])
+      .then(cus => cus.filter((c: Customer) => c.customerID === id)[0])
 
   }
 

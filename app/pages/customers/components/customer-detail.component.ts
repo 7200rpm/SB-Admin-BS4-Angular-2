@@ -21,8 +21,8 @@ import { Router, ActivatedRoute }       from '@angular/router';
 })
 
 export class CustomerDetailComponent implements OnInit {
-  //@Input() customer: Customer;
-  //@Output() close = new EventEmitter();
+  @Input() customer: Customer;
+  @Output() close = new EventEmitter();
   error: any;
   navigated = false; // true if navigated here
 
@@ -42,7 +42,7 @@ export class CustomerDetailComponent implements OnInit {
 
     // (+) converts string 'id' to a number
     let id = +this.route.snapshot.params['id'];
-    this.customerService.getCustomer(id).then(cus => this.customer = cus);
+    this.customerService.getCustomer(id).then((cus:Customer) => this.customer = cus);
   }
 
   goBack() { this.router.navigate(['/dashboard/customers']); }
