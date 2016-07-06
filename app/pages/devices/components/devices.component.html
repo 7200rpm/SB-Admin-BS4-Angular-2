@@ -27,8 +27,10 @@
             <thead>
               <tr>
                 <th>#</th>
-                <th>Name</th>
-                <th>Location</th>
+                <th>Serial Number</th>
+                <th>Particle ID</th>
+                <th>Status</th>
+                <th>Notes</th>
               </tr>
             </thead>
             <tbody>
@@ -36,6 +38,9 @@
                 <th scope="row">{{d.deviceID}}</th>
                 <td>{{d.serial_number}}</td>
                 <td>{{d.particleID}}</td>
+                <td *ngIf="!d.order">In Stock</td>
+                <td *ngIf="d.order">Shipped to {{d.order.customer.first_name}} {{d.order.customer.last_name}}</td>
+                <td>{{d.notes}}</td>
               </tr>
             </tbody>
           </table>
