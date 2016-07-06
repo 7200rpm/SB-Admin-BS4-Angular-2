@@ -3,7 +3,7 @@ import { Http, Response, Headers, RequestOptions}  from '@angular/http';
 import { Device }       from './device';
 import { Observable }     from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-
+import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class DeviceService {
@@ -22,7 +22,7 @@ export class DeviceService {
   getDevice(id: number): Observable<Device> {
     //console.log(this.customers)
     //return this.customers.filter(customer => customer.customerID === id)
-    return this.http.get(this.deviceURL + '/${id}')
+    return this.http.get(this.deviceURL + '/' + id)
       .map(res => res.json())
       .catch(this.handleError);
 
@@ -43,7 +43,7 @@ export class DeviceService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.put(this.deviceURL + '/${device.deviceID}', body, options)
+    return this.http.put(this.deviceURL + '/' + device.deviceID, body, options)
       .map(() => device)
       .catch(this.handleError);
   }

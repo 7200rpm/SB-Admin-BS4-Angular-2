@@ -85,7 +85,7 @@
                                 <td>{{c.last_name}}, {{c.first_name}}</td>
                                 <td><a href="http://maps.google.com/?q={{c.street_address}} {{c.city}} {{c.state}} {{c.zip_code}}" target="_blank">{{c.street_address}}<br />{{c.city}}, {{c.state}} {{c.zip_code}}</a></td>
                                 <td><a href="mailto: {{c.email}}">{{c.email}}</a><br />{{c.phone_number}}</td>
-                                <td>{{c.order.order_date}}</td>
+                                <td>{{c.orders[0].order_date}}</td>
                             </tr>
                         </tbody>
                     </table>
