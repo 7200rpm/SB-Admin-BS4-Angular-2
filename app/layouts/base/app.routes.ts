@@ -9,8 +9,13 @@ import {ChartComponent} from '../../pages/charts/components/charts';
 import {GridComponent} from '../../pages/grid/components/grid';
 import {FormComponent} from '../../pages/forms/components/forms';
 import {TableComponent} from '../../pages/tables/components/tables';
+
 import {CustomerComponent} from '../../pages/customers/components/customers.component';
 import {CustomerDetailComponent} from '../../pages/customers/components/customer-detail.component';
+
+import {DeviceComponent} from '../../pages/devices/components/devices.component';
+import {DeviceDetailComponent} from '../../pages/devices/components/device-detail.component';
+
 import {BSElementComponent} from '../../pages/bootstrap-element/components/bs_element';
 import {BlankPageComponent} from '../../pages/blank-page/components/blank_page';
 import {NG2Component} from '../../pages/component/components/component';
@@ -24,6 +29,8 @@ export const routes: RouterConfig = [
       { path: 'chart', component: ChartComponent },
       { path: 'customers', component: CustomerComponent },
       { path: 'customer/:id', component: CustomerDetailComponent },
+      { path: 'devices', component: DeviceComponent },
+      { path: 'device/:id', component: DeviceDetailComponent },
       { path: 'table', component: TableComponent },
       { path: 'forms', component: FormComponent },
       { path: 'element', component: BSElementComponent },

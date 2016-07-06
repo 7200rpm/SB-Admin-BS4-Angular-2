@@ -26,17 +26,9 @@ export class CustomerComponent implements OnInit {
     this.customerService.getCustomers()
       .subscribe(
       customers => this.customers = customers,
-      error => this.errorMessage = <any>error)
-  }
-
-  addCustomer(name: string) {
-    if (!name) return
-
-    this.customerService.addCustomer(name)
-      .subscribe(
-      customer => this.customers.push(customer),
-      error => this.errorMessage = <any>error)
-
+      error => this.errorMessage = <any>error,
+      () => console.log('Customers Completed!')
+      )
   }
 
   onSelect(customer: Customer) {

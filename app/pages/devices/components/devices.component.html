@@ -1,0 +1,48 @@
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <div class="row">
+    <div class="col-xl-12">
+      <h2 class="page-header">
+                Devices
+            </h2>
+      <ol class="breadcrumb">
+        <li>
+          <i class="fa fa-dashboard"></i> <a href="Javascript:void(0);" [routerLink]="['/dashboard','/home']">Dashboard</a>
+        </li>
+        <li class="active">
+          <i class="fa fa-table"></i> Devices
+        </li>
+      </ol>
+    </div>
+  </div>
+  <!-- /.row -->
+
+  <div class="row">
+    <div class="col-xl-12 col-lg-12">
+      <h4>Basic example</h4>
+
+      <div class="card card-block">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Location</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let d of devices" (click)="onSelect(d)">
+                <th scope="row">{{d.deviceID}}</th>
+                <td>{{d.serial_number}}</td>
+                <td>{{d.particleID}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

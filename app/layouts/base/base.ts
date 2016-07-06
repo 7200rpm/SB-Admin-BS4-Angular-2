@@ -14,6 +14,7 @@ import {SignupComponent} from '../../pages/signup/components/signup';
 import {DashboardComponent} from '../dashboard/components/dashboard';
 
 import {CustomerService} from '../../pages/customers/customer.service'
+import {DeviceService} from '../../pages/devices/device.service'
 
 @Component({
 	moduleId: module.id,
@@ -22,6 +23,7 @@ import {CustomerService} from '../../pages/customers/customer.service'
     encapsulation: ViewEncapsulation.None,
 		providers: [
 			CustomerService,
+			DeviceService,
 			HTTP_PROVIDERS
 		],
     directives: [ROUTER_DIRECTIVES]

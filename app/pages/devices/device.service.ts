@@ -1,59 +1,56 @@
 import { Injectable }     from '@angular/core';
 import { Http, Response, Headers, RequestOptions}  from '@angular/http';
-import { Customer }       from './customer';
+import { Device }       from './device';
 import { Observable }     from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
 
 
 @Injectable()
-export class CustomerService {
+export class DeviceService {
 
-  private customerURL = 'http://wakeapi.azurewebsites.net/v1/customers';  // URL to web API
-  private customers: Customer[]
+  private deviceURL = 'http://wakeapi.azurewebsites.net/v1/devices';  // URL to web API
+  private devices: Device[]
 
   constructor(private http: Http) { }
 
-  getCustomers(): Observable<Customer[]> {
-    return this.http.get(this.customerURL)
+  getDevices(): Observable<Device[]> {
+    return this.http.get(this.deviceURL)
       .map(res => res.json())
       .catch(this.handleError);
   }
 
-  getCustomer(id: number): Observable<Customer> {
+  getDevice(id: number): Observable<Device> {
     //console.log(this.customers)
     //return this.customers.filter(customer => customer.customerID === id)
-    // return this.http.get(this.customerURL)
-    //   .toPromise()
-    //   .then(res => res.json())
-    //   .then(cus => cus.filter((c: Customer) => c.customerID === id)[0])
-    return this.http.get(this.customerURL + '/${id}')
+    return this.http.get(this.deviceURL + '/${id}')
       .map(res => res.json())
       .catch(this.handleError);
 
   }
 
-  addCustomer(customer: Customer): Observable<Customer> {
-    let body = JSON.stringify({ customer });
+  addDevice(device: Device): Observable<Device> {
+    let body = JSON.stringify({ device });
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(this.customerURL, body, options)
+    return this.http.post(this.deviceURL, body, options)
       .map(res => res.json())
       .catch(this.handleError);
   }
 
-  updateCustomer(customer: Customer): Observable<Customer> {
-    let body = JSON.stringify({ customer });
+  updateDevice(device: Device): Observable<Device> {
+    let body = JSON.stringify({ device });
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.put(this.customerURL + '/${customer.customerID}', body, options)
-      .map(() => customer)
+    return this.http.put(this.deviceURL + '/${device.deviceID}', body, options)
+      .map(() => device)
       .catch(this.handleError);
   }
 
   private extractData(res: Response) {
     let body = res.json();
-    //this.customers = body;
+
     //console.log(this.customers)
     //return body.data || {};
     return body;
