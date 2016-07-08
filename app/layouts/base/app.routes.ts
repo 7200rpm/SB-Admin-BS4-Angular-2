@@ -16,6 +16,10 @@ import {CustomerDetailComponent} from '../../pages/customers/components/customer
 import {DeviceComponent} from '../../pages/devices/components/devices.component';
 import {DeviceDetailComponent} from '../../pages/devices/components/device-detail.component';
 
+import {TelemetryComponent} from '../../pages/telemetry/components/telemetry.component';
+
+import {LogComponent} from '../../pages/log/components/log.component';
+
 import {BSElementComponent} from '../../pages/bootstrap-element/components/bs_element';
 import {BlankPageComponent} from '../../pages/blank-page/components/blank_page';
 import {NG2Component} from '../../pages/component/components/component';
@@ -31,6 +35,8 @@ export const routes: RouterConfig = [
       { path: 'customer/:id', component: CustomerDetailComponent },
       { path: 'devices', component: DeviceComponent },
       { path: 'device/:id', component: DeviceDetailComponent },
+      { path: 'telemetry', component: TelemetryComponent },
+      { path: 'log', component: LogComponent },
       { path: 'table', component: TableComponent },
       { path: 'forms', component: FormComponent },
       { path: 'element', component: BSElementComponent },

@@ -1,6 +1,7 @@
 import {Component, ViewEncapsulation, ViewContainerRef} from '@angular/core';
 import { ROUTER_DIRECTIVES } from '@angular/router';
 import { HTTP_PROVIDERS } from '@angular/http';
+import {NgClass} from '@angular/common';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
@@ -16,6 +17,8 @@ import {DashboardComponent} from '../dashboard/components/dashboard';
 import {CustomerService} from '../../pages/customers/customer.service'
 import {DeviceService} from '../../pages/devices/device.service'
 
+
+
 @Component({
 	moduleId: module.id,
     selector: 'sd-app',
@@ -24,7 +27,8 @@ import {DeviceService} from '../../pages/devices/device.service'
 		providers: [
 			CustomerService,
 			DeviceService,
-			HTTP_PROVIDERS
+			HTTP_PROVIDERS,
+			NgClass
 		],
     directives: [ROUTER_DIRECTIVES]
 })
