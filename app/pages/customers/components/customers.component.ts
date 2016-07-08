@@ -3,12 +3,13 @@ import { ROUTER_DIRECTIVES } 	from '@angular/router';
 import {CustomerService} 			from '../customer.service'
 import {Customer} 						from '../customer'
 import { Router }              from '@angular/router';
+import {TableDemoComponent} from './customerTable.component'
 
 @Component({
   moduleId: module.id,
   selector: 'customer-cmp',
   templateUrl: 'customers.component.html',
-  directives: [ROUTER_DIRECTIVES]
+  directives: [ROUTER_DIRECTIVES, TableDemoComponent]
 })
 
 export class CustomerComponent implements OnInit {
@@ -20,16 +21,16 @@ export class CustomerComponent implements OnInit {
     private router: Router,
     private customerService: CustomerService) { }
 
-  ngOnInit() { this.getCustomers() }
-
-  getCustomers() {
-    this.customerService.getCustomers()
-      .subscribe(
-      customers => this.customers = customers,
-      error => this.errorMessage = <any>error,
-      () => console.log('Customers Completed!')
-      )
-  }
+  ngOnInit() {  }
+  //
+  // getCustomers() {
+  //   this.customerService.getCustomers()
+  //     .subscribe(
+  //     customers => this.customers = customers,
+  //     error => this.errorMessage = <any>error,
+  //     () => console.log('Customers Completed!')
+  //     )
+  // }
 
   onSelect(customer: Customer) {
     this.router.navigate(['/dashboard/customer', customer.customerID]);
