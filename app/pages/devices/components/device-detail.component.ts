@@ -34,7 +34,7 @@ import { Router, ActivatedRoute }       from '@angular/router';
             <button type="reset" class="btn btn-secondary">Reset</button>
           </form>
         </div>
-        <div class="col-xl-6">
+        <div class="col-xl-9">
           <h3>Telemetry</h3>
           <form role="form">
             <div class="form-group input-group">
@@ -48,31 +48,22 @@ import { Router, ActivatedRoute }       from '@angular/router';
                 <thead>
                   <tr>
                     <th>Timestamp</th>
-                    <th>Measurand</th>
+                    <th>Event</th>
+                    <th>Measurement</th>
                     <th>Value</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <!-- *ngFor="let t of devices.telemetry" -->
-                  <tr>
-                    <td>{{t.timestamp}}</td>
-                    <td>{{t.measurand}}</td>
-                    <td>{{t.value}}</td>
+                  <tr *ngFor="let event of device.events" (click)="onSelect(d)">
+                    <td>{{event.published_at}}</td>
+                    <td>{{event.name}}</td>
+                    <td>{{event.measurand}}</td>
+                    <td>{{event.value}}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
-        </div>
-        <div class="col-sm-3">
-          <h3>Wakeups</h3>
-            <ul class="list-group">
-                <li class="list-group-item">Cras justo odio</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Morbi leo risus</li>
-                <li class="list-group-item">Porta ac consectetur ac</li>
-                <li class="list-group-item">Vestibulum at eros</li>
-            </ul>
         </div>
       </div>
     </div>

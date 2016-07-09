@@ -39,7 +39,7 @@
                 <td>{{d.serial_number}}</td>
                 <td>{{d.particleID}}</td>
                 <td *ngIf="!d.order">In Stock</td>
-                <td *ngIf="d.order">Shipped to {{d.order.customer.first_name}} {{d.order.customer.last_name}}</td>
+                <td *ngIf="d.order">Shipped to <a href="dashboard/customer/{{d.order.customer.customerID}}">{{d.order.customer.first_name}} {{d.order.customer.last_name}}</a></td>
                 <td>{{d.notes}}</td>
               </tr>
             </tbody>
