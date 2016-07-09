@@ -9,10 +9,16 @@ import { Router, ActivatedRoute }       from '@angular/router';
     <div class="container-fluid" *ngIf="device">
       <div class="row">
         <h2>Device {{device.serial_number}}
-          <button type="button" class="btn btn-lg btn-primary" (click)="goBack()">Back</button>
+          <button type="button" class="btn btn-primary" (click)="goBack()">Back</button>
         </h2>
+        <hr>
         <div class="col-xl-3">
-          <h3>Update</h3>
+          <div class="card card-primary card-inverse">
+            <div class="card-header card-primary">
+              <h3>Update</h3>
+            </div>
+            <div class="card-block bg-white">
+
           <form role="form">
             <fieldset class="form-group">
               <label>Serial Number</label>
@@ -34,7 +40,29 @@ import { Router, ActivatedRoute }       from '@angular/router';
             <button type="reset" class="btn btn-secondary">Reset</button>
           </form>
         </div>
+        </div>
+          <div class="card card-success card-inverse">
+                <div class="card-header card-success">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-user fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-xs-right">
+                            <div><h4>Shipped to<br />FirstName LastName</h4></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer card-green">
+                    <a class="text-success" href="dashboard/customer/1">
+                        <span class="pull-xs-left">View Details</span>
+                        <span class="pull-xs-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </a>
+                </div>
+            </div>
+        </div>
         <div class="col-xl-9">
+          <div class="card card-block">
           <h3>Telemetry</h3>
           <form role="form">
             <div class="form-group input-group">
@@ -42,7 +70,6 @@ import { Router, ActivatedRoute }       from '@angular/router';
               <span class="input-group-btn"><button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button></span>
             </div>
           </form>
-          <div class="card card-block">
             <div class="table-responsive">
               <table class="table table-hover">
                 <thead>
