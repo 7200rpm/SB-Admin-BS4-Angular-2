@@ -79,7 +79,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor="let event of log_events" (click)="onSelect(event)" [attr.class]="event.error ? 'table-danger' : 'table-success'">
+                          <tr *ngFor="let event of log_events" [attr.class]="event.error ? 'table-danger' : 'table-success'">
                             <td *ngIf="event.error"><i class="fa fa-exclamation-triangle"></i></td>
                             <td *ngIf="!event.error"></td>
                             <td>{{event.requested_at}}</td>
