@@ -1,8 +1,12 @@
 <div class="container-fluid" *ngIf="customer">
-      <div class="row">
-        <h2>Customer {{customer.first_name}} {{customer.last_name}}
-          <button type="button" class="btn btn-lg btn-primary" (click)="goBack()">Back</button>
+    <div class="row">
+        <div class="col-xl-12">
+        <h2><button type="button" class="btn btn-primary" (click)="goBack()">Back</button> | <i class="fa fa-user"></i> {{customer.first_name}} {{customer.last_name}}
         </h2>
+        <hr />
+        </div>
+    </div>
+      <div class="row">
         <div class="col-xl-4">
           <div class="card card-primary card-inverse">
             <div class="card-header card-primary">
@@ -20,15 +24,15 @@
             </fieldset>
             <fieldset class="form-group">
               <label>Email</label>
-              <input class="form-control" value="{{customer.hardware_revision}}" [(ngModel)]="customer.email">
+              <input class="form-control" value="{{customer.email}}" [(ngModel)]="customer.email">
             </fieldset>
             <fieldset class="form-group">
               <label>Phone Number</label>
-              <input class="form-control" value="{{customer.hardware_revision}}" [(ngModel)]="customer.telephone_number">
+              <input class="form-control" value="{{customer.phone_number}}" [(ngModel)]="customer.telephone_number">
             </fieldset>
             <fieldset class="form-group">
               <label>Notes</label>
-              <textarea class="form-control" rows="3" value="{{customer.notes}}" [(ngModel)]="customer.notes"></textarea>
+              <textarea class="form-control" rows="5" value="{{customer.notes}}" [(ngModel)]="customer.notes"></textarea>
             </fieldset>
             <button type="submit" class="btn btn-secondary">Submit</button>
             <button type="reset" class="btn btn-secondary">Reset</button>
@@ -68,6 +72,19 @@
           </form>
           </div>
         </div>
+          <div *ngIf=customer.city class="card card-primary card-inverse">
+            <div class="card-header card-primary">
+              Location
+            </div>
+            <div class="card-block bg-white">
+              <iframe
+  height="450"
+  frameborder="0" style="border:0"
+  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBZO6PMVjOfggnBJLkaVNmgibwYxWz33t8
+    &q=Los+Angeles+CA" allowfullscreen>
+</iframe>
+          </div>
+        </div>
       </div>
         <div class="col-xl-4">
           <div [attr.class]="customer.order.device ? 'card card-success card-inverse' : 'card card-warning card-inverse'">
@@ -81,26 +98,42 @@
               <input class="form-control" value="{{customer.order.source}}" [(ngModel)]="customer.order.source">
             </fieldset>
             <fieldset class="form-group">
-              <label>City</label>
-              <input class="form-control" value="{{customer.city}}" [(ngModel)]="customer.city">
+              <label>Order Date</label>
+              <input class="form-control" value="{{customer.order.order_date}}" [(ngModel)]="customer.order.order_date">
             </fieldset>
             <fieldset class="form-group">
-              <label>State</label>
-              <input class="form-control" value="{{customer.state}}" [(ngModel)]="customer.state">
+              <label>Ship Date</label>
+              <input class="form-control" value="{{customer.order.ship_date}}" [(ngModel)]="customer.order.ship_date">
             </fieldset>
             <fieldset class="form-group">
-              <label>Country</label>
-              <input class="form-control" value="{{customer.county}}" [(ngModel)]="customer.country">
-            </fieldset>
-            <fieldset class="form-group">
-              <label>Postal Code</label>
-              <input class="form-control" value="{{customer.postal_code}}" [(ngModel)]="customer.postal_code">
+              <label>Device</label>
+              <input *ngIf=customer.order.device class="form-control" value="{{customer.order.device.deviceID}}" [(ngModel)]="customer.order.device.deviceID">
+              <input *ngIf=!customer.order.device class="form-control" [(ngModel)]="customer.order.device">
             </fieldset>
             <button type="submit" class="btn btn-secondary">Submit</button>
             <button type="reset" class="btn btn-secondary">Reset</button>
           </form>
           </div>
         </div>
+          <div *ngIf=customer.order.device class="card card-success card-inverse">
+                <div class="card-header card-success">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-bed fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-xs-right">
+                            <div><h4>Customer has a Wakē!</h4></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer card-green">
+                    <a class="text-success" href="dashboard/device/{{customer.order.device.deviceID}}">
+                        <span class="pull-xs-left">View Details</span>
+                        <span class="pull-xs-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </a>
+                </div>
+            </div>
       </div>
       </div>
     </div>
