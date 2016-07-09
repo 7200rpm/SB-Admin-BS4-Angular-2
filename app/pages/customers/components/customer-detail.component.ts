@@ -5,6 +5,7 @@ import { Router, ActivatedRoute }       from '@angular/router';
 import { Observable }     from 'rxjs/Observable';
 
 @Component({
+  moduleId: module.id,
   selector: 'customer-detail-cmp',
   templateUrl: 'customer-detail.component.html'
 })
