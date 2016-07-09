@@ -41,23 +41,35 @@ import { Router, ActivatedRoute }       from '@angular/router';
           </form>
         </div>
         </div>
-          <div class="card card-success card-inverse">
+          <div *ngIf=device.order class="card card-success card-inverse">
                 <div class="card-header card-success">
                     <div class="row">
                         <div class="col-xs-3">
                             <i class="fa fa-user fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-xs-right">
-                            <div><h4>Shipped to<br />FirstName LastName</h4></div>
+                            <div><h4>Shipped to<br />{{device.order.customer.first_name}} {{device.order.customer.last_name}}</h4></div>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer card-green">
-                    <a class="text-success" href="dashboard/customer/1">
+                    <a class="text-success" href="dashboard/customer/{{device.order.customer.customerID}}">
                         <span class="pull-xs-left">View Details</span>
                         <span class="pull-xs-right"><i class="fa fa-arrow-circle-right"></i></span>
                         <div class="clearfix"></div>
                     </a>
+                </div>
+            </div>
+            <div *ngIf=!device.order class="card card-warning card-inverse">
+                <div class="card-header card-warning">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-home fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-xs-right">
+                            <div><h3>In Stock</h3></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
