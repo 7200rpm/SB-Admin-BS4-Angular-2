@@ -6,6 +6,13 @@
         <hr />
         </div>
     </div>
+    <div *ngIf=customer.order.device class="alert alert-success">
+        We have shipped a Wakē to this customer.
+    </div>
+    <div *ngIf=!customer.order.device class="alert alert-warning">
+        We have <strong>not</strong> shipped a Wakē to this customer.
+    </div>
+
       <div class="row">
         <div class="col-xl-4">
 
