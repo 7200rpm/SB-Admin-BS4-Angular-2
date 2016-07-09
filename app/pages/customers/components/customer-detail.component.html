@@ -8,13 +8,70 @@
     </div>
       <div class="row">
         <div class="col-xl-4">
+
+          <div class="card card-primary card-inverse">
+            <div class="card-header card-primary">
+              Order
+            </div>
+            <div class="card-block bg-white">
+              Source: {{customer.order.source}}<br />
+              Source ID: 1234567890<br />
+              Order Date: 2016-07-04<br />
+              Name: {{customer.first_name}} {{customer.last_name}}<br />
+              Email: <a href="mailto:{{customer.email}}">{{customer.email}}</a><br />
+            </div>
+          </div>
+
+          <div *ngIf="customer.order.device" class="card card-success card-inverse">
+            <div class="card-header card-success">
+              Shipment
+            </div>
+            <div class="card-block bg-white">
+              Ship Date: {{customer.order.ship_date}}<br />
+              Shipped To: {{customer.first_name}} {{customer.last_name}}<br />
+              Address: <a href="#">123 Main St. Los Angeles CA 90000</a><br />
+              Device: <a href="dashboard/device/{{customer.order.device.deviceID}}">{{customer.order.device.serial_number}}</a><br />
+              <hr />
+              <button type="button" class="btn btn-danger">Undo Shipment</button>
+            </div>
+          </div>
+
+          <div *ngIf="!customer.order.device" class="card card-warning card-inverse">
+            <div class="card-header card-warning">
+              Ship Unit
+            </div>
+            <div class="card-block bg-white">
+              <form role="form">
+              <fieldset class="form-group">
+              <label>Person</label>
+              <input class="form-control" value="{{customer.first_name}} {{customer.last_name}}" [(ngModel)]="customer.street_address">
+            </fieldset>
+                <fieldset class="form-group">
+              <label>Address</label>
+              <textarea class="form-control" rows="3" value="{{customer.notes}}" [(ngModel)]="customer.notes"></textarea>
+            </fieldset>
+            <fieldset class="form-group">
+              <label>Device</label>
+              <input class="form-control" [(ngModel)]="customer.order.device">
+            </fieldset>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="reset" class="btn btn-secondary">Reset</button>
+          </form>
+            </div>
+          </div>
+      </div>
+
+      <div class="col-xl-8">
           <div class="card card-primary card-inverse">
             <div class="card-header card-primary">
               Customer
             </div>
             <div class="card-block bg-white">
               <form role="form">
-                <fieldset class="form-group">
+                <div class="row">
+                  <div class="col-xl-6">
+
+                  <fieldset class="form-group">
               <label>First Name</label>
               <input class="form-control" value="{{customer.first_name}}" [(ngModel)]="customer.first_name">
             </fieldset>
@@ -34,19 +91,10 @@
               <label>Notes</label>
               <textarea class="form-control" rows="5" value="{{customer.notes}}" [(ngModel)]="customer.notes"></textarea>
             </fieldset>
-            <button type="submit" class="btn btn-secondary">Submit</button>
-            <button type="reset" class="btn btn-secondary">Reset</button>
-          </form>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-4">
-          <div class="card card-primary card-inverse">
-            <div class="card-header card-primary">
-              Address
-            </div>
-            <div class="card-block bg-white">
-              <form role="form">
+
+                  </div>
+                  <div class="col-xl-6">
+
                 <fieldset class="form-group">
               <label>Street Address</label>
               <input class="form-control" value="{{customer.street_address}}" [(ngModel)]="customer.street_address">
@@ -59,6 +107,8 @@
               <label>State</label>
               <input class="form-control" value="{{customer.state}}" [(ngModel)]="customer.state">
             </fieldset>
+            </div>
+            <div class="col-xl-4">
             <fieldset class="form-group">
               <label>Country</label>
               <input class="form-control" value="{{customer.county}}" [(ngModel)]="customer.country">
@@ -67,7 +117,9 @@
               <label>Postal Code</label>
               <input class="form-control" value="{{customer.postal_code}}" [(ngModel)]="customer.postal_code">
             </fieldset>
-            <button type="submit" class="btn btn-secondary">Submit</button>
+            </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
             <button type="reset" class="btn btn-secondary">Reset</button>
           </form>
           </div>
@@ -78,6 +130,7 @@
             </div>
             <div class="card-block bg-white">
               <iframe
+              width="600"
   height="450"
   frameborder="0" style="border:0"
   src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBZO6PMVjOfggnBJLkaVNmgibwYxWz33t8
@@ -85,55 +138,6 @@
 </iframe>
           </div>
         </div>
-      </div>
-        <div class="col-xl-4">
-          <div [attr.class]="customer.order.device ? 'card card-success card-inverse' : 'card card-warning card-inverse'">
-            <div [attr.class]="customer.order.device ? 'card-header card-success' : 'card-header card-warning'">
-              Order
-            </div>
-            <div class="card-block bg-white">
-              <form role="form">
-                <fieldset class="form-group">
-              <label>Source</label>
-              <input class="form-control" value="{{customer.order.source}}" [(ngModel)]="customer.order.source">
-            </fieldset>
-            <fieldset class="form-group">
-              <label>Order Date</label>
-              <input class="form-control" value="{{customer.order.order_date}}" [(ngModel)]="customer.order.order_date">
-            </fieldset>
-            <fieldset class="form-group">
-              <label>Ship Date</label>
-              <input class="form-control" value="{{customer.order.ship_date}}" [(ngModel)]="customer.order.ship_date">
-            </fieldset>
-            <fieldset class="form-group">
-              <label>Device</label>
-              <input *ngIf=customer.order.device class="form-control" value="{{customer.order.device.deviceID}}" [(ngModel)]="customer.order.device.deviceID">
-              <input *ngIf=!customer.order.device class="form-control" [(ngModel)]="customer.order.device">
-            </fieldset>
-            <button type="submit" class="btn btn-secondary">Submit</button>
-            <button type="reset" class="btn btn-secondary">Reset</button>
-          </form>
-          </div>
-        </div>
-          <div *ngIf=customer.order.device class="card card-success card-inverse">
-                <div class="card-header card-success">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-bed fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-xs-right">
-                            <div><h4>Customer has a Wakē!</h4></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer card-green">
-                    <a class="text-success" href="dashboard/device/{{customer.order.device.deviceID}}">
-                        <span class="pull-xs-left">View Details</span>
-                        <span class="pull-xs-right"><i class="fa fa-arrow-circle-right"></i></span>
-                        <div class="clearfix"></div>
-                    </a>
-                </div>
-            </div>
       </div>
       </div>
     </div>
