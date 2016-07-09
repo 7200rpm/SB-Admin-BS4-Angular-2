@@ -16,6 +16,8 @@ import {DashboardComponent} from '../dashboard/components/dashboard';
 
 import {CustomerService} from '../../pages/customers/customer.service'
 import {DeviceService} from '../../pages/devices/device.service'
+import {TelemetryService} from '../../pages/telemetry/telemetry.service';
+import {LogService} from '../../pages/log/log.service';
 
 
 
@@ -27,6 +29,8 @@ import {DeviceService} from '../../pages/devices/device.service'
 		providers: [
 			CustomerService,
 			DeviceService,
+			TelemetryService,
+			LogService,
 			HTTP_PROVIDERS,
 			NgClass
 		],
