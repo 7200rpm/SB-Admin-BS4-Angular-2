@@ -54,7 +54,7 @@ export class TableDemoComponent implements OnInit {
   public columns: Array<any> = [
     { title: 'Last Name', name: 'last_name' },
     { title: 'First Name', name: 'first_name' },
-    { title: 'Their Email', name: 'email', sort: 'asc' }
+    { title: 'Email', name: 'email', sort: 'asc' }
   ];
   public page: number = 1;
   public itemsPerPage: number = 10;

@@ -1,3 +1,106 @@
-<p>
-  <button (click)="goBack()">Back</button>
-</p>
+<div class="container-fluid" *ngIf="customer">
+      <div class="row">
+        <h2>Customer {{customer.first_name}} {{customer.last_name}}
+          <button type="button" class="btn btn-lg btn-primary" (click)="goBack()">Back</button>
+        </h2>
+        <div class="col-xl-4">
+          <div class="card card-primary card-inverse">
+            <div class="card-header card-primary">
+              Customer
+            </div>
+            <div class="card-block bg-white">
+              <form role="form">
+                <fieldset class="form-group">
+              <label>First Name</label>
+              <input class="form-control" value="{{customer.first_name}}" [(ngModel)]="customer.first_name">
+            </fieldset>
+            <fieldset class="form-group">
+              <label>Last Name</label>
+              <input class="form-control" value="{{customer.last_name}}" [(ngModel)]="customer.last_name">
+            </fieldset>
+            <fieldset class="form-group">
+              <label>Email</label>
+              <input class="form-control" value="{{customer.hardware_revision}}" [(ngModel)]="customer.email">
+            </fieldset>
+            <fieldset class="form-group">
+              <label>Phone Number</label>
+              <input class="form-control" value="{{customer.hardware_revision}}" [(ngModel)]="customer.telephone_number">
+            </fieldset>
+            <fieldset class="form-group">
+              <label>Notes</label>
+              <textarea class="form-control" rows="3" value="{{customer.notes}}" [(ngModel)]="customer.notes"></textarea>
+            </fieldset>
+            <button type="submit" class="btn btn-secondary">Submit</button>
+            <button type="reset" class="btn btn-secondary">Reset</button>
+          </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-4">
+          <div class="card card-primary card-inverse">
+            <div class="card-header card-primary">
+              Address
+            </div>
+            <div class="card-block bg-white">
+              <form role="form">
+                <fieldset class="form-group">
+              <label>Street Address</label>
+              <input class="form-control" value="{{customer.street_address}}" [(ngModel)]="customer.street_address">
+            </fieldset>
+            <fieldset class="form-group">
+              <label>City</label>
+              <input class="form-control" value="{{customer.city}}" [(ngModel)]="customer.city">
+            </fieldset>
+            <fieldset class="form-group">
+              <label>State</label>
+              <input class="form-control" value="{{customer.state}}" [(ngModel)]="customer.state">
+            </fieldset>
+            <fieldset class="form-group">
+              <label>Country</label>
+              <input class="form-control" value="{{customer.county}}" [(ngModel)]="customer.country">
+            </fieldset>
+            <fieldset class="form-group">
+              <label>Postal Code</label>
+              <input class="form-control" value="{{customer.postal_code}}" [(ngModel)]="customer.postal_code">
+            </fieldset>
+            <button type="submit" class="btn btn-secondary">Submit</button>
+            <button type="reset" class="btn btn-secondary">Reset</button>
+          </form>
+          </div>
+        </div>
+      </div>
+        <div class="col-xl-4">
+          <div [attr.class]="customer.order.device ? 'card card-success card-inverse' : 'card card-warning card-inverse'">
+            <div [attr.class]="customer.order.device ? 'card-header card-success' : 'card-header card-warning'">
+              Order
+            </div>
+            <div class="card-block bg-white">
+              <form role="form">
+                <fieldset class="form-group">
+              <label>Source</label>
+              <input class="form-control" value="{{customer.order.source}}" [(ngModel)]="customer.order.source">
+            </fieldset>
+            <fieldset class="form-group">
+              <label>City</label>
+              <input class="form-control" value="{{customer.city}}" [(ngModel)]="customer.city">
+            </fieldset>
+            <fieldset class="form-group">
+              <label>State</label>
+              <input class="form-control" value="{{customer.state}}" [(ngModel)]="customer.state">
+            </fieldset>
+            <fieldset class="form-group">
+              <label>Country</label>
+              <input class="form-control" value="{{customer.county}}" [(ngModel)]="customer.country">
+            </fieldset>
+            <fieldset class="form-group">
+              <label>Postal Code</label>
+              <input class="form-control" value="{{customer.postal_code}}" [(ngModel)]="customer.postal_code">
+            </fieldset>
+            <button type="submit" class="btn btn-secondary">Submit</button>
+            <button type="reset" class="btn btn-secondary">Reset</button>
+          </form>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
