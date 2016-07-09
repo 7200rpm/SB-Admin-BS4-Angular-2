@@ -7,11 +7,14 @@ import { Router, ActivatedRoute }       from '@angular/router';
   selector: 'device-detail-cmp',
   template: `
     <div class="container-fluid" *ngIf="device">
-      <div class="row">
-        <h2>Device {{device.serial_number}}
-          <button type="button" class="btn btn-primary" (click)="goBack()">Back</button>
+        <div class="row">
+        <div class="col-xl-12">
+        <h2 class="page-header"><button type="button" class="btn btn-primary" (click)="goBack()">Back</button> | <i class="fa fa-barcode"></i> {{device.serial_number}}
         </h2>
-        <hr>
+        <hr />
+        </div>
+    </div>
+      <div class="row">
         <div class="col-xl-3">
           <div class="card card-primary card-inverse">
             <div class="card-header card-primary">
