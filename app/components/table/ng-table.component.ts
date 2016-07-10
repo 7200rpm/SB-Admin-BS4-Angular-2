@@ -16,15 +16,13 @@ import { Router }      from '@angular/router';
           <i *ngIf="config && column.sort" class="pull-right fa"
             [ngClass]="{'fa-chevron-down': column.sort === 'desc', 'fa-chevron-up': column.sort === 'asc'}"></i>
         </th>
+        <th>Device</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let row of rows" (click)="onRowClicked(row)" [attr.class]="row.order.device ? 'table-success' : 'table-warning'">
-        <td>{{getData(row, columns[0].name)}}</td>
-        <td>{{getData(row, columns[1].name)}}</td>
-        <td>{{getData(row, columns[2].name)}}</td>
-        <td>{{getData(row, columns[3].name)}}</td>
-        <td *ngIf='row.order.device'><a href="dashboard/device/{{row.order.device.deviceID}}">{{row.order.device.serial_number}}</a></td>
+        <td *ngFor="let column of columns">{{getData(row, column.name)}}</td>
+        <td *ngIf='row.order.device'><a [routerLink]="['/dashboard','/device', row.order.device.deviceID]">{{row.order.device.serial_number}}</a></td>
         <td *ngIf='!row.order.device'></td>
       </tr>
       </tbody>
