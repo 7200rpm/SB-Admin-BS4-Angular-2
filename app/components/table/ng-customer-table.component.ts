@@ -5,7 +5,7 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
 import { Router }      from '@angular/router';
 
 @Component({
-  selector: 'ng-table',
+  selector: 'ng-customer-table',
   template: `
     <table class="table table-striped table-bordered dataTable"
            role="grid" style="width: 100%;">
@@ -30,7 +30,7 @@ import { Router }      from '@angular/router';
 `,
   directives: [NgTableSortingDirective, NgClass, CORE_DIRECTIVES, ROUTER_DIRECTIVES]
 })
-export class NgTableComponent {
+export class NgCustomerTableComponent {
   // Table values
   @Input() public rows: Array<any> = [];
   @Input() public config: any = {};

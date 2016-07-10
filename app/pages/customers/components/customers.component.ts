@@ -3,13 +3,13 @@ import { ROUTER_DIRECTIVES } 	from '@angular/router';
 import {CustomerService} 			from '../customer.service'
 import {Customer} 						from '../customer'
 import { Router }              from '@angular/router';
-import {TableDemoComponent} from './customerTable.component'
+import {TableCustomerDemoComponent} from './customerTable.component'
 
 @Component({
   moduleId: module.id,
   selector: 'customer-cmp',
   templateUrl: 'customers.component.html',
-  directives: [ROUTER_DIRECTIVES, TableDemoComponent]
+  directives: [ROUTER_DIRECTIVES, TableCustomerDemoComponent]
 })
 
 export class CustomerComponent implements OnInit {

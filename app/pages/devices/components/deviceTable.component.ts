@@ -3,33 +3,35 @@ import {CORE_DIRECTIVES, FORM_DIRECTIVES, NgClass, NgIf} from '@angular/common';
 import {PAGINATION_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 import {NG_TABLE_DIRECTIVES} from '../../../components/ng2-table';
 
-import {CustomerService} 			from '../customer.service'
-import {Customer} 						from '../customer'
+import {DeviceService} 			from '../device.service'
+import {Device} 						from '../device'
 
 // webpack html imports
 //let template = require('./table-demo.html');
 
 @Component({
-  selector: 'table-customer-demo',
+  selector: 'table-device-demo',
   template: `
 
-  <input *ngIf="configLastName.filtering" placeholder="Last Name"
-       [ngTableFiltering]="configLastName.filtering"
-       (tableChanged)="onChangeTable(configLastName)"/>
+  <input *ngIf="configEmail.filtering" placeholder="Serial Number"
+         [ngTableFiltering]="configEmail.filtering"
+         (tableChanged)="onChangeTable(configEmail)"/>
 
-  <input *ngIf="configFirstName.filtering" placeholder="First Name"
+  <input *ngIf="configFirstName.filtering" placeholder="Particle ID"
          [ngTableFiltering]="configFirstName.filtering"
          (tableChanged)="onChangeTable(configFirstName)"/>
 
-   <input *ngIf="configEmail.filtering" placeholder="Email"
-          [ngTableFiltering]="configEmail.filtering"
-          (tableChanged)="onChangeTable(configEmail)"/>
+  <input *ngIf="configLastName.filtering" placeholder="Hardware Revision"
+       [ngTableFiltering]="configLastName.filtering"
+       (tableChanged)="onChangeTable(configLastName)"/>
 
-  <ng-customer-table [config]="config.sorting"
+
+
+  <ng-device-table [config]="config.sorting"
              (tableChanged)="onChangeTable(config)"
              (rowClicked)="onRowClicked($event)"
              [rows]="rows" [columns]="columns">
-  </ng-customer-table>
+  </ng-device-table>
   <pagination *ngIf="config.paging"
               class="pagination-sm"
               [(ngModel)]="page"
@@ -45,17 +47,17 @@ import {Customer} 						from '../customer'
   `,
   directives: [NG_TABLE_DIRECTIVES, PAGINATION_DIRECTIVES, NgClass, NgIf, CORE_DIRECTIVES, FORM_DIRECTIVES]
 })
-export class TableCustomerDemoComponent implements OnInit {
+export class TableDeviceDemoComponent implements OnInit {
 
   @Output() public rowClicked:EventEmitter<any> = new EventEmitter();
 
   public rows: Array<any> = [];
   public columns: Array<any> = [
-    { title: 'Last Name', name: 'last_name' },
-    { title: 'First Name', name: 'first_name' },
-    { title: 'Email', name: 'email' },
-    { title: 'Source', name: 'order.source' },
-    { title: 'Status', name: 'order.status' }
+    { title: 'Device ID', name: 'deviceID' },
+    { title: 'Serial Number', name: 'serial_number' },
+    { title: 'Particle ID', name: 'particleID' },
+    { title: 'Hardware Revision', name: 'hardware_revision' },
+    { title: 'Status', name: 'status' }
   ];
   public page: number = 1;
   public itemsPerPage: number = 10;
@@ -66,49 +68,51 @@ export class TableCustomerDemoComponent implements OnInit {
   public config: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'first_name' }
+    filtering: { filterString: '', columnName: 'serial_number' }
+  };
+
+
+  public configEmail: any = {
+    paging: true,
+    sorting: { columns: this.columns },
+    filtering: { filterString: '', columnName: 'serial_number' }
   };
 
   public configFirstName: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'first_name' }
+    filtering: { filterString: '', columnName: 'particleID' }
   };
 
   public configLastName: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'last_name' }
+    filtering: { filterString: '', columnName: 'hardware_revision' }
   };
 
-  public configEmail: any = {
-    paging: true,
-    sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'email' }
-  };
 
 
   errorMessage: string
-  customers: Customer[]
+  devices: Device[]
   mode = 'Observable'
 
   private data: Array<any>;// = TableData;
 
   public constructor(
-    private customerService: CustomerService) { }
+    private deviceService: DeviceService) { }
 
   public ngOnInit(): void {
-    this.getCustomers();
+    this.getDevices();
 
 
   }
 
-  getCustomers() {
-    this.customerService.getCustomers()
+  getDevices() {
+    this.deviceService.getDevices()
       .subscribe(
-      customers => {this.data = customers; this.length = this.data.length; this.onChangeTable(this.config);},
+      devices => {this.data = devices; this.length = this.data.length; this.onChangeTable(this.config);},
       error => this.errorMessage = <any>error,
-      () => console.log('Customers Completed!')
+      () => console.log('Devices Completed!')
       )
   }
 
