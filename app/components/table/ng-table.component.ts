@@ -19,14 +19,13 @@ import { Router }      from '@angular/router';
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let row of rows" (click)="onRowClicked(row)">
-
+      <tr *ngFor="let row of rows" (click)="onRowClicked(row)" [attr.class]="row.order.device ? 'table-success' : 'table-warning'">
         <td>{{getData(row, columns[0].name)}}</td>
         <td>{{getData(row, columns[1].name)}}</td>
         <td>{{getData(row, columns[2].name)}}</td>
         <td>{{getData(row, columns[3].name)}}</td>
-        <td *ngIf='row.order.device'>Shipped <a [routerLink]="['/device', {id: row.order.device.deviceID}]">{{row.order.device.deviceID}}</a></td>
-        <td *ngIf='!row.order.device'>In Stock</td>
+        <td *ngIf='row.order.device'><a href="dashboard/device/{{row.order.device.deviceID}}">{{row.order.device.serial_number}}</a></td>
+        <td *ngIf='!row.order.device'></td>
       </tr>
       </tbody>
     </table>

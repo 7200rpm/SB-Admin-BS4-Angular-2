@@ -55,7 +55,8 @@ export class TableDemoComponent implements OnInit {
     { title: 'Last Name', name: 'last_name' },
     { title: 'First Name', name: 'first_name' },
     { title: 'Email', name: 'email' },
-    { title: 'Status', name: 'order.device' }
+    { title: 'Source', name: 'order.source' },
+    { title: 'Device', name: 'order.device.serial_number' }
   ];
   public page: number = 1;
   public itemsPerPage: number = 10;
