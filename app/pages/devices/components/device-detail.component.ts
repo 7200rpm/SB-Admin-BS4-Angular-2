@@ -78,6 +78,14 @@ import { Router, ActivatedRoute }       from '@angular/router';
         </div>
         <div class="col-xl-9">
           <div class="card card-block">
+            <h3>Events</h3>
+            <iframe src="http://wakeapi.azurewebsites.net/charts/events.php" style="border:none" width="100%" height="520"></iframe>
+          </div>
+          <div class="card card-block">
+            <h3>Voltage</h3>
+            <iframe src="http://wakeapi.azurewebsites.net/charts/voltage.php" style="border:none" width="100%" height="510"></iframe>
+          </div>
+          <div class="card card-block">
           <h3>Telemetry</h3>
           <form role="form">
             <div class="form-group input-group">
