@@ -24,6 +24,10 @@ import { Router, ActivatedRoute }       from '@angular/router';
 
           <form role="form">
             <fieldset class="form-group">
+              <label>Nickname</label>
+              <input class="form-control" value="{{device.nickname}}" [(ngModel)]="device.nickname">
+            </fieldset>
+            <fieldset class="form-group">
               <label>Serial Number</label>
               <input class="form-control" value="{{device.serial_number}}" [(ngModel)]="device.serial_number">
             </fieldset>
@@ -44,19 +48,19 @@ import { Router, ActivatedRoute }       from '@angular/router';
           </form>
         </div>
         </div>
-          <div *ngIf=device.order class="card card-success card-inverse">
+          <div *ngIf=device.orderID class="card card-success card-inverse">
                 <div class="card-header card-success">
                     <div class="row">
                         <div class="col-xs-3">
                             <i class="fa fa-user fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-xs-right">
-                            <div><h4>Shipped to<br />{{device.order.customer.first_name}} {{device.order.customer.last_name}}</h4></div>
+                            <div><h4>Shipped to<br />{{device.order.name}}</h4></div>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer card-green">
-                    <a class="text-success" href="dashboard/customer/{{device.order.customer.customerID}}">
+                    <a class="text-success" href="dashboard/customer/{{device.orderID}}">
                         <span class="pull-xs-left">View Details</span>
                         <span class="pull-xs-right"><i class="fa fa-arrow-circle-right"></i></span>
                         <div class="clearfix"></div>

@@ -13,17 +13,21 @@ import {Customer} 						from '../customer'
   selector: 'table-customer-demo',
   template: `
 
-  <input *ngIf="configLastName.filtering" placeholder="Last Name"
-       [ngTableFiltering]="configLastName.filtering"
-       (tableChanged)="onChangeTable(configLastName)"/>
-
-  <input *ngIf="configFirstName.filtering" placeholder="First Name"
-         [ngTableFiltering]="configFirstName.filtering"
-         (tableChanged)="onChangeTable(configFirstName)"/>
+  <input *ngIf="configName.filtering" placeholder="Name"
+       [ngTableFiltering]="configName.filtering"
+       (tableChanged)="onChangeTable(configName)"/>
 
    <input *ngIf="configEmail.filtering" placeholder="Email"
           [ngTableFiltering]="configEmail.filtering"
           (tableChanged)="onChangeTable(configEmail)"/>
+
+    <input *ngIf="configSource.filtering" placeholder="Source"
+          [ngTableFiltering]="configSource.filtering"
+          (tableChanged)="onChangeTable(configSource)"/>
+
+    <input *ngIf="configStatus.filtering" placeholder="Status"
+          [ngTableFiltering]="configStatus.filtering"
+          (tableChanged)="onChangeTable(configStatus)"/>
 
   <ng-customer-table [config]="config.sorting"
              (tableChanged)="onChangeTable(config)"
@@ -51,11 +55,11 @@ export class TableCustomerDemoComponent implements OnInit {
 
   public rows: Array<any> = [];
   public columns: Array<any> = [
-    { title: 'Last Name', name: 'last_name' },
-    { title: 'First Name', name: 'first_name' },
+    { title: 'Name', name: 'name' },
     { title: 'Email', name: 'email' },
-    { title: 'Source', name: 'order.source' },
-    { title: 'Status', name: 'order.status' }
+    { title: 'Source', name: 'source' },
+    { title: 'Quantity', name: 'quantity' },
+    { title: 'Status', name: 'status' }
   ];
   public page: number = 1;
   public itemsPerPage: number = 10;
@@ -66,19 +70,13 @@ export class TableCustomerDemoComponent implements OnInit {
   public config: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'first_name' }
+    filtering: { filterString: '', columnName: 'name' }
   };
 
-  public configFirstName: any = {
+  public configName: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'first_name' }
-  };
-
-  public configLastName: any = {
-    paging: true,
-    sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'last_name' }
+    filtering: { filterString: '', columnName: 'name' }
   };
 
   public configEmail: any = {
@@ -87,6 +85,17 @@ export class TableCustomerDemoComponent implements OnInit {
     filtering: { filterString: '', columnName: 'email' }
   };
 
+  public configSource: any = {
+    paging: true,
+    sorting: { columns: this.columns },
+    filtering: { filterString: '', columnName: 'source' }
+  };
+
+  public configStatus: any = {
+    paging: true,
+    sorting: { columns: this.columns },
+    filtering: { filterString: '', columnName: 'status' }
+  };
 
   errorMessage: string
   customers: Customer[]

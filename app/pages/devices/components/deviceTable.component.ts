@@ -53,11 +53,12 @@ export class TableDeviceDemoComponent implements OnInit {
 
   public rows: Array<any> = [];
   public columns: Array<any> = [
-    { title: 'Device ID', name: 'deviceID' },
+    { title: 'Nickname', name: 'nickname' },
     { title: 'Serial Number', name: 'serial_number' },
     { title: 'Particle ID', name: 'particleID' },
-    { title: 'Hardware Revision', name: 'hardware_revision' },
-    { title: 'Status', name: 'status' }
+    { title: 'Revision', name: 'hardware_revision' },
+    { title: 'Status', name: 'status' },
+    { title: 'Telemetry Count', name: 'telemetry_count' }
   ];
   public page: number = 1;
   public itemsPerPage: number = 10;

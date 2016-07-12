@@ -22,7 +22,7 @@ import { Router }      from '@angular/router';
       <tbody>
       <tr *ngFor="let row of rows" (click)="onRowClicked(row)" [attr.class]="row.order ? 'table-success' : 'table-warning'">
         <td *ngFor="let column of columns">{{getData(row, column.name)}}</td>
-        <td *ngIf='row.order'><a [routerLink]="['/dashboard','/customer', row.order?.customer.customerID]">{{row.order?.customer.first_name}} {{row.order?.customer.last_name}}</a></td>
+        <td *ngIf='row.order'><a [routerLink]="['/dashboard','/customer', row.orderID]">{{row.order?.name}}</a></td>
         <td *ngIf='!row.order'></td>
       </tr>
       </tbody>
@@ -86,7 +86,7 @@ export class NgDeviceTableComponent {
   public getData(row: any, propertyName: string): string {
     // if (propertyName == "order.device") {
     //   if (row.order.device){
-    //     return 'Shipped to <a href="dashboard/customer/{{d.order.customer.customerID}}">{{row.customer.first_name}} {{row.customer.last_name}}</a>';
+    //     return 'Shipped to <a href="dashboard/customer/{{d.order.name}}">{{row.customer.name}}</a>';
     //   }
     //   else return 'In Stock'
     // }
