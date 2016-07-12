@@ -48,7 +48,7 @@ export class CustomerService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.put(this.customerURL + '/' + customer.customerID, body, options)
+    return this.http.put(this.customerURL + '/' + customer.orderID, body, options)
       .map(() => customer)
       .catch(this.handleError);
   }
