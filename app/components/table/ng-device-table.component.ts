@@ -16,7 +16,6 @@ import { Router }      from '@angular/router';
           <i *ngIf="config && column.sort" class="pull-right fa"
             [ngClass]="{'fa-chevron-down': column.sort === 'desc', 'fa-chevron-up': column.sort === 'asc'}"></i>
         </th>
-        <th>Customer</th>
       </tr>
       </thead>
       <tbody>

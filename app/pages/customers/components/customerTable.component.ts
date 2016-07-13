@@ -13,39 +13,68 @@ import {Customer} 						from '../customer'
   selector: 'table-customer-demo',
   template: `
 
-  <input *ngIf="configName.filtering" placeholder="Name"
-       [ngTableFiltering]="configName.filtering"
-       (tableChanged)="onChangeTable(configName)"/>
+<div class="row">
+  <div class="col-xl-3">
+    <fieldset class="form-group">
+      <input *ngIf="configName.filtering" placeholder="Name"
+        class="form-control"
+         [ngTableFiltering]="configName.filtering"
+         (tableChanged)="onChangeTable(configName)"/>
+    </fieldset>
+  </div>
+  <div class="col-xl-3">
+    <fieldset class="form-group">
+      <input *ngIf="configEmail.filtering" placeholder="Email"
+        class="form-control"
+         [ngTableFiltering]="configEmail.filtering"
+         (tableChanged)="onChangeTable(configEmail)"/>
+    </fieldset>
+  </div>
+  <div class="col-xl-2">
+    <fieldset class="form-group">
+      <select *ngIf="configSource.filtering" placeholder="Source"
+      class="form-control"
+         [ngTableFiltering]="configSource.filtering"
+         (tableChanged)="onChangeTable(configSource)">
+          <option value=""><i>All Sources</i></option>
+          <option>Kickstarter</option>
+          <option>trycelery.com</option>
+          <option>On Loan</option>
+          <option>Other</option>
+        </select>
+    </fieldset>
+  </div>
+  <div class="col-xl-2">
+    <fieldset class="form-group">
+      <select *ngIf="configStatus.filtering" placeholder="Status"
+      class="form-control"
+       [ngTableFiltering]="configStatus.filtering"
+       (tableChanged)="onChangeTable(configStatus)">
+          <option value=""><i>All Status</i></option>
+          <option>Unfulfilled</option>
+          <option>Shipped</option>
+       </select>
+    </fieldset>
+  </div>
+<div>
 
-   <input *ngIf="configEmail.filtering" placeholder="Email"
-          [ngTableFiltering]="configEmail.filtering"
-          (tableChanged)="onChangeTable(configEmail)"/>
-
-    <input *ngIf="configSource.filtering" placeholder="Source"
-          [ngTableFiltering]="configSource.filtering"
-          (tableChanged)="onChangeTable(configSource)"/>
-
-    <input *ngIf="configStatus.filtering" placeholder="Status"
-          [ngTableFiltering]="configStatus.filtering"
-          (tableChanged)="onChangeTable(configStatus)"/>
-
-  <ng-customer-table [config]="config.sorting"
-             (tableChanged)="onChangeTable(config)"
-             (rowClicked)="onRowClicked($event)"
-             [rows]="rows" [columns]="columns">
-  </ng-customer-table>
-  <pagination *ngIf="config.paging"
-              class="pagination-sm"
-              [(ngModel)]="page"
-              [totalItems]="length"
-              [itemsPerPage]="itemsPerPage"
-              [maxSize]="maxSize"
-              [boundaryLinks]="true"
-              [rotate]="false"
-              (pageChanged)="onChangeTable(config, $event)"
-              (numPages)="numPages = $event">
-  </pagination>
-  <pre *ngIf="config.paging" class="card card-block card-header">Page: {{page}} / {{numPages}} </pre>
+    <ng-customer-table [config]="config.sorting"
+                (tableChanged)="onChangeTable(config)"
+                (rowClicked)="onRowClicked($event)"
+                [rows]="rows" [columns]="columns">
+      </ng-customer-table>
+      <pagination *ngIf="config.paging"
+                  class="pagination-sm"
+                  [(ngModel)]="page"
+                  [totalItems]="length"
+                  [itemsPerPage]="itemsPerPage"
+                  [maxSize]="maxSize"
+                  [boundaryLinks]="true"
+                  [rotate]="false"
+                  (pageChanged)="onChangeTable(config, $event)"
+                  (numPages)="numPages = $event">
+      </pagination>
+      <pre *ngIf="config.paging" class="card card-block card-header">Page: {{page}} / {{numPages}} </pre>
   `,
   directives: [NG_TABLE_DIRECTIVES, PAGINATION_DIRECTIVES, NgClass, NgIf, CORE_DIRECTIVES, FORM_DIRECTIVES]
 })

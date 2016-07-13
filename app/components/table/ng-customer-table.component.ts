@@ -7,6 +7,8 @@ import { Router }      from '@angular/router';
 @Component({
   selector: 'ng-customer-table',
   template: `
+  <div class="row">
+  <div class="col-xl-12">
     <table class="table table-striped table-bordered dataTable"
            role="grid" style="width: 100%;">
       <thead>
@@ -24,6 +26,8 @@ import { Router }      from '@angular/router';
       </tr>
       </tbody>
     </table>
+    </div>
+    </div>
 `,
   directives: [NgTableSortingDirective, NgClass, CORE_DIRECTIVES, ROUTER_DIRECTIVES]
 })

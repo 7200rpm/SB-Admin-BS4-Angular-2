@@ -13,20 +13,55 @@ import {Device} 						from '../device'
   selector: 'table-device-demo',
   template: `
 
-  <input *ngIf="configEmail.filtering" placeholder="Serial Number"
-         [ngTableFiltering]="configEmail.filtering"
-         (tableChanged)="onChangeTable(configEmail)"/>
-
-  <input *ngIf="configFirstName.filtering" placeholder="Particle ID"
-         [ngTableFiltering]="configFirstName.filtering"
-         (tableChanged)="onChangeTable(configFirstName)"/>
-
-  <input *ngIf="configLastName.filtering" placeholder="Hardware Revision"
-       [ngTableFiltering]="configLastName.filtering"
-       (tableChanged)="onChangeTable(configLastName)"/>
-
-
-
+<div class="row">
+  <div class="col-xl-2">
+    <fieldset class="form-group">
+      <input *ngIf="configNickname.filtering" placeholder="Nickname"
+        class="form-control"
+         [ngTableFiltering]="configNickname.filtering"
+         (tableChanged)="onChangeTable(configNickname)"/>
+    </fieldset>
+  </div>
+  <div class="col-xl-3">
+    <fieldset class="form-group">
+      <input *ngIf="configSerialNumber.filtering" placeholder="Serial Number"
+        class="form-control"
+         [ngTableFiltering]="configSerialNumber.filtering"
+         (tableChanged)="onChangeTable(configSerialNumber)"/>
+    </fieldset>
+  </div>
+  <div class="col-xl-3">
+    <fieldset class="form-group">
+      <input *ngIf="configParticleID.filtering" placeholder="Particle ID"
+      class="form-control"
+         [ngTableFiltering]="configParticleID.filtering"
+         (tableChanged)="onChangeTable(configParticleID)"/>
+    </fieldset>
+  </div>
+  <div class="col-xl-2">
+    <fieldset class="form-group">
+      <input *ngIf="configHardwareRevision.filtering" placeholder="Hardware Revision"
+      class="form-control"
+       [ngTableFiltering]="configHardwareRevision.filtering"
+       (tableChanged)="onChangeTable(configHardwareRevision)"/>
+    </fieldset>
+  </div>
+  <div class="col-xl-2">
+    <fieldset class="form-group">
+      <select *ngIf="configStatus.filtering" placeholder="Status"
+      class="form-control"
+       [ngTableFiltering]="configStatus.filtering"
+       (tableChanged)="onChangeTable(configStatus)">
+        <option value="">All Status</option>
+        <option>In Stock</option>
+        <option>Sold</option>
+        <option>Shipped</option>
+        <option>In Use</option>
+       </select>
+    </fieldset>
+  </div>
+<div>
+  
   <ng-device-table [config]="config.sorting"
              (tableChanged)="onChangeTable(config)"
              (rowClicked)="onRowClicked($event)"
@@ -73,22 +108,34 @@ export class TableDeviceDemoComponent implements OnInit {
   };
 
 
-  public configEmail: any = {
+  public configSerialNumber: any = {
     paging: true,
     sorting: { columns: this.columns },
     filtering: { filterString: '', columnName: 'serial_number' }
   };
 
-  public configFirstName: any = {
+  public configNickname: any = {
+    paging: true,
+    sorting: { columns: this.columns },
+    filtering: { filterString: '', columnName: 'nickname' }
+  };
+
+  public configParticleID: any = {
     paging: true,
     sorting: { columns: this.columns },
     filtering: { filterString: '', columnName: 'particleID' }
   };
 
-  public configLastName: any = {
+  public configHardwareRevision: any = {
     paging: true,
     sorting: { columns: this.columns },
     filtering: { filterString: '', columnName: 'hardware_revision' }
+  };
+
+  public configStatus: any = {
+    paging: true,
+    sorting: { columns: this.columns },
+    filtering: { filterString: '', columnName: 'status' }
   };
 
 
