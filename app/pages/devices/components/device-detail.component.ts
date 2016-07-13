@@ -147,7 +147,7 @@ export class DeviceDetailComponent implements OnInit {
     // (+) converts string 'id' to a number
     let id = +this.route.snapshot.params['id'];
     this.deviceService.getDevice(id)
-      .subscribe((device:Device) => this.device = device)
+      .subscribe((device: Device) => this.device = device)
   }
 
   goBack() { this.router.navigate(['/dashboard/devices']); }
