@@ -37,6 +37,34 @@
           <button type="button" class="btn btn-danger">Undo Shipment</button>
         </div>
       </div>
+
+      <div *ngIf="!customer.devices" class="card card-warning card-inverse">
+        <div class="card-header card-warning">
+          Units
+        </div>
+        <div class="card-block bg-white">
+          <div class="row">
+            <div class="col-xs-12">
+              <alert *ngFor="let order_unit of order_units;let i = index" [type]="order_unit.type" dismissible="true" (close)="closeAlert(i)">
+                {{ order_unit?.msg }}
+              </alert>
+            </div>
+            <div class="col-xs-8">
+              <fieldset class="form-group">
+                <select class="form-control" [(ngModel)]="added_unit">
+                  <option value="">Select Unit</option>
+              <option *ngFor="let available_devices of customer.available_devices">
+                {{available_devices.serial_number}}
+              </option>
+            </select>
+              </fieldset>
+            </div>
+            <div class="col-xs-4">
+              <button type="button" class="btn btn-primary" (click)="addAlert()">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="col-xl-8">
@@ -79,7 +107,10 @@
                 </fieldset>
                 <fieldset class="form-group">
                   <label>State</label>
-                  <input class="form-control" value="{{customer.state}}" [(ngModel)]="customer.state">
+                  <select class="form-control" value="{{customer.state}}" [(ngModel)]="customer.state">
+                    <option></option>
+                    <option *ngFor="let state of states">{{state}}</option>
+                  </select>
                 </fieldset>
               </div>
               <div class="col-xl-4">
@@ -93,7 +124,7 @@
                 </fieldset>
               </div>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Ship</button>
             <button type="reset" class="btn btn-secondary">Reset</button>
           </form>
         </div>

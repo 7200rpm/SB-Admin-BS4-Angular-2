@@ -3,11 +3,13 @@ import {CustomerService} 			from '../customer.service'
 import { Customer } from '../customer';
 import { Router, ActivatedRoute }       from '@angular/router';
 import { Observable }     from 'rxjs/Observable';
+import {AlertComponent} from 'ng2-bootstrap/ng2-bootstrap';
 
 @Component({
   moduleId: module.id,
   selector: 'customer-detail-cmp',
-  templateUrl: 'customer-detail.component.html'
+  templateUrl: 'customer-detail.component.html',
+  directives:[AlertComponent]
 })
 
 export class CustomerDetailComponent implements OnInit {
@@ -16,6 +18,24 @@ export class CustomerDetailComponent implements OnInit {
   error: any;
   navigated = false; // true if navigated here
 
+  public states:Array<string> = ['Alabama', 'Alaska', 'Arizona', 'Arkansas',
+	'California', 'Colorado',
+	'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho',
+	'Illinois', 'Indiana', 'Iowa',
+	'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts',
+	'Michigan', 'Minnesota',
+	'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
+	'New Jersey', 'New Mexico',
+	'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon',
+	'Pennsylvania', 'Rhode Island',
+	'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
+	'Virginia', 'Washington',
+	'West Virginia', 'Wisconsin', 'Wyoming'];
+
+  public order_units: Array<Object> = [];
+
+  public added_unit:string = "";
+
   private sub: any;
 
   constructor(
@@ -23,6 +43,26 @@ export class CustomerDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) { }
+
+public closeAlert(i:number):void {
+		this.order_units.splice(i, 1);
+	}
+	public addAlert():void {
+    if(this.added_unit == "") {
+      return;
+    }
+    if(this.order_units.length == this.customer.quantity) {
+      alert("You've tried to add " + (this.customer.quantity + 1).toString() + " units to an order of " + this.customer.quantity.toString() + " units");
+      return;
+    }
+    if(this.order_units.indexOf(this.added_unit) >= 0) {
+      alert("You've tried to add duplicate units");
+      return;
+    }
+		this.order_units.push({msg: this.added_unit, type: 'success', closable: true});
+    var index = this.customer.available_devices.indexOf(this.added_unit);
+    this.customer.available_devices.splice(index,1);
+	}
 
   ngOnInit() {
 
