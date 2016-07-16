@@ -76,7 +76,6 @@
           <form role="form">
             <div class="row">
               <div class="col-xl-6">
-
                 <fieldset class="form-group">
                   <label>Ship To</label>
                   <input class="form-control" value="{{customer.name}}" [(ngModel)]="customer.name">
@@ -93,10 +92,8 @@
                   <label>Notes</label>
                   <textarea class="form-control" rows="5" value="{{customer.notes}}" [(ngModel)]="customer.notes"></textarea>
                 </fieldset>
-
               </div>
               <div class="col-xl-6">
-
                 <fieldset class="form-group">
                   <label>Street Address</label>
                   <input class="form-control" value="{{customer.street_address}}" [(ngModel)]="customer.street_address">
@@ -112,8 +109,6 @@
                     <option *ngFor="let state of states">{{state}}</option>
                   </select>
                 </fieldset>
-              </div>
-              <div class="col-xl-4">
                 <fieldset class="form-group">
                   <label>Country</label>
                   <input class="form-control" value="{{customer.county}}" [(ngModel)]="customer.country">
@@ -124,9 +119,12 @@
                 </fieldset>
               </div>
             </div>
-            <button type="submit" class="btn btn-primary">Ship</button>
+            <button type="submit" class="btn btn-primary">Save Information</button>
             <button type="reset" class="btn btn-secondary">Reset</button>
           </form>
+          <hr/>
+          <button type="submit" class="btn btn-danger">Ship Order</button>
+          <button type="submit" class="btn btn-warning">Print Shipping Label</button>
         </div>
       </div>
 
