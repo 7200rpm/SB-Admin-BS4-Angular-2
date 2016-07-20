@@ -86,12 +86,44 @@ import { Router, ActivatedRoute }       from '@angular/router';
         </div>
         <div class="col-xl-9">
             <div class="card card-block">
+                <form class="form">
+                    <div class="row">
+                        <div class="col-xl-2">
+                            <fieldset class="form-group">
+                                <label>Year</label>
+                                <select class="form-control">
+                                    <option>2015</option>
+                                    <option>2016</option>
+                                </select>
+                            </fieldset>
+                        </div>
+                        <div class="col-xl-3">
+                            <fieldset class="form-group">
+                                <label>Month</label>
+                                <select class="form-control">
+                                    <option value="1">01 - January</option>
+                                    <option value="2">02 - February</option>
+                                    <option value="3">03 - March</option>
+                                </select>
+                            </fieldset>
+                        </div>
+                        <div class="col-xl-2">
+                            <fieldset class="form-group">
+                                <label>Day</label>
+                                <select class="form-control">
+                                    <option>01</option>
+                                    <option>02</option>
+                                </select>
+                            </fieldset>
+                        </div>
+                    </div>
+                </form>
                 <h3>Events</h3>
-                Timeline of recent events for the device. 
+                <iframe src="http://wakeapi.azurewebsites.net/charts/events.php" style="border:none" width="100%" height="520"></iframe>
             </div>
             <div class="card card-block">
                 <h3>Voltage</h3>
-                Timeline of recent events for the device. 
+                <iframe src="http://wakeapi.azurewebsites.net/charts/voltage.php" style="border:none" width="100%" height="800"></iframe>
             </div>
         </div>
     </div>
@@ -99,11 +131,16 @@ import { Router, ActivatedRoute }       from '@angular/router';
         <div class="col-xl-12">
             <div class="card card-block">
                 <h3>Scans</h3>
-                <div class="col-xl-4">
-                    Table of recent scans
-                </div>
-                <div class="col-xl-8">
-                    Plot of selected scan
+                <div class="row">
+                    <div class="col-xl-6">
+                        Table of recent scans
+                    </div>
+                    <div class="col-xl-6">
+                        <iframe src="http://wakeapi.azurewebsites.net/charts/scan.php" style="border:none" width="100%" height="520"></iframe>
+                        <a href="#" target="_blank" class="btn btn-primary">Previous Scan</a>
+                        <a href="#" target="_blank" class="btn btn-primary">Next Scan</a>
+                        <a href="http://wakeapi.azurewebsites.net/charts/scan.php?print=true" target="_blank" class="btn btn-warning">Export as PNG</a>
+                    </div>
                 </div>
             </div>
         </div>
