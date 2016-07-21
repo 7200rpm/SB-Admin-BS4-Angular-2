@@ -105,7 +105,7 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   popd
 )
 
-IF EXIST "Gulpfile.ts" (
+IF EXIST "Gulpfile.js" (
  pushd "%DEPLOYMENT_TARGET%"
  call .\node_modules\.bin\gulp imagemin
  IF !ERRORLEVEL! NEQ 0 goto error
