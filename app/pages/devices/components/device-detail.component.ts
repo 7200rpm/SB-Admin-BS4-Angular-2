@@ -133,7 +133,26 @@ import { Router, ActivatedRoute }       from '@angular/router';
                 <h3>Scans</h3>
                 <div class="row">
                     <div class="col-xl-6">
-                        Table of recent scans
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Timestamp</th>
+                                        <th>Raw Peaks</th>
+                                        <th>Filtered Peaks</th>
+                                        <th>Selected Peak</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let event of device.scans" (click)="onSelect(d)">
+                                        <td>{{event.published_at}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="col-xl-6">
                         <iframe src="http://wakeapi.azurewebsites.net/charts/scan.php" style="border:none" width="100%" height="520"></iframe>
