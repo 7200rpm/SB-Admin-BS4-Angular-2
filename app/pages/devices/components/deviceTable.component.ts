@@ -1,7 +1,9 @@
 import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
-import {CORE_DIRECTIVES, FORM_DIRECTIVES, NgClass, NgIf} from '@angular/common';
+import {CORE_DIRECTIVES, NgClass, NgIf} from '@angular/common';
 import {PAGINATION_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 import {NG_TABLE_DIRECTIVES} from '../../../components/ng2-table';
+
+import { FORM_DIRECTIVES }    from '@angular/forms';
 
 import {DeviceService} 			from '../device.service'
 import {Device} 						from '../device'
@@ -61,7 +63,7 @@ import {Device} 						from '../device'
     </fieldset>
   </div>
 <div>
-  
+
   <ng-device-table [config]="config.sorting"
              (tableChanged)="onChangeTable(config)"
              (rowClicked)="onRowClicked($event)"

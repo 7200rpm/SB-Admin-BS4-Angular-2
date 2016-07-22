@@ -1,7 +1,9 @@
 import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
-import {CORE_DIRECTIVES, FORM_DIRECTIVES, NgClass, NgIf} from '@angular/common';
+import {CORE_DIRECTIVES, NgClass, NgIf} from '@angular/common';
 import {PAGINATION_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 import {NG_TABLE_DIRECTIVES} from '../../../components/ng2-table';
+
+import { FORM_DIRECTIVES }    from '@angular/forms';
 
 import {CustomerService} 			from '../customer.service'
 import {Customer} 						from '../customer'
@@ -13,50 +15,50 @@ import {Customer} 						from '../customer'
   selector: 'table-customer-demo',
   template: `
 
-<div class="row">
-  <div class="col-xl-3">
-    <fieldset class="form-group">
-      <input *ngIf="configName.filtering" placeholder="Name"
+  <div class="row">
+    <div class="col-xl-3">
+      <fieldset class="form-group">
+        <input *ngIf="configName.filtering" placeholder="Name"
+          class="form-control"
+           [ngTableFiltering]="configName.filtering"
+           (tableChanged)="onChangeTable(configName)"/>
+      </fieldset>
+    </div>
+    <div class="col-xl-3">
+      <fieldset class="form-group">
+        <input *ngIf="configEmail.filtering" placeholder="Email"
+          class="form-control"
+           [ngTableFiltering]="configEmail.filtering"
+           (tableChanged)="onChangeTable(configEmail)"/>
+      </fieldset>
+    </div>
+    <div class="col-xl-2">
+      <fieldset class="form-group">
+        <select *ngIf="configSource.filtering" placeholder="Source"
         class="form-control"
-         [ngTableFiltering]="configName.filtering"
-         (tableChanged)="onChangeTable(configName)"/>
-    </fieldset>
-  </div>
-  <div class="col-xl-3">
-    <fieldset class="form-group">
-      <input *ngIf="configEmail.filtering" placeholder="Email"
+           [ngTableFiltering]="configSource.filtering"
+           (tableChanged)="onChangeTable(configSource)">
+            <option value=""><i>All Sources</i></option>
+            <option>Kickstarter</option>
+            <option>trycelery.com</option>
+            <option>On Loan</option>
+            <option>Other</option>
+          </select>
+      </fieldset>
+    </div>
+    <div class="col-xl-2">
+      <fieldset class="form-group">
+        <select *ngIf="configStatus.filtering" placeholder="Status"
         class="form-control"
-         [ngTableFiltering]="configEmail.filtering"
-         (tableChanged)="onChangeTable(configEmail)"/>
-    </fieldset>
-  </div>
-  <div class="col-xl-2">
-    <fieldset class="form-group">
-      <select *ngIf="configSource.filtering" placeholder="Source"
-      class="form-control"
-         [ngTableFiltering]="configSource.filtering"
-         (tableChanged)="onChangeTable(configSource)">
-          <option value=""><i>All Sources</i></option>
-          <option>Kickstarter</option>
-          <option>trycelery.com</option>
-          <option>On Loan</option>
-          <option>Other</option>
-        </select>
-    </fieldset>
-  </div>
-  <div class="col-xl-2">
-    <fieldset class="form-group">
-      <select *ngIf="configStatus.filtering" placeholder="Status"
-      class="form-control"
-       [ngTableFiltering]="configStatus.filtering"
-       (tableChanged)="onChangeTable(configStatus)">
-          <option value=""><i>All Status</i></option>
-          <option>Unfulfilled</option>
-          <option>Shipped</option>
-       </select>
-    </fieldset>
-  </div>
-<div>
+         [ngTableFiltering]="configStatus.filtering"
+         (tableChanged)="onChangeTable(configStatus)">
+            <option value=""><i>All Status</i></option>
+            <option>Unfulfilled</option>
+            <option>Shipped</option>
+         </select>
+      </fieldset>
+    </div>
+  <div>
 
     <ng-customer-table [config]="config.sorting"
                 (tableChanged)="onChangeTable(config)"
@@ -65,6 +67,8 @@ import {Customer} 						from '../customer'
       </ng-customer-table>
       <pagination *ngIf="config.paging"
                   class="pagination-sm"
+                  name="myform"
+                  #myform="ngModel"
                   [(ngModel)]="page"
                   [totalItems]="length"
                   [itemsPerPage]="itemsPerPage"

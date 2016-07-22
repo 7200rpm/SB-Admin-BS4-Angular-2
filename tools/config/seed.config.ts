@@ -301,6 +301,7 @@ export class SeedConfig {
       [this.BOOTSTRAP_MODULE]: `${this.APP_BASE}${this.BOOTSTRAP_MODULE}`,
       '@angular/core': `${this.APP_BASE}node_modules/@angular/core/bundles/core.umd.js`,
       '@angular/common': `${this.APP_BASE}node_modules/@angular/common/bundles/common.umd.js`,
+      '@angular/forms': `${this.APP_BASE}node_modules/@angular/forms/bundles/forms.umd.js`,
       '@angular/compiler': `${this.APP_BASE}node_modules/@angular/compiler/bundles/compiler.umd.js`,
       '@angular/http': `${this.APP_BASE}node_modules/@angular/http/bundles/http.umd.js`,
       '@angular/platform-browser': `${this.APP_BASE}node_modules/@angular/platform-browser/bundles/platform-browser.umd.js`,
@@ -345,6 +346,10 @@ export class SeedConfig {
         defaultExtension: 'js'
       },
       '@angular/common': {
+        main: 'index.js',
+        defaultExtension: 'js'
+      },
+      '@angular/forms': {
         main: 'index.js',
         defaultExtension: 'js'
       },
