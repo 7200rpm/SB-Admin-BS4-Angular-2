@@ -80,7 +80,7 @@ import {Customer} 						from '../customer'
 })
 export class TableCustomerDemoComponent implements OnInit {
 
-  @Output() public rowClicked:EventEmitter<any> = new EventEmitter();
+  @Output() public rowClicked: EventEmitter<any> = new EventEmitter();
 
   public rows: Array<any> = [];
   public columns: Array<any> = [
@@ -144,7 +144,7 @@ export class TableCustomerDemoComponent implements OnInit {
   getCustomers() {
     this.customerService.getCustomers()
       .subscribe(
-      customers => {this.data = customers; this.length = this.data.length; this.onChangeTable(this.config);},
+      customers => { this.data = customers; this.length = this.data.length; this.onChangeTable(this.config); },
       error => this.errorMessage = <any>error,
       () => console.log('Customers Completed!')
       )
