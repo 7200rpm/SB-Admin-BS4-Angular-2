@@ -4,7 +4,7 @@ import { bootstrap } from '@angular/platform-browser-dynamic';
 
 import { APP_ROUTER_PROVIDERS } from './app.routes';
 
-
+import { disableDeprecatedForms, provideForms } from '@angular/forms';
 
 import { AppComponent } from './base';
 
@@ -16,9 +16,11 @@ if ('<%= ENV %>' === 'prod') { enableProdMode(); }
  */
 bootstrap(AppComponent, [
   APP_ROUTER_PROVIDERS,
+  disableDeprecatedForms(),
+  provideForms(),
   provide(APP_BASE_HREF, { useValue: '<%= APP_BASE %>' })
 ])
-.catch(err => console.error(err));
+  .catch(err => console.error(err));
 
 // In order to start the Service Worker located at "./worker.js"
 // uncomment this line. More about Service Workers here
