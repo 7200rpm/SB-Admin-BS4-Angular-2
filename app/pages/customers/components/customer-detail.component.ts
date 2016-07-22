@@ -5,11 +5,13 @@ import { Router, ActivatedRoute }       from '@angular/router';
 import { Observable }     from 'rxjs/Observable';
 import {AlertComponent} from 'ng2-bootstrap/ng2-bootstrap';
 
+import {CustomerFormComponent} from './customer-form.component'
+
 @Component({
   moduleId: module.id,
   selector: 'customer-detail-cmp',
   templateUrl: 'customer-detail.component.html',
-  directives:[AlertComponent]
+  directives:[AlertComponent, CustomerFormComponent]
 })
 
 export class CustomerDetailComponent implements OnInit {

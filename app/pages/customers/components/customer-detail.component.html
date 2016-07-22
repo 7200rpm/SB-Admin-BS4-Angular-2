@@ -68,65 +68,8 @@
     </div>
 
     <div class="col-xl-8">
-      <div *ngIf="!customer.devices" class="card card-warning card-inverse">
-        <div class="card-header card-warning">
-          Ship To
-        </div>
-        <div class="card-block bg-white">
-          <form role="form">
-            <div class="row">
-              <div class="col-xl-6">
-                <fieldset class="form-group">
-                  <label>Ship To</label>
-                  <input class="form-control" value="{{customer.name}}" [(ngModel)]="customer.name">
-                </fieldset>
-                <fieldset class="form-group">
-                  <label>Email</label>
-                  <input class="form-control" value="{{customer.email}}" [(ngModel)]="customer.email">
-                </fieldset>
-                <fieldset class="form-group">
-                  <label>Phone Number</label>
-                  <input class="form-control" value="{{customer.phone_number}}" [(ngModel)]="customer.telephone_number">
-                </fieldset>
-                <fieldset class="form-group">
-                  <label>Notes</label>
-                  <textarea class="form-control" rows="5" value="{{customer.notes}}" [(ngModel)]="customer.notes"></textarea>
-                </fieldset>
-              </div>
-              <div class="col-xl-6">
-                <fieldset class="form-group">
-                  <label>Street Address</label>
-                  <input class="form-control" value="{{customer.street_address}}" [(ngModel)]="customer.street_address">
-                </fieldset>
-                <fieldset class="form-group">
-                  <label>City</label>
-                  <input class="form-control" value="{{customer.city}}" [(ngModel)]="customer.city">
-                </fieldset>
-                <fieldset class="form-group">
-                  <label>State</label>
-                  <select class="form-control" value="{{customer.state}}" [(ngModel)]="customer.state">
-                    <option></option>
-                    <option *ngFor="let state of states">{{state}}</option>
-                  </select>
-                </fieldset>
-                <fieldset class="form-group">
-                  <label>Country</label>
-                  <input class="form-control" value="{{customer.county}}" [(ngModel)]="customer.country">
-                </fieldset>
-                <fieldset class="form-group">
-                  <label>Postal Code</label>
-                  <input class="form-control" value="{{customer.postal_code}}" [(ngModel)]="customer.postal_code">
-                </fieldset>
-              </div>
-            </div>
-            <button type="submit" class="btn btn-primary">Save Information</button>
-            <button type="reset" class="btn btn-secondary">Reset</button>
-          </form>
-          <hr/>
-          <button type="submit" class="btn btn-danger">Ship Order</button>
-          <button type="submit" class="btn btn-warning">Print Shipping Label</button>
-        </div>
-      </div>
+
+<customer-form [customer]="customer"></customer-form>
 
       <div *ngIf="customer.devices" class="card card-block">
         <h4>Devices</h4>
@@ -162,7 +105,7 @@
             height: 0;
             overflow: hidden;
           }
-          
+
           .google-maps iframe {
             position: absolute;
             top: 0;
