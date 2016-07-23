@@ -129,44 +129,17 @@ import {TableTelemetryDemoComponent} from './telemetryTable.component';
                 </div>
             </div>
         </div>
-<<<<<<< HEAD
         <div class="col-xl-8">
-<<<<<<< HEAD
-=======
-        <div class="col-xl-9">
             <div class="card card-block">
-                <form class="form">
-                    <div class="row">
-                        <div class="col-xl-2">
-                            <fieldset class="form-group">
-                                <label>Year</label>
-                                <select class="form-control">
-                                    <option>2015</option>
-                                    <option>2016</option>
-                                </select>
-                            </fieldset>
-                        </div>
-                        <div class="col-xl-3">
-                            <fieldset class="form-group">
-                                <label>Month</label>
-                                <select class="form-control">
-                                    <option value="1">01 - January</option>
-                                    <option value="2">02 - February</option>
-                                    <option value="3">03 - March</option>
-                                </select>
-                            </fieldset>
-                        </div>
-                        <div class="col-xl-2">
-                            <fieldset class="form-group">
-                                <label>Day</label>
-                                <select class="form-control">
-                                    <option>01</option>
-                                    <option>02</option>
-                                </select>
-                            </fieldset>
-                        </div>
-                    </div>
-                </form>
+            <h3>Telemetry</h3>
+              <table-telemetry-demo [data_in]=device.events>
+              </table-telemetry-demo>
+          </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card card-block">
                 <h3>Events</h3>
                 <iframe src="http://wakeapi.azurewebsites.net/charts/events.php" style="border:none" width="100%" height="520"></iframe>
             </div>
@@ -174,10 +147,6 @@ import {TableTelemetryDemoComponent} from './telemetryTable.component';
                 <h3>Voltage</h3>
                 <iframe src="http://wakeapi.azurewebsites.net/charts/voltage.php" style="border:none" width="100%" height="800"></iframe>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xl-12">
             <div class="card card-block">
                 <h3>Scans</h3>
                 <div class="row">
@@ -213,97 +182,6 @@ import {TableTelemetryDemoComponent} from './telemetryTable.component';
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-xl-12">
->>>>>>> eb63f1e1be55b012b0a40e29169687ea7b8b7746
-            <div class="card card-block">
-                <h3>Telemetry</h3>
-                <form role="form">
-                    <div class="form-group input-group">
-                        <input type="text" class="form-control" placeholder="Search measurands">
-                        <span class="input-group-btn"><button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button></span>
-                    </div>
-                </form>
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Timestamp</th>
-                                <th>Event</th>
-                                <th>Measurement</th>
-                                <th>Value</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let event of device.events" (click)="onSelect(d)">
-                                <td>{{event.published_at}}</td>
-                                <td>{{event.name}}</td>
-                                <td>{{event.measurand}}</td>
-                                <td>{{event.value}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-=======
-
-          <div class="card card-block">
-              <table-telemetry-demo [data_in]=device.events>
-
-              </table-telemetry-demo>
-
-          </div>
-
->>>>>>> 911c1dfbfabbe46cb7e82a49afcf5603ca3d6ec6
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xl-12">
-            <div class="card card-block">
-                <h3>Events</h3>
-                <iframe src="http://wakeapi.azurewebsites.net/charts/events.php" style="border:none" width="100%" height="520"></iframe>
-            </div>
-            <div class="card card-block">
-                <h3>Voltage</h3>
-                <iframe src="http://wakeapi.azurewebsites.net/charts/voltage.php" style="border:none" width="100%" height="800"></iframe>
-            </div>
-            <div class="card card-block">
-                <h3>Scans</h3>
-                <div class="row">
-                    <div class="col-xl-6">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Timestamp</th>
-                                        <th>Raw Peaks</th>
-                                        <th>Filtered Peaks</th>
-                                        <th>Selected Peak</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let event of device.scans">
-                                        <td>{{event.published_at}}</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="col-xl-6">
-                        <iframe src="http://wakeapi.azurewebsites.net/charts/scan.php" style="border:none" width="100%" height="520"></iframe>
-                        <a href="#" target="_blank" class="btn btn-primary">Previous Scan</a>
-                        <a href="#" target="_blank" class="btn btn-primary">Next Scan</a>
-                        <a href="http://wakeapi.azurewebsites.net/charts/scan.php?print=true" target="_blank" class="btn btn-warning">Export as PNG</a>
-                        <a href="#" target="_blank" class="btn btn-primary">Export to Text File</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
   `,
   directives: [TableTelemetryDemoComponent]
 })

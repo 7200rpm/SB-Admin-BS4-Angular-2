@@ -48,7 +48,7 @@
                 <tbody>
                   <tr *ngFor="let event of events" (click)="onSelect(events)">
                     <td>{{event.published_at}}</td>
-                    <td>Unknown</td>
+                    <td>W11-8</td>
                     <td>{{event.name}}</td>
                     <td>
                       <span *ngFor="let datum of event.telemetry">{{datum.measurand}}: {{datum.value}}<br /></span>
