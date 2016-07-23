@@ -12,6 +12,8 @@ export class LogService {
   private logURL = 'http://wakeapi.azurewebsites.net/v1/log';  // URL to web API
   private log_events: any[]
 
+  private last_error: any[]
+
   constructor(private http: Http) { }
 
   getLog(): Observable<any[]> {

@@ -51,12 +51,16 @@
             </div>
         </div>
         <div class="col-xl-6">
-            <div class="card card-danger card-inverse">
-                <div class="card-header card-danger">
-                    Last Error
-                </div>
-                <div class="card-block bg-white">
-                    Card content
+            <div *ngFor="let event of log_events" >
+                <div *ngIf="event.error" class="card card-danger card-inverse">
+                    <div class="card-header card-danger">
+                        Error
+                    </div>
+                    <div class="card-block bg-white">
+                        <b>Error:</b> {{event.error.error}}<br />
+                        <b>Trace:</b> {{event.error.trace}}<br />
+                        <b>Notes:</b> {{event.error.notes}}<br />
+                    </div>
                 </div>
             </div>
         </div>
