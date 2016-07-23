@@ -3,6 +3,8 @@ import {DeviceService} 			from '../device.service'
 import { Device } from '../device';
 import { Router, ActivatedRoute }       from '@angular/router';
 
+import {TableTelemetryDemoComponent} from './telemetryTable.component';
+
 @Component({
   selector: 'device-detail-cmp',
   template: `
@@ -129,6 +131,7 @@ import { Router, ActivatedRoute }       from '@angular/router';
         </div>
 <<<<<<< HEAD
         <div class="col-xl-8">
+<<<<<<< HEAD
 =======
         <div class="col-xl-9">
             <div class="card card-block">
@@ -242,6 +245,16 @@ import { Router, ActivatedRoute }       from '@angular/router';
                     </table>
                 </div>
             </div>
+=======
+
+          <div class="card card-block">
+              <table-telemetry-demo [data_in]=device.events>
+
+              </table-telemetry-demo>
+
+          </div>
+
+>>>>>>> 911c1dfbfabbe46cb7e82a49afcf5603ca3d6ec6
         </div>
     </div>
     <div class="row">
@@ -291,7 +304,8 @@ import { Router, ActivatedRoute }       from '@angular/router';
         </div>
     </div>
 </div>
-  `
+  `,
+  directives: [TableTelemetryDemoComponent]
 })
 
 export class DeviceDetailComponent implements OnInit {

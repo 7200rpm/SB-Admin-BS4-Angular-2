@@ -9,7 +9,7 @@ import { Router }      from '@angular/router';
   template: `
   <div class="row">
   <div class="col-xl-12">
-    <table class="table table-striped table-bordered dataTable"
+    <table class="table table-striped table-bordered dataTable table-hover"
            role="grid" style="width: 100%;">
       <thead>
       <tr role="row">
