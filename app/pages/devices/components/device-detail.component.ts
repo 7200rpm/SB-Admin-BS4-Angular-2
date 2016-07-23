@@ -16,34 +16,66 @@ import { Router, ActivatedRoute }       from '@angular/router';
     </div>
     <div class="row">
         <div class="col-xl-3">
-            <div class="card card-primary card-inverse">
+            <div *ngIf="submitted" class="card card-primary card-inverse">
+                <div class="card-header card-primary">
+                    <h3>Device</h3>
+                </div>
+                <div class="card-block bg-white">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                                <tr *ngIf="device.nickname">
+                                    <th>Nickname</th>
+                                    <td>{{device.nickname}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Serial Number</th>
+                                    <td>{{device.serial_number}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Particle ID</th>
+                                    <td>{{device.particleID}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Hardware Revision</th>
+                                    <td>{{device.hardware_revision}}</td>
+                                </tr>
+                                <tr *ngIf="device.notes">
+                                    <td colspan="2"><b>Notes:</b> {{device.notes}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <button class="btn btn-primary" (click)="submitted=false">Edit Information</button>
+                </div>
+            </div>
+            <div *ngIf="!submitted" class="card card-primary card-inverse">
                 <div class="card-header card-primary">
                     <h3>Update</h3>
                 </div>
                 <div class="card-block bg-white">
-
-                    <form role="form">
+                    <form role="form" (ngSubmit)="onSubmit()">
                         <fieldset class="form-group">
                             <label>Nickname</label>
-                            <input class="form-control" value="{{device.nickname}}" [(ngModel)]="device.nickname">
+                            <input class="form-control" name="device-nickname" value="{{device.nickname}}" [(ngModel)]="device.nickname">
                         </fieldset>
                         <fieldset class="form-group">
                             <label>Serial Number</label>
-                            <input class="form-control" value="{{device.serial_number}}" [(ngModel)]="device.serial_number">
+                            <input class="form-control" name="device-serial_number" value="{{device.serial_number}}" [(ngModel)]="device.serial_number">
                         </fieldset>
                         <fieldset class="form-group">
                             <label>Particle ID</label>
-                            <input class="form-control" value="{{device.particleID}}" [(ngModel)]="device.particleID">
+                            <input class="form-control" name="device-particleID" value="{{device.particleID}}" [(ngModel)]="device.particleID">
                         </fieldset>
                         <fieldset class="form-group">
                             <label>Hardware Revision</label>
-                            <input class="form-control" value="{{device.hardware_revision}}" [(ngModel)]="device.hardware_revision">
+                            <input class="form-control" name="device-hardware_revision" value="{{device.hardware_revision}}" [(ngModel)]="device.hardware_revision">
                         </fieldset>
                         <fieldset class="form-group">
                             <label>Notes</label>
-                            <textarea class="form-control" rows="3" value="{{device.notes}}" [(ngModel)]="device.notes"></textarea>
+                            <textarea class="form-control" name="device-notes" rows="3" value="{{device.notes}}" [(ngModel)]="device.notes"></textarea>
                         </fieldset>
-                        <button type="submit" class="btn btn-secondary">Submit</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
                         <button type="reset" class="btn btn-secondary">Reset</button>
                     </form>
                 </div>
@@ -86,68 +118,6 @@ import { Router, ActivatedRoute }       from '@angular/router';
         </div>
         <div class="col-xl-9">
             <div class="card card-block">
-                <form class="form">
-                    <div class="row">
-                        <div class="col-xl-2">
-                            <fieldset class="form-group">
-                                <label>Year</label>
-                                <select class="form-control">
-                                    <option>2015</option>
-                                    <option>2016</option>
-                                </select>
-                            </fieldset>
-                        </div>
-                        <div class="col-xl-3">
-                            <fieldset class="form-group">
-                                <label>Month</label>
-                                <select class="form-control">
-                                    <option value="1">01 - January</option>
-                                    <option value="2">02 - February</option>
-                                    <option value="3">03 - March</option>
-                                </select>
-                            </fieldset>
-                        </div>
-                        <div class="col-xl-2">
-                            <fieldset class="form-group">
-                                <label>Day</label>
-                                <select class="form-control">
-                                    <option>01</option>
-                                    <option>02</option>
-                                </select>
-                            </fieldset>
-                        </div>
-                    </div>
-                </form>
-                <h3>Events</h3>
-                <iframe src="http://wakeapi.azurewebsites.net/charts/events.php" style="border:none" width="100%" height="520"></iframe>
-            </div>
-            <div class="card card-block">
-                <h3>Voltage</h3>
-                <iframe src="http://wakeapi.azurewebsites.net/charts/voltage.php" style="border:none" width="100%" height="800"></iframe>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xl-12">
-            <div class="card card-block">
-                <h3>Scans</h3>
-                <div class="row">
-                    <div class="col-xl-6">
-                        Table of recent scans
-                    </div>
-                    <div class="col-xl-6">
-                        <iframe src="http://wakeapi.azurewebsites.net/charts/scan.php" style="border:none" width="100%" height="520"></iframe>
-                        <a href="#" target="_blank" class="btn btn-primary">Previous Scan</a>
-                        <a href="#" target="_blank" class="btn btn-primary">Next Scan</a>
-                        <a href="http://wakeapi.azurewebsites.net/charts/scan.php?print=true" target="_blank" class="btn btn-warning">Export as PNG</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xl-12">
-            <div class="card card-block">
                 <h3>Telemetry</h3>
                 <form role="form">
                     <div class="form-group input-group">
@@ -178,6 +148,32 @@ import { Router, ActivatedRoute }       from '@angular/router';
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card card-block">
+                <h3>Events</h3>
+                <iframe src="http://wakeapi.azurewebsites.net/charts/events.php" style="border:none" width="100%" height="520"></iframe>
+            </div>
+            <div class="card card-block">
+                <h3>Voltage</h3>
+                <iframe src="http://wakeapi.azurewebsites.net/charts/voltage.php" style="border:none" width="100%" height="800"></iframe>
+            </div>
+            <div class="card card-block">
+                <h3>Scans</h3>
+                <div class="row">
+                    <div class="col-xl-6">
+                        Table of recent scans
+                    </div>
+                    <div class="col-xl-6">
+                        <iframe src="http://wakeapi.azurewebsites.net/charts/scan.php" style="border:none" width="100%" height="520"></iframe>
+                        <a href="#" target="_blank" class="btn btn-primary">Previous Scan</a>
+                        <a href="#" target="_blank" class="btn btn-primary">Next Scan</a>
+                        <a href="http://wakeapi.azurewebsites.net/charts/scan.php?print=true" target="_blank" class="btn btn-warning">Export as PNG</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
   `
 })
@@ -189,6 +185,8 @@ export class DeviceDetailComponent implements OnInit {
   navigated = false; // true if navigated here
 
   private sub: any;
+
+  public submitted=true; // False if user is updating information
 
   constructor(
     private deviceService: DeviceService,
@@ -207,6 +205,8 @@ export class DeviceDetailComponent implements OnInit {
     this.deviceService.getDevice(id)
       .subscribe((device: Device) => this.device = device)
   }
+
+  onSubmit() {this.submitted = true;}
 
   resizeIframe(obj: any) {
     obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
