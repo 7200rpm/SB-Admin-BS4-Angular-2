@@ -26,7 +26,7 @@
         </div>
       </div>
 
-      <div *ngIf="customer.devices" class="card card-success card-inverse">
+      <div *ngIf="customer.status=='Shipped'" class="card card-success card-inverse">
         <div class="card-header card-success">
           Shipment
         </div>
@@ -34,11 +34,21 @@
           Ship Date: {{customer.ship_date}}<br /> Shipped To: {{customer.name}}<br /> Address: <a href="#">123 Main St. Los Angeles CA 90000</a><br
           /> Email: <a href="mailto:{{customer.email}}">{{customer.email}}</a><br /> Telephone: 123-456-7890
           <hr />
-          <button type="button" class="btn btn-danger">Undo Shipment</button>
+          <button type="button" class="btn btn-danger" (click)="undo_ship_warning=true">Undo Shipment</button>
+          <div *ngIf="undo_ship_warning" >
+            <hr>
+            <div class="row">
+              <div class="col-xs-6">Are you sure you want to undo the shipment?</div>
+              <div class="col-xs-6 pull-right">
+                <button class="btn btn-danger" >Yes</button>
+                <button class="btn btn-warning" (click)="undo_ship_warning=false">No</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div *ngIf="!customer.devices" class="card card-warning card-inverse">
+      <div *ngIf="customer.status!='Shipped'" class="card card-warning card-inverse">
         <div class="card-header card-warning">
           Units
         </div>
@@ -93,7 +103,7 @@
         </div>
       </div>
 
-      <div *ngIf=customer.devices class="card card-primary card-inverse">
+      <div *ngIf=customer.city class="card card-primary card-inverse">
         <div class="card-header card-primary">
           Location
         </div>
