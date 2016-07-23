@@ -3,6 +3,8 @@ import {DeviceService} 			from '../device.service'
 import { Device } from '../device';
 import { Router, ActivatedRoute }       from '@angular/router';
 
+import {TableTelemetryDemoComponent} from './telemetryTable.component';
+
 @Component({
   selector: 'device-detail-cmp',
   template: `
@@ -128,35 +130,14 @@ import { Router, ActivatedRoute }       from '@angular/router';
             </div>
         </div>
         <div class="col-xl-8">
-            <div class="card card-block">
-                <h3>Telemetry</h3>
-                <form role="form">
-                    <div class="form-group input-group">
-                        <input type="text" class="form-control" placeholder="Search measurands">
-                        <span class="input-group-btn"><button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button></span>
-                    </div>
-                </form>
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Timestamp</th>
-                                <th>Event</th>
-                                <th>Measurement</th>
-                                <th>Value</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let event of device.events" (click)="onSelect(d)">
-                                <td>{{event.published_at}}</td>
-                                <td>{{event.name}}</td>
-                                <td>{{event.measurand}}</td>
-                                <td>{{event.value}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+
+          <div class="card card-block">
+              <table-telemetry-demo [data_in]=device.events>
+
+              </table-telemetry-demo>
+
+          </div>
+
         </div>
     </div>
     <div class="row">
@@ -206,7 +187,8 @@ import { Router, ActivatedRoute }       from '@angular/router';
         </div>
     </div>
 </div>
-  `
+  `,
+  directives: [TableTelemetryDemoComponent]
 })
 
 export class DeviceDetailComponent implements OnInit {
