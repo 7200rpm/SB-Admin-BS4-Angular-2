@@ -58,6 +58,9 @@ import {Customer} 						from '../customer'
          </select>
       </fieldset>
     </div>
+    <div class="col-xl-2">
+      <button class="btn btn-success">Create Customer</button>
+    </div>
   <div>
 
     <ng-customer-table [config]="config.sorting"

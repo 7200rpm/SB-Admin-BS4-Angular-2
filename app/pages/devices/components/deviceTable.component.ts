@@ -24,7 +24,7 @@ import {Device} 						from '../device'
          (tableChanged)="onChangeTable(configNickname)"/>
     </fieldset>
   </div>
-  <div class="col-xl-3">
+  <div class="col-xl-2">
     <fieldset class="form-group">
       <input *ngIf="configSerialNumber.filtering" placeholder="Serial Number"
         class="form-control"
@@ -40,9 +40,9 @@ import {Device} 						from '../device'
          (tableChanged)="onChangeTable(configParticleID)"/>
     </fieldset>
   </div>
-  <div class="col-xl-2">
+  <div class="col-xl-1">
     <fieldset class="form-group">
-      <input *ngIf="configHardwareRevision.filtering" placeholder="Hardware Revision"
+      <input *ngIf="configHardwareRevision.filtering" placeholder="Revision"
       class="form-control"
        [ngTableFiltering]="configHardwareRevision.filtering"
        (tableChanged)="onChangeTable(configHardwareRevision)"/>
@@ -62,6 +62,9 @@ import {Device} 						from '../device'
        </select>
     </fieldset>
   </div>
+  <div class="col-xl-2">
+      <button class="btn btn-success">Create Device</button>
+    </div>
 <div>
 
   <ng-device-table [config]="config.sorting"
