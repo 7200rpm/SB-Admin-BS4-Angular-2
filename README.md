@@ -6,7 +6,7 @@ This project is a port of the famous Free Admin Bootstrap Theme [SB Admin v2.0](
 
 Powered by [StartAngular](http://startangular.com/) & [StrapUI](http://strapui.com/)
 
-<!--##[Demo](http://rawgit.com/start-angular/SB-Admin-BS4-Angular-2/master/dist/prod/index.html)-->
+##[Demo](http://rawgit.com/start-angular/SB-Admin-BS4-Angular-2/master/dist/prod/)
 
 `SB Admin BS 4 Angular2` provides the following features:
 
@@ -52,7 +52,7 @@ $ npm install
 $ npm start
 ```
 
-####4. In your browser go to:   http://localhost:8080/dist/dev/
+####4. In your browser go to:   http://localhost:5555
 
 ### Configuration
 
@@ -69,7 +69,6 @@ var APP_BASE         = '/';
 ```
 .
 ├── CONTRIBUTING.md
-├── LICENSE
 ├── README.md
 ├── app
 │   ├── layouts
