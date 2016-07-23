@@ -15,7 +15,7 @@ import { Router, ActivatedRoute }       from '@angular/router';
         </div>
     </div>
     <div class="row">
-        <div class="col-xl-3">
+        <div class="col-xl-4">
             <div *ngIf="submitted" class="card card-primary card-inverse">
                 <div class="card-header card-primary">
                     <h3>Device</h3>
@@ -47,6 +47,17 @@ import { Router, ActivatedRoute }       from '@angular/router';
                         </table>
                     </div>
                     <button class="btn btn-primary" (click)="submitted=false">Edit Information</button>
+                    <hr />
+                    <button *ngIf="!delete_warning" class="btn btn-danger" (click)="delete_warning=true">Delete Device</button>
+                    <div *ngIf="delete_warning">
+                        <div class="row">
+                            <div class="col-xs-6">Are you sure you want to delete the device?</div>
+                            <div class="col-xs-6 pull-right">
+                                <button class="btn btn-danger" >Yes</button>
+                                <button class="btn btn-warning" (click)="delete_warning=false">No</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div *ngIf="!submitted" class="card card-primary card-inverse">
@@ -116,7 +127,7 @@ import { Router, ActivatedRoute }       from '@angular/router';
                 </div>
             </div>
         </div>
-        <div class="col-xl-9">
+        <div class="col-xl-8">
             <div class="card card-block">
                 <h3>Telemetry</h3>
                 <form role="form">
@@ -187,6 +198,7 @@ export class DeviceDetailComponent implements OnInit {
   private sub: any;
 
   public submitted=true; // False if user is updating information
+  public delete_warning = false;
 
   constructor(
     private deviceService: DeviceService,

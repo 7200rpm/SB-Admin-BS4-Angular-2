@@ -27,6 +27,7 @@ export class CustomerDetailComponent implements OnInit {
   private sub: any;
 
   public undo_ship_warning = false;
+  public delete_warning = false;
 
   constructor(
     private customerService: CustomerService,

@@ -22,7 +22,18 @@
         </div>
         <div class="card-block bg-white">
           Source: {{customer.source}}<br /> Source ID: 1234567890<br /> Order Date: 2016-07-04<br /> Quantity: {{customer.quantity}}<br
-          /> Name: {{customer.name}}<br /> Email: <a href="mailto:{{customer.email}}">{{customer.email}}</a><br />
+          /> Name: {{customer.name}}<br /> Email: <a href="mailto:{{customer.email}}">{{customer.email}}</a>
+          <hr />
+          <button *ngIf="!delete_warning" type="button" class="btn btn-danger" (click)="delete_warning=true">Delete Order</button>
+          <div *ngIf="delete_warning" >
+            <div class="row">
+              <div class="col-xs-6">Are you sure you want to delete the order?</div>
+              <div class="col-xs-6 pull-right">
+                <button class="btn btn-danger" >Yes</button>
+                <button class="btn btn-warning" (click)="delete_warning=false">No</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
