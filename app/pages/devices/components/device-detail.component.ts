@@ -144,8 +144,44 @@ import {TableTelemetryDemoComponent} from './telemetryTable.component';
                 <iframe src="http://wakeapi.azurewebsites.net/charts/events.php" style="border:none" width="100%" height="520"></iframe>
             </div>
             <div class="card card-block">
-                <h3>Voltage</h3>
-                <iframe src="http://wakeapi.azurewebsites.net/charts/voltage.php" style="border:none" width="100%" height="800"></iframe>
+                <div class="row">
+                    <div class="col-xl-6">
+                        <h3>Power Events</h3>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Index</th>
+                                        <th>Type</th>
+                                        <th>Start</th>
+                                        <th>End</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let event of device.power; let i = index" (click)="onPowerSelect(i,event)">
+                                        <td>{{i}}</td>
+                                        <td>{{event.type}}</td>
+                                        <td>{{event.start_time}}</td>
+                                        <td>{{event.end_time}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div *ngIf="selected_power_event">
+                            <h4>{{selected_power_event.type}}</h4>
+                            {{selected_power_event.start_time}} - {{selected_power_event.end_time}}
+                        </div>
+                        <div *ngIf="!selected_power_event">
+                            <h4>Select a power event</h4>
+                        </div>
+                        <iframe src="http://wakeapi.azurewebsites.net/charts/voltage.php" style="border:none" width="100%" height="800"></iframe>
+                        <a href="#" target="_blank" class="btn btn-primary">Previous</a>
+                        <a href="#" target="_blank" class="btn btn-primary">Next</a>
+                        <a href="#" target="_blank" class="btn btn-warning">Export as PNG</a>
+                    </div>
+                </div>
             </div>
             <div class="card card-block">
                 <h3>Scans</h3>
@@ -197,6 +233,9 @@ export class DeviceDetailComponent implements OnInit {
   public submitted=true; // False if user is updating information
   public delete_warning = false;
 
+  public selected_power_event: any[];
+  public selected_power_event_index: number;
+
   constructor(
     private deviceService: DeviceService,
     private route: ActivatedRoute,
@@ -213,6 +252,11 @@ export class DeviceDetailComponent implements OnInit {
     let id = +this.route.snapshot.params['id'];
     this.deviceService.getDevice(id)
       .subscribe((device: Device) => this.device = device)
+  }
+
+  onPowerSelect(i: number,power_event: any[]) {
+      this.selected_power_event = power_event;
+      this.selected_power_event_index = i;
   }
 
   onSubmit() {this.submitted = true;}
