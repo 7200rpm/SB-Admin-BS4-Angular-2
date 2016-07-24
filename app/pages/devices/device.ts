@@ -3,4 +3,5 @@ export class Device {
   serial_number: string;
   particleID: string;
   hardware_revision: string;
+  power: any[];
 }

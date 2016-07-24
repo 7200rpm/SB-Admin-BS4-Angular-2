@@ -4,6 +4,7 @@ import { Device } from '../device';
 import { Router, ActivatedRoute }       from '@angular/router';
 
 import {TableTelemetryDemoComponent} from './telemetryTable.component';
+import {TableDevicePowerComponent} from './powerTable.component';
 
 @Component({
   selector: 'device-detail-cmp',
@@ -147,26 +148,8 @@ import {TableTelemetryDemoComponent} from './telemetryTable.component';
                 <div class="row">
                     <div class="col-xl-6">
                         <h3>Power Events</h3>
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Index</th>
-                                        <th>Type</th>
-                                        <th>Start</th>
-                                        <th>End</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let event of device.power; let i = index" (click)="onPowerSelect(i,event)">
-                                        <td>{{i}}</td>
-                                        <td>{{event.type}}</td>
-                                        <td>{{event.start_time}}</td>
-                                        <td>{{event.end_time}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <table-device-power [data_in]=device.power>
+                        </table-device-power>
                     </div>
                     <div class="col-xl-6">
                         <div *ngIf="selected_power_event">
@@ -177,8 +160,8 @@ import {TableTelemetryDemoComponent} from './telemetryTable.component';
                             <h4>Select a power event</h4>
                         </div>
                         <iframe src="http://wakeapi.azurewebsites.net/charts/voltage.php" style="border:none" width="100%" height="800"></iframe>
-                        <a href="#" target="_blank" class="btn btn-primary">Previous</a>
-                        <a href="#" target="_blank" class="btn btn-primary">Next</a>
+                        <button type="button" class="btn btn-primary" (click)="onPreviousPower()">Previous</button>
+                        <button type="button" class="btn btn-primary" (click)="onNextPower()">Next</button>
                         <a href="#" target="_blank" class="btn btn-warning">Export as PNG</a>
                     </div>
                 </div>
@@ -257,6 +240,22 @@ export class DeviceDetailComponent implements OnInit {
   onPowerSelect(i: number,power_event: any[]) {
       this.selected_power_event = power_event;
       this.selected_power_event_index = i;
+  }
+
+  onNextPower() {
+      if(this.device.power.length == this.selected_power_event_index - 1 ||  this.selected_power_event_index == null) {
+          return;
+      }
+      this.selected_power_event_index++;
+      this.selected_power_event = this.device.power[this.selected_power_event_index];
+  }
+
+  onPreviousPower() {
+      if(this.selected_power_event_index == 0 ||  this.selected_power_event_index == null) {
+          return;
+      }
+      this.selected_power_event_index--;
+      this.selected_power_event = this.device.power[this.selected_power_event_index];
   }
 
   onSubmit() {this.submitted = true;}
