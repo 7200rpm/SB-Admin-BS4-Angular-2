@@ -52,9 +52,8 @@ export class TableTelemetryDemoComponent implements OnInit {
   public rows: Array<any> = [];
   public columns: Array<any> = [
     { title: 'Timestamp', name: 'published_at' },
-    { title: 'Event', name: 'name' },
-    { title: 'Measurement', name: 'measurand' },
-    { title: 'Value', name: 'value' }
+    { title: 'Event', name: 'event' },
+    { title: 'Data', name: 'data' },
   ];
   public page: number = 1;
   public itemsPerPage: number = 10;
@@ -65,31 +64,13 @@ export class TableTelemetryDemoComponent implements OnInit {
   public config: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'name' }
+    filtering: { filterString: '', columnName: 'published_at' }
   };
 
-  public configName: any = {
+  public configTimestamp: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'name' }
-  };
-
-  public configEmail: any = {
-    paging: true,
-    sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'email' }
-  };
-
-  public configSource: any = {
-    paging: true,
-    sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'source' }
-  };
-
-  public configStatus: any = {
-    paging: true,
-    sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'status' }
+    filtering: { filterString: '', columnName: 'published_at' }
   };
 
   errorMessage: string

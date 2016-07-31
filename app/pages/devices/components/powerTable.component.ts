@@ -37,7 +37,7 @@ import {Device} 						from '../device'
   `,
   directives: [NG_TABLE_DIRECTIVES, PAGINATION_DIRECTIVES, NgClass, NgIf, CORE_DIRECTIVES, FORM_DIRECTIVES]
 })
-export class TableDevicePowerComponent implements OnInit,OnChanges {
+export class TableDevicePowerComponent implements OnInit {
 
    @Input() public set data_in(values: Array<any>) {
       if (values) {
@@ -51,7 +51,7 @@ export class TableDevicePowerComponent implements OnInit,OnChanges {
 
   public rows: Array<any> = [];
   public columns: Array<any> = [
-    { title: 'Type', name: 'type' },
+    { title: 'Type', name: 'event_type' },
     { title: 'Start Time', name: 'start_time' },
     { title: 'End Time', name: 'end_time' }
   ];
@@ -64,25 +64,13 @@ export class TableDevicePowerComponent implements OnInit,OnChanges {
   public config: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'type' }
+    filtering: { filterString: '', columnName: 'event_type' }
   };
 
   public configType: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'type' }
-  };
-
-  public configStartTime: any = {
-    paging: true,
-    sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'start_time' }
-  };
-
-  public configEndTime: any = {
-    paging: true,
-    sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'end_time' }
+    filtering: { filterString: '', columnName: 'event_type' }
   };
 
   errorMessage: string
