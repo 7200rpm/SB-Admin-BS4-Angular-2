@@ -115,11 +115,11 @@ export class DeviceDetailComponent implements OnInit {
   }
 
   onNextPower() {
-    if (this.device.power.length == this.selected_power_event_index - 1 || this.selected_power_event_index == null) {
+    if (this.device.power_events.length == this.selected_power_event_index - 1 || this.selected_power_event_index == null) {
       return;
     }
     this.selected_power_event_index++;
-    this.selected_power_event = this.device.power[this.selected_power_event_index];
+    this.selected_power_event = this.device.power_events[this.selected_power_event_index];
   }
 
   onPreviousPower() {
@@ -127,7 +127,7 @@ export class DeviceDetailComponent implements OnInit {
       return;
     }
     this.selected_power_event_index--;
-    this.selected_power_event = this.device.power[this.selected_power_event_index];
+    this.selected_power_event = this.device.power_events[this.selected_power_event_index];
   }
 
   onSubmit() { this.submitted = true; }
