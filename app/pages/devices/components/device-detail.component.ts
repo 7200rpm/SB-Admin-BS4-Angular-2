@@ -7,13 +7,15 @@ import {TableTelemetryDemoComponent} from './telemetryTable.component';
 import {TableDevicePowerComponent} from './powerTable.component';
 import {TableDeviceScanComponent} from './scanTable.component';
 
+import {CHART_DIRECTIVES} from 'ng2-charts/ng2-charts';
+
 import {VIS_DIRECTIVES} from './ng2-vis'
 
 @Component({
   moduleId: module.id,
   selector: 'device-detail-cmp',
   templateUrl: 'device-detail.component.html',
-  directives: [TableTelemetryDemoComponent, TableDevicePowerComponent,TableDeviceScanComponent, VIS_DIRECTIVES]
+  directives: [TableTelemetryDemoComponent, TableDevicePowerComponent,TableDeviceScanComponent, CHART_DIRECTIVES, VIS_DIRECTIVES]
 })
 
 export class DeviceDetailComponent implements OnInit {
@@ -34,6 +36,10 @@ export class DeviceDetailComponent implements OnInit {
   public loaded_events: number = 0;
 
   public time_data: any[];
+
+  public chartLabels: number[];
+	public chartData: number[];
+	public chartType: string = 'line';
 
   constructor(
     private deviceService: DeviceService,
@@ -58,6 +64,11 @@ export class DeviceDetailComponent implements OnInit {
 
     // Build the event data
     this.time_data = Array();
+
+    this.chartLabels = Array();
+    for(var i = 0; i < 100; i++) {
+      this.chartLabels.push(i);
+    }
     
   }
 
@@ -133,6 +144,10 @@ export class DeviceDetailComponent implements OnInit {
 
   onVisSelect(properties: any) {
     //alert('selected items: ' + properties.x.items);
+  }
+
+  onScanSelect(scan: any) {
+    this.chartData = scan.temperatures;
   }
 
 }
