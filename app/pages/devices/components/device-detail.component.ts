@@ -6,11 +6,13 @@ import { Router, ActivatedRoute }       from '@angular/router';
 import {TableTelemetryDemoComponent} from './telemetryTable.component';
 import {TableDevicePowerComponent} from './powerTable.component';
 
+import {VIS_DIRECTIVES} from './ng2-vis'
+
 @Component({
   moduleId: module.id,
   selector: 'device-detail-cmp',
   templateUrl: 'device-detail.component.html',
-  directives: [TableTelemetryDemoComponent, TableDevicePowerComponent]
+  directives: [TableTelemetryDemoComponent, TableDevicePowerComponent, VIS_DIRECTIVES]
 })
 
 export class DeviceDetailComponent implements OnInit {
@@ -26,6 +28,11 @@ export class DeviceDetailComponent implements OnInit {
 
   public selected_power_event: any[];
   public selected_power_event_index: number;
+
+  public max_events: number = 100;
+  public loaded_events: number = 0;
+
+  public time_data: any[];
 
   constructor(
     private deviceService: DeviceService,
@@ -47,6 +54,22 @@ export class DeviceDetailComponent implements OnInit {
         this.device = new Device();
       }
     })
+
+    // Build the event data
+    this.time_data = Array();
+    
+  }
+
+  public LoadTimeline() {
+    this.max_events = this.device.telemetry.length;
+    this.loaded_events = 0;
+    var temp_time_data = Array();
+    this.device.telemetry.forEach(element => {
+      var data = {id:element.id,content:element.event,start:element.published_at}
+      temp_time_data.push(data);
+      this.loaded_events++;
+    });
+    this.time_data = temp_time_data;
   }
 
   public save() {
@@ -106,5 +129,9 @@ export class DeviceDetailComponent implements OnInit {
   // ngOnDestroy() {
   //   this.sub.unsubscribe()
   // }
+
+  onVisSelect(properties: any) {
+    //alert('selected items: ' + properties.x.items);
+  }
 
 }

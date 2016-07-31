@@ -3,5 +3,8 @@ export class Device {
   serial_number: string;
   particleID: string;
   hardware_revision: string;
-  power: any[];
+  notes: string;
+  power_events: any[];
+  telemetry: any[];
+  scan_events: any[];
 }

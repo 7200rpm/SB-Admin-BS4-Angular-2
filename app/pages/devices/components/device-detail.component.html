@@ -132,7 +132,12 @@
         <div class="col-xl-12">
             <div class="card card-block">
                 <h3>Events</h3>
-                <iframe src="http://wakeapi.azurewebsites.net/charts/events.php" style="border:none" width="100%" height="520"></iframe>
+                <button type="button" class="btn btn-primary" (click)="LoadTimeline()">Refresh</button>
+                <progress class="progress progress-striped progress-animated" [max]="max_events" [value]="loaded_events">
+					<span style="color:white; white-space:nowrap;">{{loaded_events}} / {{max_events}}</span>
+				</progress>
+                <ng-vis [data]="time_data" (visSelect)="onVisSelect($event)"></ng-vis>
+                
             </div>
             <div class="card card-block">
                 <div class="row">
