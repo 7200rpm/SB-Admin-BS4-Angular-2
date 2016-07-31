@@ -15,7 +15,8 @@ export class CustomerFormComponent {
 
   active = true;
 
-  ship_warning = false;
+  public ship_warning = false;
+  public undo_ship_warning = false;
 
   public states:Array<string> = ['Alabama', 'Alaska', 'Arizona', 'Arkansas',
 	'California', 'Colorado',
@@ -33,9 +34,14 @@ export class CustomerFormComponent {
 
   onSubmit() { this.submitted = true; }
 
-  ship_order() { 
+  ShipOrder() { 
     this.ship_warning = false;
-    this.customer.status = 'Shipped'; 
+    this.customer.order_status = 'Shipped'; 
+  }
+
+  UndoShip() { 
+    this.undo_ship_warning = false;
+    this.customer.order_status = 'Unfulfilled'; 
   }
 
 

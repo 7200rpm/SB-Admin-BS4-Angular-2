@@ -80,10 +80,11 @@
   <div class="card-block bg-white" [hidden]="!submitted">
     <div class="row">
       <div class="col-xl-6">
+        <h4>Customer</h4>
         <div class="table-responsive">
             <table class="table">
                 <tbody>
-                  <tr *ngIf="customer.nickname">
+                  <tr *ngIf="customer.order_nickname">
                         <th>Order Nickname</th>
                         <td>{{customer.order_nickname}}</td>
                     </tr>
@@ -93,12 +94,19 @@
                     </tr>
                     <tr>
                         <th>Customer Email</th>
-                        <td>{{customer.customer_email}}</td>
+                        <td><a href="mailto:{{customer.customer_email}}">{{customer.customer_email}}</a></td>
                     </tr>
                     <tr>
                         <th>Customer Telephone</th>
                         <td>{{customer.customer_telephone}}</td>
                     </tr>
+                  </tbody>
+            </table>
+        </div>
+        <h4>Order</h4>
+        <div class="table-responsive">
+            <table class="table">
+                <tbody>
                     <tr>
                         <th>Order Date</th>
                         <td>{{customer.order_date}}</td>
@@ -123,6 +131,7 @@
         </div>
       </div>
       <div class="col-xl-6">
+        <h4>Shipment</h4>
         <div class="table-responsive">
             <table class="table">
                 <tbody>
@@ -139,8 +148,8 @@
                         <td>{{customer.shipment_telephone}}</td>
                     </tr>
                     <tr>
-                        <th>Address</th>
-                        <td>{{customer.shipment_street_address}}<br />{{customer.shipment_city}}, {{customer.shipment_state}}<br />{{customer.shipment_country}}</td>
+                        <th>Shipment Address</th>
+                        <td><span *ngIf=customer.shipment_street_address>{{customer.shipment_street_address}}<br /></span><span *ngIf=customer.shipment_city>{{customer.shipment_city}}, </span><span *ngIf=customer.shipment_state>{{customer.shipment_state}}<br /></span>{{customer.shipment_country}}</td>
                     </tr>
                     <tr> 
                         <th>Shipment Date</th>
@@ -154,14 +163,24 @@
     <hr>
     <button class="btn btn-primary" (click)="submitted=false">Edit</button>
     <button *ngIf="customer.order_status=='Shipped'" type="button" class="btn btn-danger" (click)="undo_ship_warning=true">Undo Shipment</button>
-    <button *ngIf="customer.order_status=='Unfulfilled'" type="button" class="btn btn-warning">Ship Order</button>
+    <button *ngIf="customer.order_status=='Unfulfilled'" type="button" class="btn btn-warning" (click)="ship_warning=true">Ship Order</button>
     <button type="button" class="btn btn-danger" (click)="delete_warning=true">Delete Order</button>
+    <div *ngIf="ship_warning" >
+      <hr>
+      <div class="row">
+        <div class="col-xs-6">Are you sure you want to ship this order?</div>
+        <div class="col-xs-6 pull-right">
+          <button class="btn btn-danger" (click)="ShipOrder()">Yes</button>
+          <button class="btn btn-warning" (click)="ship_warning=false">No</button>
+        </div>
+      </div>
+    </div>
     <div *ngIf="undo_ship_warning" >
       <hr>
       <div class="row">
         <div class="col-xs-6">Are you sure you want to undo the shipment?</div>
         <div class="col-xs-6 pull-right">
-          <button class="btn btn-danger" >Yes</button>
+          <button class="btn btn-danger" (click)="UndoShip()">Yes</button>
           <button class="btn btn-warning" (click)="undo_ship_warning=false">No</button>
         </div>
       </div>

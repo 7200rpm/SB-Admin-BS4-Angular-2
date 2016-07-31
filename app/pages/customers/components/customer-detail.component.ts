@@ -25,8 +25,7 @@ export class CustomerDetailComponent implements OnInit {
   public added_unit:string = "";
 
   private sub: any;
-
-  public undo_ship_warning = false;
+  
   public delete_warning = false;
 
   constructor(

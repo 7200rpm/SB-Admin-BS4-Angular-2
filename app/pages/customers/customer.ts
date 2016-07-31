@@ -5,5 +5,5 @@ export class Customer {
   email: string;
   available_devices: Array<string>;
   quantity: number;
-  status: string;
+  order_status: string;
 }
