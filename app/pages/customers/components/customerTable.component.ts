@@ -18,7 +18,15 @@ import {Customer} 						from '../customer'
   <div class="row">
     <div class="col-xl-3">
       <fieldset class="form-group">
-        <input *ngIf="configName.filtering" placeholder="Name"
+        <input *ngIf="configNickname.filtering" placeholder="Order Nickname"
+          class="form-control"
+           [ngTableFiltering]="configNickname.filtering"
+           (tableChanged)="onChangeTable(configNickname)"/>
+      </fieldset>
+    </div>
+    <div class="col-xl-3">
+      <fieldset class="form-group">
+        <input *ngIf="configName.filtering" placeholder="Customer Name"
           class="form-control"
            [ngTableFiltering]="configName.filtering"
            (tableChanged)="onChangeTable(configName)"/>
@@ -26,39 +34,24 @@ import {Customer} 						from '../customer'
     </div>
     <div class="col-xl-3">
       <fieldset class="form-group">
-        <input *ngIf="configEmail.filtering" placeholder="Email"
+        <input *ngIf="configEmail.filtering" placeholder="Customer Email"
           class="form-control"
            [ngTableFiltering]="configEmail.filtering"
            (tableChanged)="onChangeTable(configEmail)"/>
       </fieldset>
     </div>
-    <div class="col-xl-2">
+    <div class="col-xl-3">
       <fieldset class="form-group">
-        <select *ngIf="configSource.filtering" placeholder="Source"
-        class="form-control"
-           [ngTableFiltering]="configSource.filtering"
-           (tableChanged)="onChangeTable(configSource)">
-            <option value=""><i>All Sources</i></option>
-            <option>Kickstarter</option>
-            <option>trycelery.com</option>
-            <option>On Loan</option>
-            <option>Other</option>
-          </select>
+        <select *ngIf="configStatus.filtering"
+          class="form-control"
+           [ngTableFiltering]="configStatus.filtering"
+           (tableChanged)="onChangeTable(configStatus)">
+           <option value="">Select Status</option>
+           <option>Unfulfilled</option>
+           <option>Shipped</option>
+        </select>
       </fieldset>
     </div>
-    <div class="col-xl-2">
-      <fieldset class="form-group">
-        <select *ngIf="configStatus.filtering" placeholder="Status"
-        class="form-control"
-         [ngTableFiltering]="configStatus.filtering"
-         (tableChanged)="onChangeTable(configStatus)">
-            <option value=""><i>All Status</i></option>
-            <option>Unfulfilled</option>
-            <option>Shipped</option>
-         </select>
-      </fieldset>
-    </div>
-
   <div>
 
     <ng-customer-table [config]="config.sorting"
@@ -95,11 +88,12 @@ export class TableCustomerDemoComponent implements OnInit {
 
   public rows: Array<any> = [];
   public columns: Array<any> = [
-    { title: 'Name', name: 'name' },
-    { title: 'Email', name: 'email' },
-    { title: 'Source', name: 'source' },
-    { title: 'Quantity', name: 'quantity' },
-    { title: 'Status', name: 'status' }
+    { title: 'Order Date', name: 'order_date' },
+    { title: 'Order Nickname', name: 'order_nickname' },
+    { title: 'Customer Name', name: 'customer_name' },
+    { title: 'Customer Email', name: 'customer_email' },
+    { title: 'Order Quantity', name: 'order_quantity' },
+    { title: 'Order Status', name: 'order_status' }
   ];
   public page: number = 1;
   public itemsPerPage: number = 10;
@@ -110,31 +104,43 @@ export class TableCustomerDemoComponent implements OnInit {
   public config: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'name' }
+    filtering: { filterString: '', columnName: 'order_date' }
+  };
+
+  public configOrderDate: any = {
+    paging: true,
+    sorting: { columns: this.columns },
+    filtering: { filterString: '', columnName: 'order_date' }
+  };
+
+  public configNickname: any = {
+    paging: true,
+    sorting: { columns: this.columns },
+    filtering: { filterString: '', columnName: 'order_nickname' }
   };
 
   public configName: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'name' }
+    filtering: { filterString: '', columnName: 'customer_name' }
   };
 
   public configEmail: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'email' }
+    filtering: { filterString: '', columnName: 'customer_email' }
   };
 
-  public configSource: any = {
+  public configQuantity: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'source' }
+    filtering: { filterString: '', columnName: 'order_quantity' }
   };
 
   public configStatus: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'status' }
+    filtering: { filterString: '', columnName: 'order_status' }
   };
 
   errorMessage: string

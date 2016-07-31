@@ -71,7 +71,7 @@ export class DeviceDetailComponent implements OnInit {
     this.deviceService.deleteDevice(this.device)
     .subscribe((device: Device) => {
       this.goBack();
-    }
+    })
   }
 
   onPowerSelect(i: number, power_event: any[]) {
