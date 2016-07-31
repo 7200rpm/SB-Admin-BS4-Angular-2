@@ -75,7 +75,7 @@ export class BaseVisComponent implements OnDestroy, OnChanges, OnInit {
       'contextmenu'
     ];
 
-    t.on('select', x => {this.visSelect.emit({event, x})})
+    t.on('select', (x: any) => {this.visSelect.emit({x})})
 
     // t.on('select', function(properties: any) {
     //   this.select.emit({ event, properties });

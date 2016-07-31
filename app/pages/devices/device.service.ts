@@ -48,6 +48,16 @@ export class DeviceService {
       .catch(this.handleError);
   }
 
+  deleteDevice(device: Device): Observable<Device> {
+    let body = JSON.stringify({ device });
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(this.deviceURL + '/' + device.deviceID + '/delete', body)
+      .map(() => device)
+      .catch(this.handleError);
+  }
+
   private extractData(res: Response) {
     let body = res.json();
 

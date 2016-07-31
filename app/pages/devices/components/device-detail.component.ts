@@ -49,7 +49,7 @@ export class DeviceDetailComponent implements OnInit {
     })
   }
 
-    public save() {
+  public save() {
     if (this.device.deviceID) {
       this.deviceService.updateDevice(this.device)
         .subscribe((device: Device) => {
@@ -64,6 +64,13 @@ export class DeviceDetailComponent implements OnInit {
           this.device = device;
           this.goBack();
         });
+    }
+  }
+
+  public delete(){
+    this.deviceService.deleteDevice(this.device)
+    .subscribe((device: Device) => {
+      this.goBack();
     }
   }
 
