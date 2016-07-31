@@ -117,8 +117,8 @@ export class HomeComponent implements OnInit {
 	}
 
 	private setupChart(): void {
-		this.numShipped = this.customers.filter(c => c.status == "Shipped").length;
-		this.numStock = this.customers.filter(c => c.status == "Unfulfilled").length;
+		this.numShipped = this.customers.filter(c => c.order_status == "Shipped").length;
+		this.numStock = this.customers.filter(c => c.order_status == "Unfulfilled").length;
 
 		this.chartData = [this.numShipped, this.numStock]
 	}
