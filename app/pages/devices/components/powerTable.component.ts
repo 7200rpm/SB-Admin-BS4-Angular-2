@@ -1,4 +1,4 @@
-import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
+import {Component, OnInit, EventEmitter, Input, Output, OnChanges, SimpleChange } from '@angular/core';
 import {CORE_DIRECTIVES, NgClass, NgIf} from '@angular/common';
 import {PAGINATION_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 import {NG_TABLE_DIRECTIVES} from '../../../components/ng2-table';
@@ -37,9 +37,15 @@ import {Device} 						from '../device'
   `,
   directives: [NG_TABLE_DIRECTIVES, PAGINATION_DIRECTIVES, NgClass, NgIf, CORE_DIRECTIVES, FORM_DIRECTIVES]
 })
-export class TableDevicePowerComponent implements OnInit {
+export class TableDevicePowerComponent implements OnInit,OnChanges {
 
-  @Input() public data_in: Array<any> = [];
+   @Input() public set data_in(values: Array<any>) {
+      if (values) {
+         this.data = values;
+         this.length = this.data.length;
+         this.onChangeTable(this.config);
+      }
+   }
 
   @Output() public rowClicked: EventEmitter<any> = new EventEmitter();
 
@@ -88,9 +94,6 @@ export class TableDevicePowerComponent implements OnInit {
   public constructor() { }
 
   public ngOnInit(): void {
-    this.data = this.data_in;
-    this.length = this.data.length;
-    this.onChangeTable(this.config);
 
   }
 

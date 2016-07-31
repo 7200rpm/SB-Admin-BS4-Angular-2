@@ -64,9 +64,41 @@ public closeAlert(i:number):void {
     //       .subscribe((customer:Customer) => this.customer = customer)
     //   })
 
-    let id = +this.route.snapshot.params['id'];
-    this.customerService.getCustomer(id)
-      .subscribe((customer:Customer) => this.customer = customer)
+    // let id = +this.route.snapshot.params['id'];
+    // this.customerService.getCustomer(id)
+    //   .subscribe((customer:Customer) => this.customer = customer)
+
+
+    this.sub = this.route.params.subscribe(params => {
+      if(params['id'] !== undefined){
+        let id = +params['id'];
+        this.navigated = true;
+        this.customerService.getCustomer(id)
+          .subscribe((customer:Customer) => this.customer = customer)
+      }
+      else{
+        this.navigated = false;
+        this.customer = new Customer();
+      }
+    })
+  }
+
+  public save(){
+    if(this.customer.orderID){
+      this.customerService.updateCustomer(this.customer)
+      .subscribe((customer:Customer) => {
+        this.customer = customer;
+        this.goBack();
+      });
+
+    }
+    else{
+      this.customerService.addCustomer(this.customer)
+      .subscribe((customer:Customer) => {
+        this.customer = customer;
+        this.goBack();
+      });
+    }
   }
 
   goBack() { this.router.navigate(['/dashboard/customers']); }

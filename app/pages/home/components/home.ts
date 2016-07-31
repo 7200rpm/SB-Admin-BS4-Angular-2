@@ -1,6 +1,11 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from '@angular/common';
 import {CAROUSEL_DIRECTIVES, DROPDOWN_DIRECTIVES, AlertComponent} from 'ng2-bootstrap/ng2-bootstrap';
+
+import {CHART_DIRECTIVES} from 'ng2-charts/ng2-charts';
+
+import {CustomerService} 			from '../../customers/customer.service'
+import {Customer} 						from '../../customers/customer'
 
 @Component({
 	moduleId: module.id,
@@ -16,7 +21,7 @@ class TimelineComponent { }
 	templateUrl: 'chat.html',
 	directives: [CORE_DIRECTIVES, DROPDOWN_DIRECTIVES]
 })
-class ChatComponent {}
+class ChatComponent { }
 
 @Component({
 	moduleId: module.id,
@@ -39,11 +44,15 @@ class NotificationComponent { }
 		NotificationComponent,
 		CAROUSEL_DIRECTIVES,
 		CORE_DIRECTIVES,
-		FORM_DIRECTIVES ]
+		FORM_DIRECTIVES,
+		CHART_DIRECTIVES]
 })
 
-export class HomeComponent {
+export class HomeComponent implements OnInit {
 
+	customers: Customer[] = [];
+	numShipped: any;
+	numStock: any;
 	/* Carousel Variable */
 	myInterval: number = 5000;
 	index: number = 0;
@@ -54,26 +63,30 @@ export class HomeComponent {
 		`assets/img/slider3.jpg`,
 		`assets/img/slider0.jpg`
 	];
+
+	public chartLabels: string[] = ['Shipped', 'Unfulfilled']
+	public chartData: number[];
+	public chartType: string = 'pie';
 	/* END */
 	/* Alert component */
-	public alerts:Array<Object> = [
-	   {
-	     type: 'danger',
-	     msg: 'Oh snap! Change a few things up and try submitting again.'
-	   },
-	   {
-	     type: 'success',
-	     msg: 'Well done! You successfully read this important alert message.',
-	     closable: true
-	   }
-	 ];
+	public alerts: Array<Object> = [
+		{
+			type: 'danger',
+			msg: 'Oh snap! Change a few things up and try submitting again.'
+		},
+		{
+			type: 'success',
+			msg: 'Well done! You successfully read this important alert message.',
+			closable: true
+		}
+	];
 
-	 public closeAlert(i:number):void {
-	   this.alerts.splice(i, 1);
-	 }
+	public closeAlert(i: number): void {
+		this.alerts.splice(i, 1);
+	}
 	/* END*/
 
-	constructor() {
+	constructor(private customerService: CustomerService) {
 		for (let i = 0; i < 4; i++) {
 			this.addSlide();
 		}
@@ -87,6 +100,37 @@ export class HomeComponent {
 			text: `${['Dummy ', 'Dummy ', 'Dummy ', 'Dummy '][this.slides.length % 4]}
       			${['text 0', 'text 1', 'text 2', 'text 3'][this.slides.length % 4]}`
 		});
+	}
+
+	ngOnInit() { this.getCustomers() }
+
+	getCustomers() {
+		this.customerService.getCustomers()
+			.subscribe(
+			customers => {
+				this.customers = customers;
+				this.setupChart();
+			},
+			error => { console.log("Error: " + error) },
+			() => console.log('Customers Completed!')
+			)
+	}
+
+	private setupChart(): void {
+		this.numShipped = this.customers.filter(c => c.status == "Shipped").length;
+		this.numStock = this.customers.filter(c => c.status == "Unfulfilled").length;
+
+		this.chartData = [this.numShipped, this.numStock]
+	}
+
+
+	// events
+	public chartClicked(e: any): void {
+
+	}
+
+	public chartHovered(e: any): void {
+
 	}
 	/* END */
 }

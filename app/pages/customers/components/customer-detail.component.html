@@ -1,10 +1,11 @@
 <div class="container-fluid" *ngIf="customer">
   <div class="row">
     <div class="col-xl-12">
-      <h2><button type="button" class="btn btn-primary" (click)="goBack()">Back</button> | <i class="fa fa-user"></i> {{customer.name}}
+      <h2><button type="button" class="btn btn-primary" (click)="goBack()">Back</button> <button type="button" class="btn btn-primary" (click)="save()">Save</button> | <i class="fa fa-user"></i> {{customer.name}}
       </h2>
       <hr />
     </div>
+
   </div>
   <div *ngIf=customer.devices class="alert alert-success">
     We have shipped Wakē(s) to this customer.

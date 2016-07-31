@@ -7,7 +7,7 @@
             </h2>
             <ol class="breadcrumb">
                 <li>
-                    <i class="fa fa-dashboard"></i>  <a href="Javascript:void(0);" [routerLink]="['/dashboard','/home']">Dashboard</a>
+                    <i class="fa fa-dashboard"></i> <a href="Javascript:void(0);" [routerLink]="['/dashboard','/home']">Dashboard</a>
                 </li>
                 <li class="active">
                     <i class="fa fa-users"></i> Customers
@@ -15,8 +15,10 @@
             </ol>
         </div>
     </div>
-
-    <table-customer-demo
-      (rowClicked)="onSelect($event)"
-    >Loading...</table-customer-demo>
+    <div class="row">
+        <div class="col-xl-2">
+            <button class="btn btn-success" [routerLink]="['/dashboard', '/customerAdd']">Create Customer</button>
+        </div>
+    </div>
+    <table-customer-demo [data_in]="customers" (rowClicked)="onSelect($event)"></table-customer-demo>
 </div>

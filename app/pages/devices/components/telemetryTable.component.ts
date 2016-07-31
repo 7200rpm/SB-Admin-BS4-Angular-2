@@ -39,7 +39,13 @@ import {Device} 						from '../device'
 })
 export class TableTelemetryDemoComponent implements OnInit {
 
-  @Input() public data_in: Array<any> = [];
+   @Input() public set data_in(values: Array<any>) {
+      if (values) {
+         this.data = values;
+         this.length = this.data.length;
+         this.onChangeTable(this.config);
+      }
+   }
 
   @Output() public rowClicked: EventEmitter<any> = new EventEmitter();
 
@@ -95,15 +101,8 @@ export class TableTelemetryDemoComponent implements OnInit {
   public constructor() { }
 
   public ngOnInit(): void {
-    this.data = this.data_in;
-    this.length = this.data.length;
-    this.onChangeTable(this.config);
 
   }
-
-  // onSelect(customer: Customer) {
-  //   this.router.navigate(['/dashboard/customer', customer.customerID]);
-  // }
 
   public onRowClicked(row: any): void {
     this.rowClicked.emit(row);

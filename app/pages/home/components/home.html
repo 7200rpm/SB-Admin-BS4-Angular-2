@@ -100,6 +100,13 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <base-chart style="display: block; width: 100%;" class="chart" [data]="chartData" [labels]="chartLabels" [chartType]="chartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></base-chart>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-xl-8">
             <div class="card card-block">

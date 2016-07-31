@@ -58,9 +58,7 @@ import {Customer} 						from '../customer'
          </select>
       </fieldset>
     </div>
-    <div class="col-xl-2">
-      <button class="btn btn-success">Create Customer</button>
-    </div>
+
   <div>
 
     <ng-customer-table [config]="config.sorting"
@@ -86,6 +84,12 @@ import {Customer} 						from '../customer'
   directives: [NG_TABLE_DIRECTIVES, PAGINATION_DIRECTIVES, NgClass, NgIf, CORE_DIRECTIVES, FORM_DIRECTIVES]
 })
 export class TableCustomerDemoComponent implements OnInit {
+
+  @Input() public set data_in(values: Array<any>){
+    this.data = values;
+    this.length = this.data.length;
+    this.onChangeTable(this.config);
+  }
 
   @Output() public rowClicked: EventEmitter<any> = new EventEmitter();
 
@@ -139,27 +143,11 @@ export class TableCustomerDemoComponent implements OnInit {
 
   private data: Array<any>;// = TableData;
 
-  public constructor(
-    private customerService: CustomerService) { }
+  public constructor() { }
 
   public ngOnInit(): void {
-    this.getCustomers();
-
 
   }
-
-  getCustomers() {
-    this.customerService.getCustomers()
-      .subscribe(
-      customers => { this.data = customers; this.length = this.data.length; this.onChangeTable(this.config); },
-      error => this.errorMessage = <any>error,
-      () => console.log('Customers Completed!')
-      )
-  }
-
-  // onSelect(customer: Customer) {
-  //   this.router.navigate(['/dashboard/customer', customer.customerID]);
-  // }
 
   public onRowClicked(row: any): void {
     this.rowClicked.emit(row);

@@ -7,7 +7,7 @@ import {TableTelemetryDemoComponent} from './telemetryTable.component';
 import {TableDevicePowerComponent} from './powerTable.component';
 
 @Component({
-    moduleId: module.id,
+  moduleId: module.id,
   selector: 'device-detail-cmp',
   templateUrl: 'device-detail.component.html',
   directives: [TableTelemetryDemoComponent, TableDevicePowerComponent]
@@ -21,7 +21,7 @@ export class DeviceDetailComponent implements OnInit {
 
   private sub: any;
 
-  public submitted=true; // False if user is updating information
+  public submitted = true; // False if user is updating information
   public delete_warning = false;
 
   public selected_power_event: any[];
@@ -34,39 +34,61 @@ export class DeviceDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.sub = this.route.params.subscribe(params => {
-    //   let id = +params['id']; // (+) converts string 'id' to a number
-    //   this.customerService.getCustomer(id).then(customer => this.customer = customer);
-    // });
 
-    // (+) converts string 'id' to a number
-    let id = +this.route.snapshot.params['id'];
-    this.deviceService.getDevice(id)
-      .subscribe((device: Device) => this.device = device)
+    this.sub = this.route.params.subscribe(params => {
+      if (params['id'] !== undefined) {
+        let id = +params['id'];
+        this.navigated = true;
+        this.deviceService.getDevice(id)
+          .subscribe((device: Device) => this.device = device)
+      }
+      else {
+        this.navigated = false;
+        this.device = new Device();
+      }
+    })
   }
 
-  onPowerSelect(i: number,power_event: any[]) {
-      this.selected_power_event = power_event;
-      this.selected_power_event_index = i;
+    public save() {
+    if (this.device.deviceID) {
+      this.deviceService.updateDevice(this.device)
+        .subscribe((device: Device) => {
+          this.device = device;
+          this.goBack();
+        });
+
+    }
+    else {
+      this.deviceService.addDevice(this.device)
+        .subscribe((device: Device) => {
+          this.device = device;
+          this.goBack();
+        });
+    }
+  }
+
+  onPowerSelect(i: number, power_event: any[]) {
+    this.selected_power_event = power_event;
+    this.selected_power_event_index = i;
   }
 
   onNextPower() {
-      if(this.device.power.length == this.selected_power_event_index - 1 ||  this.selected_power_event_index == null) {
-          return;
-      }
-      this.selected_power_event_index++;
-      this.selected_power_event = this.device.power[this.selected_power_event_index];
+    if (this.device.power.length == this.selected_power_event_index - 1 || this.selected_power_event_index == null) {
+      return;
+    }
+    this.selected_power_event_index++;
+    this.selected_power_event = this.device.power[this.selected_power_event_index];
   }
 
   onPreviousPower() {
-      if(this.selected_power_event_index == 0 ||  this.selected_power_event_index == null) {
-          return;
-      }
-      this.selected_power_event_index--;
-      this.selected_power_event = this.device.power[this.selected_power_event_index];
+    if (this.selected_power_event_index == 0 || this.selected_power_event_index == null) {
+      return;
+    }
+    this.selected_power_event_index--;
+    this.selected_power_event = this.device.power[this.selected_power_event_index];
   }
 
-  onSubmit() {this.submitted = true;}
+  onSubmit() { this.submitted = true; }
 
   resizeIframe(obj: any) {
     obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
