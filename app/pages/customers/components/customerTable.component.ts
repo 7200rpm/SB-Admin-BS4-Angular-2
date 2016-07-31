@@ -79,9 +79,11 @@ import {Customer} 						from '../customer'
 export class TableCustomerDemoComponent implements OnInit {
 
   @Input() public set data_in(values: Array<any>){
-    this.data = values;
-    this.length = this.data.length;
-    this.onChangeTable(this.config);
+      if (values) {
+         this.data = values;
+         this.length = this.data.length;
+         this.onChangeTable(this.config);
+      }
   }
 
   @Output() public rowClicked: EventEmitter<any> = new EventEmitter();
