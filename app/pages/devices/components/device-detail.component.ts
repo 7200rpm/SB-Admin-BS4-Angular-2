@@ -5,6 +5,7 @@ import { Router, ActivatedRoute }       from '@angular/router';
 
 import {TableTelemetryDemoComponent} from './telemetryTable.component';
 import {TableDevicePowerComponent} from './powerTable.component';
+import {TableDeviceScanComponent} from './scanTable.component';
 
 import {VIS_DIRECTIVES} from './ng2-vis'
 
@@ -12,7 +13,7 @@ import {VIS_DIRECTIVES} from './ng2-vis'
   moduleId: module.id,
   selector: 'device-detail-cmp',
   templateUrl: 'device-detail.component.html',
-  directives: [TableTelemetryDemoComponent, TableDevicePowerComponent, VIS_DIRECTIVES]
+  directives: [TableTelemetryDemoComponent, TableDevicePowerComponent,TableDeviceScanComponent, VIS_DIRECTIVES]
 })
 
 export class DeviceDetailComponent implements OnInit {
