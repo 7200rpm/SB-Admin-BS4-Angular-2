@@ -1,73 +1,26 @@
 <div class="container-fluid" *ngIf="customer">
   <div class="row">
     <div class="col-xl-12">
-      <h2><button type="button" class="btn btn-primary" (click)="goBack()">Back</button> <button type="button" class="btn btn-primary" (click)="save()">Save</button> | <i class="fa fa-user"></i> {{customer.name}}
+      <h2><button type="button" class="btn btn-primary" (click)="goBack()">Back</button> <button type="button" class="btn btn-primary" (click)="save()">Save</button> | <i class="fa fa-user"></i> {{customer.customer_name}}<span *ngIf=customer.order_nickame> - {{customer.order_nickname}}</span>
       </h2>
       <hr />
     </div>
 
   </div>
-  <div *ngIf=customer.devices class="alert alert-success">
+  <div *ngIf="customer.order_status=='Shipped'" class="alert alert-success">
     We have shipped Wakē(s) to this customer.
   </div>
-  <div *ngIf=!customer.devices class="alert alert-warning">
+  <div *ngIf="customer.order_status=='Unfulfilled'" class="alert alert-warning">
     We have <strong>not</strong> shipped Wakē(s) to this customer.
   </div>
 
   <div class="row">
+    <div class="col-xl-12">
+      <customer-form [customer]="customer"></customer-form>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-xl-4">
-
-      <div class="card card-primary card-inverse">
-        <div class="card-header card-primary">
-          Order
-        </div>
-        <div class="card-block bg-white">
-          <div class="table-responsive">
-              <table class="table">
-                  <tbody>
-                    <tr *ngIf="customer.nickname">
-                          <th>Nickname</th>
-                          <td>{{customer.order_nickname}}</td>
-                      </tr>
-                      <tr>
-                          <th>Name</th>
-                          <td>{{customer.customer_name}}</td>
-                      </tr>
-                      <tr>
-                          <th>Email</th>
-                          <td>{{customer.customer_email}}</td>
-                      </tr>
-                      <tr>
-                          <th>Telephone</th>
-                          <td>{{customer.customer_telephone}}</td>
-                      </tr>
-                      <tr>
-                          <th>Order Date</th>
-                          <td>{{customer.order_date}}</td>
-                      </tr>
-                      <tr>
-                          <th>Order Quantity</th>
-                          <td>{{customer.order_quantity}}</td>
-                      </tr>
-                      <tr *ngIf="customer.notes">
-                          <td colspan="2"><b>Notes:</b> {{customer.notes}}</td>
-                      </tr>
-                  </tbody>
-              </table>
-          </div>
-          <hr />
-          <button *ngIf="!delete_warning" type="button" class="btn btn-danger" (click)="delete_warning=true">Delete Order</button>
-          <div *ngIf="delete_warning" >
-            <div class="row">
-              <div class="col-xs-6">Are you sure you want to delete the order?</div>
-              <div class="col-xs-6 pull-right">
-                <button class="btn btn-danger" >Yes</button>
-                <button class="btn btn-warning" (click)="delete_warning=false">No</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <div *ngIf="customer.shipment_date" class="card card-success card-inverse">
         <div class="card-header card-success">
@@ -77,17 +30,6 @@
           Ship Date: {{customer.shipment_date}}<br /> Shipped To: {{customer.shipment_name}}<br /> Address: <a href="#">123 Main St. Los Angeles CA 90000</a><br
           /> Email: <a href="mailto:{{customer.shipment_email}}">{{customer.shipment_email}}</a><br />{{customer.shipment_telephone}}
           <hr />
-          <button type="button" class="btn btn-danger" (click)="undo_ship_warning=true">Undo Shipment</button>
-          <div *ngIf="undo_ship_warning" >
-            <hr>
-            <div class="row">
-              <div class="col-xs-6">Are you sure you want to undo the shipment?</div>
-              <div class="col-xs-6 pull-right">
-                <button class="btn btn-danger" >Yes</button>
-                <button class="btn btn-warning" (click)="undo_ship_warning=false">No</button>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -104,12 +46,11 @@
             </div>
             <div class="col-xs-8">
               <fieldset class="form-group">
-                <select class="form-control" [(ngModel)]="added_unit">
-                  <option value="">Select Unit</option>
-              <option *ngFor="let available_devices of customer.available_devices">
-                {{available_devices.serial_number}}
-              </option>
-            </select>
+                  <select multiple="" class="form-control" name="available_devices">
+                      <option *ngFor="let available_devices of customer.available_devices">
+                        {{available_devices.serial_number}}
+                      </option>
+                  </select>
               </fieldset>
             </div>
             <div class="col-xs-4">
@@ -121,9 +62,6 @@
     </div>
 
     <div class="col-xl-8">
-
-<customer-form [customer]="customer"></customer-form>
-
       <div *ngIf="customer.devices" class="card card-block">
         <h4>Devices</h4>
         <div class="table-responsive">

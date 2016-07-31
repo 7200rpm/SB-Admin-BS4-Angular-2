@@ -9,75 +9,173 @@
         <div class="col-xl-6">
 
           <fieldset class="form-group">
-            <label>Name</label>
-            <input class="form-control" name="customer-name"  value="{{customer.name}}" [(ngModel)]="customer.name">
+            <label>Customer Name</label>
+            <input class="form-control" name="customer-name"  value="{{customer.customer_name}}" [(ngModel)]="customer.customer_name">
           </fieldset>
           <fieldset class="form-group">
-            <label>Email</label>
-            <input class="form-control" name="customer-email" value="{{customer.email}}" [(ngModel)]="customer.email">
+            <label>Customer Email</label>
+            <input class="form-control" name="customer-email" value="{{customer.customer_email}}" [(ngModel)]="customer.customer_email">
           </fieldset>
           <fieldset class="form-group">
             <label>Phone Number</label>
-            <input class="form-control" name="customer-phone" value="{{customer.phone_number}}" [(ngModel)]="customer.telephone_number">
+            <input class="form-control" name="customer-phone" value="{{customer.customer_telephone}}" [(ngModel)]="customer.customer_telephone">
           </fieldset>
           <fieldset class="form-group">
-            <label>Notes</label>
-            <textarea class="form-control" name="customer-notes" rows="5" value="{{customer.notes}}" [(ngModel)]="customer.notes"></textarea>
+            <label>Order Nickname</label>
+            <input class="form-control" name="order-nickname" value="{{customer.order_nickname}}" [(ngModel)]="customer.order_nickname">
           </fieldset>
-
+          <fieldset class="form-group">
+            <label>Order Identifier</label>
+            <input class="form-control" name="order-identifier" value="{{customer.order_identifier}}" [(ngModel)]="customer.order_identifier">
+          </fieldset>
+          <fieldset class="form-group">
+            <label>Order Date</label>
+            <input class="form-control" name="order-date" value="{{customer.order_date}}" [(ngModel)]="customer.order_date">
+          </fieldset>
+          <fieldset class="form-group">
+              <label>Notes</label>
+              <textarea class="form-control" name="customer-notes" rows="3" value="{{customer.notes}}" [(ngModel)]="customer.notes"></textarea>
+          </fieldset>
         </div>
         <div class="col-xl-6">
-
+          <fieldset class="form-group">
+            <label>Shipment To</label>
+            <input class="form-control" name="shipment-name" value="{{customer.shipment_name}}" [(ngModel)]="customer.shipment_name">
+          </fieldset>
+          <fieldset class="form-group">
+            <label>Shipment Email</label>
+            <input class="form-control" name="shipment-email" value="{{customer.shipment_email}}" [(ngModel)]="customer.shipment_email">
+          </fieldset>
+          <fieldset class="form-group">
+            <label>Shipment Telephone</label>
+            <input class="form-control" name="shipment-telephone" value="{{customer.shipment_telephone}}" [(ngModel)]="customer.shipment_telephone">
+          </fieldset>
           <fieldset class="form-group">
             <label>Street Address</label>
-            <input class="form-control" name="customer-address" value="{{customer.street_address}}" [(ngModel)]="customer.street_address">
+            <input class="form-control" name="shipment-street-address" value="{{customer.shipment_street_address}}" [(ngModel)]="customer.shipment_street_address">
           </fieldset>
           <fieldset class="form-group">
             <label>City</label>
-            <input class="form-control" name="customer-city" value="{{customer.city}}" [(ngModel)]="customer.city">
+            <input class="form-control" name="shipment-city" value="{{customer.shipment_city}}" [(ngModel)]="customer.shipment_city">
           </fieldset>
           <fieldset class="form-group">
             <label>State</label>
-            <select class="form-control" name="customer-state" value="{{customer.state}}" [(ngModel)]="customer.state">
-              <option></option>
-              <option *ngFor="let state of states">{{state}}</option>
-            </select>
+            <input class="form-control" name="shipment-state" value="{{customer.shipment_state}}" [(ngModel)]="customer.shipment_state">
           </fieldset>
-        </div>
-        <div class="col-xl-4">
           <fieldset class="form-group">
             <label>Country</label>
-            <input class="form-control" name="customer-country" value="{{customer.county}}" [(ngModel)]="customer.country">
+            <input class="form-control" name="shipment-country" value="{{customer.shipment_country}}" [(ngModel)]="customer.shipment_country">
           </fieldset>
           <fieldset class="form-group">
             <label>Postal Code</label>
-            <input class="form-control" name="customer-country" value="{{customer.postal_code}}" [(ngModel)]="customer.postal_code">
+            <input class="form-control" name="shipment-postal-code" value="{{customer.shipment_postal_code}}" [(ngModel)]="customer.shipment_postal_code">
           </fieldset>
         </div>
       </div>
-
       <button type="submit" class="btn btn-primary">Submit</button>
       <button type="reset" class="btn btn-secondary">Reset</button>
-
     </form>
-
   </div>
 
   <div class="card-block bg-white" [hidden]="!submitted">
     <div class="row">
-      <div class="col-xs-3">Name</div>
-      <div class="col-xs-9  pull-left">{{ customer.name }}</div>
+      <div class="col-xl-6">
+        <div class="table-responsive">
+            <table class="table">
+                <tbody>
+                  <tr *ngIf="customer.nickname">
+                        <th>Order Nickname</th>
+                        <td>{{customer.order_nickname}}</td>
+                    </tr>
+                    <tr>
+                        <th>Customer Name</th>
+                        <td>{{customer.customer_name}}</td>
+                    </tr>
+                    <tr>
+                        <th>Customer Email</th>
+                        <td>{{customer.customer_email}}</td>
+                    </tr>
+                    <tr>
+                        <th>Customer Telephone</th>
+                        <td>{{customer.customer_telephone}}</td>
+                    </tr>
+                    <tr>
+                        <th>Order Date</th>
+                        <td>{{customer.order_date}}</td>
+                    </tr>
+                    <tr *ngIf="customer.order_identifier"> 
+                        <th>Order Identifier</th>
+                        <td>{{customer.order_identifier}}</td>
+                    </tr>
+                    <tr>
+                        <th>Order Quantity</th>
+                        <td>{{customer.order_quantity}}</td>
+                    </tr>
+                    <tr>
+                        <th>Order Status</th>
+                        <td>{{customer.order_status}}</td>
+                    </tr>
+                    <tr *ngIf="customer.notes">
+                        <td colspan="2"><b>Notes:</b> {{customer.notes}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+      </div>
+      <div class="col-xl-6">
+        <div class="table-responsive">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Ship To</th>
+                        <td>{{customer.shipment_name}}</td>
+                    </tr>
+                    <tr>
+                        <th>Shipment Email</th>
+                        <td>{{customer.shipment_email}}</td>
+                    </tr>
+                    <tr>
+                        <th>Shipment Telephone</th>
+                        <td>{{customer.shipment_telephone}}</td>
+                    </tr>
+                    <tr>
+                        <th>Address</th>
+                        <td>{{customer.shipment_street_address}}<br />{{customer.shipment_city}}, {{customer.shipment_state}}<br />{{customer.shipment_country}}</td>
+                    </tr>
+                    <tr> 
+                        <th>Shipment Date</th>
+                        <td>{{customer.shipment_date}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+      </div>
     </div>
-    <div class="row">
-      <div class="col-xs-3">Email</div>
-      <div class="col-xs-9 pull-left">{{ customer.email }}</div>
+    <hr>
+    <button class="btn btn-primary" (click)="submitted=false">Edit</button>
+    <button *ngIf="customer.order_status=='Shipped'" type="button" class="btn btn-danger" (click)="undo_ship_warning=true">Undo Shipment</button>
+    <button *ngIf="customer.order_status=='Unfulfilled'" type="button" class="btn btn-warning">Ship Order</button>
+    <button type="button" class="btn btn-danger" (click)="delete_warning=true">Delete Order</button>
+    <div *ngIf="undo_ship_warning" >
+      <hr>
+      <div class="row">
+        <div class="col-xs-6">Are you sure you want to undo the shipment?</div>
+        <div class="col-xs-6 pull-right">
+          <button class="btn btn-danger" >Yes</button>
+          <button class="btn btn-warning" (click)="undo_ship_warning=false">No</button>
+        </div>
+      </div>
     </div>
-    <div class="row">
-      <div class="col-xs-3">Phone Number</div>
-      <div class="col-xs-9 pull-left">{{ customer.telephone_number }}</div>
+    <div *ngIf="delete_warning" >
+      <hr>
+      <div class="row">
+        <div class="col-xs-6">Are you sure you want to delete the order?</div>
+        <div class="col-xs-6 pull-right">
+          <button class="btn btn-danger" >Yes</button>
+          <button class="btn btn-warning" (click)="delete_warning=false">No</button>
+        </div>
+      </div>
     </div>
-    <br>
-    <button class="btn btn-default" (click)="submitted=false">Edit</button>
   </div>
 
 </div>

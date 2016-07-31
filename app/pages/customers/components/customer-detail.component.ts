@@ -72,7 +72,7 @@ public closeAlert(i:number):void {
   }
 
   public save(){
-    if(this.customer.orderID){
+    if(this.customer.customerID){
       this.customerService.updateCustomer(this.customer)
       .subscribe((customer:Customer) => {
         this.customer = customer;
