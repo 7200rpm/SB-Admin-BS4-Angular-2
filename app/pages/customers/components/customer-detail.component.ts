@@ -57,18 +57,6 @@ public closeAlert(i:number):void {
 
   ngOnInit() {
 
-    // this.route.params
-    //   .map(params => params['id'])
-    //   .subscribe((id) => {
-    //     this.customerService.getCustomer(id)
-    //       .subscribe((customer:Customer) => this.customer = customer)
-    //   })
-
-    // let id = +this.route.snapshot.params['id'];
-    // this.customerService.getCustomer(id)
-    //   .subscribe((customer:Customer) => this.customer = customer)
-
-
     this.sub = this.route.params.subscribe(params => {
       if(params['id'] !== undefined){
         let id = +params['id'];

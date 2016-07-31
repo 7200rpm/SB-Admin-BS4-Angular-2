@@ -25,7 +25,7 @@ export class DeviceComponent implements OnInit {
     private deviceService: DeviceService) { }
 
   ngOnInit() {
-    
+
     this.getDevices();
 
     this.time_data =
@@ -50,5 +50,9 @@ export class DeviceComponent implements OnInit {
 
   onSelect(device: Device) {
     this.router.navigate(['/dashboard/device', device.deviceID]);
+  }
+
+  onVisSelect(properties: any) {
+    //alert('selected items: ' + properties.x.items);
   }
 }

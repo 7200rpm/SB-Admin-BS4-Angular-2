@@ -18,7 +18,7 @@
             <button class="btn btn-success" [routerLink]="['/dashboard', '/deviceAdd']">Create Device</button>
         </div>
     </div>
-    <ng-vis [data]="time_data"></ng-vis>
+    <ng-vis [data]="time_data" (visSelect)="onVisSelect($event)"></ng-vis>
 
     <table-device-demo [data_in]="devices" (rowClicked)="onSelect($event)"></table-device-demo>
 </div>

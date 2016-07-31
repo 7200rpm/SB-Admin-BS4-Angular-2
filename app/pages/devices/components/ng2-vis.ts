@@ -16,7 +16,7 @@ export class BaseVisComponent implements OnDestroy, OnChanges, OnInit {
   @Input() public data: Array<any[]>;
   @Input() public options: any;
 
-  // @Output() public chartClick: EventEmitter<any> = new EventEmitter();
+  @Output() public visSelect: EventEmitter<any> = new EventEmitter();
   // @Output() public chartHover: EventEmitter<any> = new EventEmitter();
 
 
@@ -62,7 +62,29 @@ export class BaseVisComponent implements OnDestroy, OnChanges, OnInit {
       height: '300px'
     }
 
-    return new vis.Timeline(this.element.nativeElement, datasets, options);
+    var t = new vis.Timeline(this.element.nativeElement, datasets, options);
+
+    var timelineEvents = [
+      'rangechange',
+      'rangechanged',
+      'timechange',
+      'timechanged',
+      'select',
+      'doubleClick',
+      'click',
+      'contextmenu'
+    ];
+
+    t.on('select', x => {this.visSelect.emit({event, x})})
+
+    // t.on('select', function(properties: any) {
+    //   this.select.emit({ event, properties });
+    //   this.
+    // });
+
+
+
+    return t;
   }
 
   private refresh(): any {

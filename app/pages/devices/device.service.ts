@@ -33,7 +33,7 @@ export class DeviceService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(this.deviceURL, body, options)
+    return this.http.post(this.deviceURL, body)
       .map(res => res.json())
       .catch(this.handleError);
   }
@@ -43,7 +43,7 @@ export class DeviceService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.put(this.deviceURL + '/' + device.deviceID, body, options)
+    return this.http.post(this.deviceURL + '/' + device.deviceID, body)
       .map(() => device)
       .catch(this.handleError);
   }
