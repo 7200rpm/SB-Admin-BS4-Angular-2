@@ -109,7 +109,7 @@
                 <tbody>
                     <tr>
                         <th>Order Date</th>
-                        <td>{{customer.order_date}}</td>
+                        <td>{{customer.order_date | date: 'MM/dd/yyyy'}}</td>
                     </tr>
                     <tr *ngIf="customer.order_identifier"> 
                         <th>Order Identifier</th>
