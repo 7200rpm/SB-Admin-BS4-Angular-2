@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {CORE_DIRECTIVES, NgClass} from '@angular/common';
+import {CORE_DIRECTIVES, NgClass, DatePipe} from '@angular/common';
 import {NgTableSortingDirective} from './ng-table-sorting.directive';
 import { ROUTER_DIRECTIVES } from '@angular/router';
 import { Router }      from '@angular/router';
@@ -94,6 +94,11 @@ export class NgCustomerTableComponent {
     // else {
     //   return propertyName.split('.').reduce((prev: any, curr: string) => prev[curr], row);
     // }
+    if(propertyName == 'order_date'){
+      var raw = propertyName.split('.').reduce((prev: any, curr: string) => prev[curr], row);
+      return new DatePipe().transform(raw, 'yyyy-MM-dd');
+    }
+
     return propertyName.split('.').reduce((prev: any, curr: string) => prev[curr], row);
   }
 }
