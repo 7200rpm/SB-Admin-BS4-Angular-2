@@ -81,82 +81,88 @@
     <div class="row">
       <div class="col-xl-6">
         <h4>Customer</h4>
-        <div class="table-responsive">
-            <table class="table">
-                <tbody>
-                  <tr *ngIf="customer.order_nickname">
-                        <th>Order Nickname</th>
-                        <td>{{customer.order_nickname}}</td>
-                    </tr>
-                    <tr>
-                        <th>Customer Name</th>
-                        <td>{{customer.customer_name}}</td>
-                    </tr>
-                    <tr>
-                        <th>Customer Email</th>
-                        <td><a href="mailto:{{customer.customer_email}}">{{customer.customer_email}}</a></td>
-                    </tr>
-                    <tr>
-                        <th>Customer Telephone</th>
-                        <td>{{customer.customer_telephone}}</td>
-                    </tr>
-                  </tbody>
-            </table>
+        <div class="card">
+          <div class="table-responsive">
+              <table class="table">
+                  <tbody>
+                    <tr *ngIf="customer.order_nickname">
+                          <th>Order Nickname</th>
+                          <td>{{customer.order_nickname}}</td>
+                      </tr>
+                      <tr>
+                          <th>Customer Name</th>
+                          <td>{{customer.customer_name}}</td>
+                      </tr>
+                      <tr>
+                          <th>Customer Email</th>
+                          <td><a href="mailto:{{customer.customer_email}}">{{customer.customer_email}}</a></td>
+                      </tr>
+                      <tr>
+                          <th>Customer Telephone</th>
+                          <td>{{customer.customer_telephone}}</td>
+                      </tr>
+                    </tbody>
+              </table>
+          </div>
         </div>
         <h4>Order</h4>
-        <div class="table-responsive">
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <th>Order Date</th>
-                        <td>{{customer.order_date}}</td>
-                    </tr>
-                    <tr *ngIf="customer.order_identifier"> 
-                        <th>Order Identifier</th>
-                        <td>{{customer.order_identifier}}</td>
-                    </tr>
-                    <tr>
-                        <th>Order Quantity</th>
-                        <td>{{customer.order_quantity}}</td>
-                    </tr>
-                    <tr>
-                        <th>Order Status</th>
-                        <td>{{customer.order_status}}</td>
-                    </tr>
-                    <tr *ngIf="customer.notes">
-                        <td colspan="2"><b>Notes:</b> {{customer.notes}}</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="card">
+          <div class="table-responsive">
+              <table class="table">
+                  <tbody>
+                      <tr>
+                          <th>Order Date</th>
+                          <td>{{customer.order_date}}</td>
+                      </tr>
+                      <tr *ngIf="customer.order_identifier"> 
+                          <th>Order Identifier</th>
+                          <td>{{customer.order_identifier}}</td>
+                      </tr>
+                      <tr>
+                          <th>Order Quantity</th>
+                          <td>{{customer.order_quantity}}</td>
+                      </tr>
+                      <tr>
+                          <th>Order Status</th>
+                          <td>{{customer.order_status}}</td>
+                      </tr>
+                      <tr *ngIf="customer.notes">
+                          <td colspan="2"><b>Notes:</b> {{customer.notes}}</td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
         </div>
       </div>
       <div class="col-xl-6">
         <h4>Shipment</h4>
-        <div class="table-responsive">
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <th>Ship To</th>
-                        <td>{{customer.shipment_name}}</td>
-                    </tr>
-                    <tr>
-                        <th>Shipment Email</th>
-                        <td>{{customer.shipment_email}}</td>
-                    </tr>
-                    <tr>
-                        <th>Shipment Telephone</th>
-                        <td>{{customer.shipment_telephone}}</td>
-                    </tr>
-                    <tr>
-                        <th>Shipment Address</th>
-                        <td><span *ngIf=customer.shipment_street_address>{{customer.shipment_street_address}}<br /></span><span *ngIf=customer.shipment_city>{{customer.shipment_city}}, </span><span *ngIf=customer.shipment_state>{{customer.shipment_state}}<br /></span>{{customer.shipment_country}}</td>
-                    </tr>
-                    <tr> 
-                        <th>Shipment Date</th>
-                        <td>{{customer.shipment_date}}</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="card">
+          <div class="table-responsive">
+              <table class="table">
+                  <tbody>
+                      <tr>
+                          <th>Ship To</th>
+                          <td>{{customer.shipment_name}}</td>
+                      </tr>
+                      <tr>
+                          <th>Shipment Email</th>
+                          <td>{{customer.shipment_email}}</td>
+                      </tr>
+                      <tr>
+                          <th>Shipment Telephone</th>
+                          <td>{{customer.shipment_telephone}}</td>
+                      </tr>
+                      <tr>
+                          <th>Shipment Address</th>
+                          <td><span *ngIf=customer.shipment_street_address>{{customer.shipment_street_address}}<br /></span><span *ngIf=customer.shipment_city>{{customer.shipment_city}}, </span><span *ngIf=customer.shipment_state>{{customer.shipment_state}}<br /></span>{{customer.shipment_country}}</td>
+                      </tr>
+                      <tr> 
+                          <th>Shipment Date</th>
+                          <td>{{customer.shipment_date}}</td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
         </div>
       </div>
     </div>
