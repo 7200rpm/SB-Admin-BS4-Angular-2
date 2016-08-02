@@ -6,5 +6,5 @@ export class Device {
   notes: string;
   power_events: any[];
   telemetry: any[];
-  scan_events: any[];
+  scans: any[];
 }

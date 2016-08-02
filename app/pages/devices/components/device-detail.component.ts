@@ -32,6 +32,8 @@ export class DeviceDetailComponent implements OnInit {
   public selected_power_event: any[];
   public selected_power_event_index: number;
 
+  public selected_scan_event_index: number = 0;
+
   public max_events: number = 100;
   public loaded_events: number = 0;
 
@@ -40,6 +42,8 @@ export class DeviceDetailComponent implements OnInit {
   public chartLabels: number[];
 	public chartData: number[];
 	public chartType: string = 'line';
+
+  public selected_event: any[];
 
   constructor(
     private deviceService: DeviceService,
@@ -76,11 +80,12 @@ export class DeviceDetailComponent implements OnInit {
     this.max_events = this.device.telemetry.length;
     this.loaded_events = 0;
     var temp_time_data = Array();
-    this.device.telemetry.forEach(element => {
+    for(var i = 0; i < this.device.telemetry.length; i++) {
+      var element = this.device.telemetry[i];
       var data = {id:element.id,content:element.event,start:element.published_at}
       temp_time_data.push(data);
       this.loaded_events++;
-    });
+    }
     this.time_data = temp_time_data;
   }
 
@@ -143,11 +148,47 @@ export class DeviceDetailComponent implements OnInit {
   // }
 
   onVisSelect(properties: any) {
-    //alert('selected items: ' + properties.x.items);
+    // Find the selected event
+    if(properties.x.items.length == 0) {
+      this.selected_event = null;
+      return;
+    }
+    for(var i = 0; i < this.device.telemetry.length; i++) {
+      if(this.device.telemetry[i].id == properties.x.items[0]) {
+        break;
+      }
+    }
+    if(i < this.device.telemetry.length) {
+      this.selected_event = this.device.telemetry[i];
+    }
   }
 
   onScanSelect(scan: any) {
     this.chartData = scan.temperatures;
+    this.selected_scan_event_index = this.FindScanIndex(scan.id);
+  }
+
+  onPreviousScan() {
+    if(this.selected_scan_event_index > 0) {
+      this.selected_scan_event_index--;
+      this.chartData = this.device.scans[this.selected_scan_event_index].temperatures;
+    }
+  }
+
+  onNextScan() {
+    if(this.selected_scan_event_index < this.device.scans.length - 1) {
+      this.selected_scan_event_index++;
+      this.chartData = this.device.scans[this.selected_scan_event_index].temperatures;
+    }
+  }
+
+  FindScanIndex(scan_id: string) {
+    for(var i = 0; i < this.device.scans.length; i++) {
+      if(this.device.scans[i].id == scan_id) {
+        return i;
+      }
+    }
+    return 0;
   }
 
 }
