@@ -11,11 +11,13 @@ import {CHART_DIRECTIVES} from 'ng2-charts/ng2-charts';
 
 import {VIS_DIRECTIVES} from './ng2-vis'
 
+import {GoogleChartComponent} from './ng2-google-charts'
+
 @Component({
   moduleId: module.id,
   selector: 'device-detail-cmp',
   templateUrl: 'device-detail.component.html',
-  directives: [TableTelemetryDemoComponent, TableDevicePowerComponent,TableDeviceScanComponent, CHART_DIRECTIVES, VIS_DIRECTIVES]
+  directives: [TableTelemetryDemoComponent, GoogleChartComponent, TableDevicePowerComponent, TableDeviceScanComponent, CHART_DIRECTIVES, VIS_DIRECTIVES]
 })
 
 export class DeviceDetailComponent implements OnInit {
@@ -40,10 +42,17 @@ export class DeviceDetailComponent implements OnInit {
   public time_data: any[];
 
   public chartLabels: number[];
-	public chartData: number[];
-	public chartType: string = 'line';
+  public chartData: number[];
+  public chartType: string = 'line';
 
   public selected_event: any[];
+
+  public myData = [
+    ['Evolution', 'Imports', 'Exports'],
+    ['A', 8695000, 6422800],
+    ['B', 3792000, 3694000],
+    ['C', 8175000, 800800]
+    ];
 
   constructor(
     private deviceService: DeviceService,
@@ -58,7 +67,10 @@ export class DeviceDetailComponent implements OnInit {
         let id = +params['id'];
         this.navigated = true;
         this.deviceService.getDevice(id)
-          .subscribe((device: Device) => this.device = device)
+          .subscribe((device: Device) => {
+            this.device = device;
+            //this.myData = this.device.telemetry;
+          })
       }
       else {
         this.navigated = false;
@@ -70,19 +82,19 @@ export class DeviceDetailComponent implements OnInit {
     this.time_data = Array();
 
     this.chartLabels = Array();
-    for(var i = 0; i < 100; i++) {
+    for (var i = 0; i < 100; i++) {
       this.chartLabels.push(i);
     }
-    
+
   }
 
   public LoadTimeline() {
     this.max_events = this.device.telemetry.length;
     this.loaded_events = 0;
     var temp_time_data = Array();
-    for(var i = 0; i < this.device.telemetry.length; i++) {
+    for (var i = 0; i < this.device.telemetry.length; i++) {
       var element = this.device.telemetry[i];
-      var data = {id:element.id,content:element.event,start:element.published_at}
+      var data = { id: element.id, content: element.event, start: element.published_at }
       temp_time_data.push(data);
       this.loaded_events++;
     }
@@ -107,11 +119,11 @@ export class DeviceDetailComponent implements OnInit {
     }
   }
 
-  public delete(){
+  public delete() {
     this.deviceService.deleteDevice(this.device)
-    .subscribe((device: Device) => {
-      this.goBack();
-    })
+      .subscribe((device: Device) => {
+        this.goBack();
+      })
   }
 
   onPowerSelect(i: number, power_event: any[]) {
@@ -149,16 +161,16 @@ export class DeviceDetailComponent implements OnInit {
 
   onVisSelect(properties: any) {
     // Find the selected event
-    if(properties.x.items.length == 0) {
+    if (properties.x.items.length == 0) {
       this.selected_event = null;
       return;
     }
-    for(var i = 0; i < this.device.telemetry.length; i++) {
-      if(this.device.telemetry[i].id == properties.x.items[0]) {
+    for (var i = 0; i < this.device.telemetry.length; i++) {
+      if (this.device.telemetry[i].id == properties.x.items[0]) {
         break;
       }
     }
-    if(i < this.device.telemetry.length) {
+    if (i < this.device.telemetry.length) {
       this.selected_event = this.device.telemetry[i];
     }
   }
@@ -169,22 +181,22 @@ export class DeviceDetailComponent implements OnInit {
   }
 
   onPreviousScan() {
-    if(this.selected_scan_event_index > 0) {
+    if (this.selected_scan_event_index > 0) {
       this.selected_scan_event_index--;
       this.chartData = this.device.scans[this.selected_scan_event_index].temperatures;
     }
   }
 
   onNextScan() {
-    if(this.selected_scan_event_index < this.device.scans.length - 1) {
+    if (this.selected_scan_event_index < this.device.scans.length - 1) {
       this.selected_scan_event_index++;
       this.chartData = this.device.scans[this.selected_scan_event_index].temperatures;
     }
   }
 
   FindScanIndex(scan_id: string) {
-    for(var i = 0; i < this.device.scans.length; i++) {
-      if(this.device.scans[i].id == scan_id) {
+    for (var i = 0; i < this.device.scans.length; i++) {
+      if (this.device.scans[i].id == scan_id) {
         return i;
       }
     }

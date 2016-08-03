@@ -7,11 +7,13 @@ import {TableDeviceDemoComponent} from './deviceTable.component'
 
 import {VIS_DIRECTIVES} from './ng2-vis'
 
+import {GoogleChartComponent} from './ng2-google-charts'
+
 @Component({
   moduleId: module.id,
   selector: 'device-cmp',
   templateUrl: 'devices.component.html',
-  directives: [ROUTER_DIRECTIVES, TableDeviceDemoComponent, VIS_DIRECTIVES]
+  directives: [ROUTER_DIRECTIVES, TableDeviceDemoComponent, VIS_DIRECTIVES, GoogleChartComponent]
 })
 
 export class DeviceComponent implements OnInit {
