@@ -42,7 +42,7 @@ export class DeviceDetailComponent implements OnInit {
   public time_data: any[];
 
   public chartLabels: number[];
-  public chartData: number[];
+  public chartData: any[];
   public chartType: string = 'line';
 
   public selected_event: any[];
@@ -69,7 +69,8 @@ export class DeviceDetailComponent implements OnInit {
         this.deviceService.getDevice(id)
           .subscribe((device: Device) => {
             this.device = device;
-            //this.myData = this.device.telemetry;
+            this.buildScanData(this.device.scans[0].temperatures);
+            console.log(this.chartData);
           })
       }
       else {
@@ -175,8 +176,18 @@ export class DeviceDetailComponent implements OnInit {
     }
   }
 
+  buildScanData(data: number[]) {
+    this.chartData = new Array();
+    this.chartData.push(new Array('Temperature'));
+    for(var i = 0; i < data.length; i++) {
+      var value = new Array();
+      value.push(data[i]);
+      this.chartData.push(value);
+    }
+  }
+
   onScanSelect(scan: any) {
-    this.chartData = scan.temperatures;
+    this.buildScanData(scan.temperatures);
     this.selected_scan_event_index = this.FindScanIndex(scan.id);
   }
 

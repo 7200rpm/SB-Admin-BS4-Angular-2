@@ -26,7 +26,7 @@ export class GoogleChartComponent implements OnInit {
     console.log('ngOnInit');
     if (!GoogleChartComponent.googleLoaded) {
       GoogleChartComponent.googleLoaded = true;
-      google.charts.load('current', { packages: ['corechart', 'bar'] });
+      google.charts.load('current', { packages: ['corechart', 'line'] });
     }
     google.charts.setOnLoadCallback(() => this.drawGraph());
   }
