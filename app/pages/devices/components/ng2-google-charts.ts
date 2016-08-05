@@ -11,7 +11,7 @@ export class GoogleChartComponent implements OnInit {
   public _element: any;
   @Input('chartType') public chartType: string;
   @Input('chartOptions') public chartOptions: Object;
-  @Input('chartData') public chartData: Object;
+  @Input('chartData') public chartData: any[];
 
   private static googleLoaded: any;
 
@@ -51,7 +51,7 @@ export class GoogleChartComponent implements OnInit {
     //   }
     // };
 
-        var wrapper;
+        var wrapper:any;
     wrapper = new google.visualization.ChartWrapper({
       chartType: this.chartType,
       dataTable: this.createDataTable(this.chartData),
