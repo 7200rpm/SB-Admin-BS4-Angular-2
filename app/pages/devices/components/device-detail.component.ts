@@ -36,19 +36,25 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
 
   public selected_scan_event_index: number = 0;
 
-  public max_events: number = 100;
-  public loaded_events: number = 0;
-
-  public time_data: any[];
+  // Timeline variables
+  public show_timeline: boolean = false; // True when timeline is to be shown
+  public loading_timeline: boolean = false; // True when the timeline is loading
+  public time_data: any[]; // Array of timeline data
+  public selected_event: any[]; // Event the user selected
 
   public device: Device = new Device()
+
+
+  // Scan plot variables
+  public scanImageUri: string;
 
   public chartLabels: number[];
   public chartData: any[];
   public chartOptions = {
     title: 'Temperature Graph',
-    width: 960,
+    width: '100%',
     height: 640,
+    legend: { position: 'bottom' },
     animation:{
         duration: 1000,
         easing: 'out',
@@ -61,8 +67,6 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
       title: 'Temperature'
     }
   };
-
-  public selected_event: any[];
 
   constructor(
     private deviceService: DeviceService,
@@ -80,8 +84,8 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
           .subscribe((device: Device) => {
             this.device = device;
             var scan_data = this.buildScanData(this.device.scans[0].temperatures);
-
             this.chartData = scan_data;
+            // this.LoadTimeline();
 
           })
       }
@@ -111,16 +115,14 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
   }
 
   public LoadTimeline() {
-    this.max_events = this.device.telemetry.length;
-    this.loaded_events = 0;
-    var temp_time_data = Array();
+    this.show_timeline = true
+    this.loading_timeline = true;
+    var temp_time_data = Array(this.device.telemetry.length);
     for (var i = 0; i < this.device.telemetry.length; i++) {
-      var element = this.device.telemetry[i];
-      var data = { id: element.id, content: element.event, start: element.published_at }
-      temp_time_data.push(data);
-      this.loaded_events++;
+      temp_time_data[i] = { id: this.device.telemetry[i].id, content: this.device.telemetry[i].event, start: this.device.telemetry[i].published_at };
     }
     this.time_data = temp_time_data;
+    this.loading_timeline = false;
   }
 
   public save() {
@@ -209,25 +211,21 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
   }
 
   onScanSelect(scan: any) {
-    this.buildScanData(scan.temperatures);
+    this.chartData = this.buildScanData(scan.temperatures);
     this.selected_scan_event_index = this.FindScanIndex(scan.id);
   }
 
   onPreviousScan() {
     if (this.selected_scan_event_index > 0) {
       this.selected_scan_event_index--;
-            var scan_data = this.buildScanData(this.device.scans[this.selected_scan_event_index].temperatures);
-
-       this.chartData = scan_data;
+      this.chartData = this.buildScanData(this.device.scans[this.selected_scan_event_index].temperatures);
     }
   }
 
   onNextScan() {
     if (this.selected_scan_event_index < this.device.scans.length - 1) {
       this.selected_scan_event_index++;
-      var scan_data = this.buildScanData(this.device.scans[this.selected_scan_event_index].temperatures);
-
-       this.chartData = scan_data;
+      this.chartData = this.buildScanData(this.device.scans[this.selected_scan_event_index].temperatures);
     }
   }
 

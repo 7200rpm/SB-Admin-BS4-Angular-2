@@ -11,7 +11,6 @@ export class GoogleChartComponent implements OnInit, AfterViewInit {
   public _element: any;
   @Input('chartType') public chartType: string;
   @Input('chartOptions') public chartOptions: Object;
-
   @Input('chartData') public set chartData(values: Array<any>) {
 
     if (!GoogleChartComponent.googleLoaded || !values) return;
@@ -19,6 +18,8 @@ export class GoogleChartComponent implements OnInit, AfterViewInit {
     this.data = values;
     this.drawGraph();
   }
+
+  public imageURI: string;
 
   private data: Array<any>;
 
@@ -78,6 +79,8 @@ export class GoogleChartComponent implements OnInit, AfterViewInit {
       containerId: this._element.nativeElement
     });
     wrapper.draw();
+    console.log(wrapper.getChart().getImageURI());
+    this.imageURI = wrapper.getChart().getImageURI();
   }
 
   createDataTable(array: any[]): any {
