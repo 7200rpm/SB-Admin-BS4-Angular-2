@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, AfterViewInit, ViewContainerRef } from '@angular/core';
 import {DeviceService} 			from '../device.service'
 import { Device } from '../device';
 import { Router, ActivatedRoute }       from '@angular/router';
@@ -20,11 +20,11 @@ import {GoogleChartComponent} from './ng2-google-charts'
   directives: [TableTelemetryDemoComponent, GoogleChartComponent, TableDevicePowerComponent, TableDeviceScanComponent, CHART_DIRECTIVES, VIS_DIRECTIVES]
 })
 
-export class DeviceDetailComponent implements OnInit {
-  @Input() device: Device;
-  @Output() close = new EventEmitter();
+export class DeviceDetailComponent implements OnInit, AfterViewInit {
   error: any;
   navigated = false; // true if navigated here
+
+    @ViewChild('yourchart', { read: GoogleChartComponent }) gchart: GoogleChartComponent;
 
   private sub: any;
 
@@ -41,24 +41,34 @@ export class DeviceDetailComponent implements OnInit {
 
   public time_data: any[];
 
+  public device: Device = new Device()
+
   public chartLabels: number[];
   public chartData: any[];
-  public chartType: string = 'line';
+  public chartOptions = {
+    title: 'Temperature Graph',
+    width: 960,
+    height: 640,
+    animation:{
+        duration: 1000,
+        easing: 'out',
+      },
+    hAxis: {
+      title: 'Sweep',
+      minValue: 0
+    },
+    vAxis: {
+      title: 'Temperature'
+    }
+  };
 
   public selected_event: any[];
-
-  public myData = [
-    ['Evolution', 'Imports', 'Exports'],
-    ['A', 8695000, 6422800],
-    ['B', 3792000, 3694000],
-    ['C', 8175000, 800800]
-    ];
 
   constructor(
     private deviceService: DeviceService,
     private route: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {  }
 
   ngOnInit() {
 
@@ -69,13 +79,16 @@ export class DeviceDetailComponent implements OnInit {
         this.deviceService.getDevice(id)
           .subscribe((device: Device) => {
             this.device = device;
-            this.buildScanData(this.device.scans[0].temperatures);
-            console.log(this.chartData);
+            var scan_data = this.buildScanData(this.device.scans[0].temperatures);
+
+            this.chartData = scan_data;
+
           })
       }
       else {
         this.navigated = false;
         this.device = new Device();
+        this.submitted = false;
       }
     })
 
@@ -86,6 +99,14 @@ export class DeviceDetailComponent implements OnInit {
     for (var i = 0; i < 100; i++) {
       this.chartLabels.push(i);
     }
+
+
+  }
+
+  ngAfterViewInit() {
+
+    //console.log(this.gchart.chartType)
+
 
   }
 
@@ -177,13 +198,14 @@ export class DeviceDetailComponent implements OnInit {
   }
 
   buildScanData(data: number[]) {
-    this.chartData = new Array();
-    this.chartData.push(new Array('Temperature'));
-    for(var i = 0; i < data.length; i++) {
-      var value = new Array();
-      value.push(data[i]);
-      this.chartData.push(value);
+    var data_out = new Array();
+    data_out.push(new Array('id', 'Temperature'));
+    for (var i = 0; i < data.length; i++) {
+      var value = new Array(i, data[i]);
+      //value.push({i, data[i]});
+      data_out.push(value);
     }
+    return data_out;
   }
 
   onScanSelect(scan: any) {
@@ -194,14 +216,18 @@ export class DeviceDetailComponent implements OnInit {
   onPreviousScan() {
     if (this.selected_scan_event_index > 0) {
       this.selected_scan_event_index--;
-      this.chartData = this.device.scans[this.selected_scan_event_index].temperatures;
+            var scan_data = this.buildScanData(this.device.scans[this.selected_scan_event_index].temperatures);
+
+       this.chartData = scan_data;
     }
   }
 
   onNextScan() {
     if (this.selected_scan_event_index < this.device.scans.length - 1) {
       this.selected_scan_event_index++;
-      this.chartData = this.device.scans[this.selected_scan_event_index].temperatures;
+      var scan_data = this.buildScanData(this.device.scans[this.selected_scan_event_index].temperatures);
+
+       this.chartData = scan_data;
     }
   }
 

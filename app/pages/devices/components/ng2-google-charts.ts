@@ -1,4 +1,4 @@
-import {Directive, ElementRef, Input, OnInit} from '@angular/core';
+import {Directive, ElementRef, Input, OnInit, AfterViewInit} from '@angular/core';
 
 declare var google: any;
 
@@ -6,29 +6,44 @@ declare var google: any;
   selector: 'google-chart'
 })
 
-export class GoogleChartComponent implements OnInit {
+export class GoogleChartComponent implements OnInit, AfterViewInit {
 
   public _element: any;
   @Input('chartType') public chartType: string;
   @Input('chartOptions') public chartOptions: Object;
-  @Input('chartData') public chartData: any[];
+
+  @Input('chartData') public set chartData(values: Array<any>) {
+
+    if (!GoogleChartComponent.googleLoaded || !values) return;
+
+    this.data = values;
+    this.drawGraph();
+  }
+
+  private data: Array<any>;
 
   private static googleLoaded: any;
 
   constructor(public element: ElementRef) {
-    this._element = this.element.nativeElement;
+    this._element = this.element;
   }
 
   getGoogle() {
     return google;
   }
+
   ngOnInit() {
     console.log('ngOnInit');
     if (!GoogleChartComponent.googleLoaded) {
       GoogleChartComponent.googleLoaded = true;
       google.charts.load('current', { packages: ['corechart', 'line'] });
+
     }
     google.charts.setOnLoadCallback(() => this.drawGraph());
+  }
+
+  ngAfterViewInit() {
+
   }
 
   drawGraph() {
@@ -51,12 +66,16 @@ export class GoogleChartComponent implements OnInit {
     //   }
     // };
 
-        var wrapper:any;
+    if (!GoogleChartComponent.googleLoaded) return;
+
+    if (!this.data) return;
+
+    var wrapper: any;
     wrapper = new google.visualization.ChartWrapper({
       chartType: this.chartType,
-      dataTable: this.createDataTable(this.chartData),
+      dataTable: this.createDataTable(this.data),
       options: this.chartOptions || {},
-      containerId: this._element.id
+      containerId: this._element.nativeElement
     });
     wrapper.draw();
   }

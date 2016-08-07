@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output, OnInit} from '@angular/core';
 import { FORM_DIRECTIVES }    from '@angular/forms';
 import { Customer }    from '../customer';
 
@@ -7,7 +7,7 @@ import { Customer }    from '../customer';
   selector: 'customer-form',
   templateUrl: 'customer-form.component.html'
 })
-export class CustomerFormComponent {
+export class CustomerFormComponent implements OnInit {
 
   @Input() public customer: Customer;
 
@@ -18,30 +18,35 @@ export class CustomerFormComponent {
   public ship_warning = false;
   public undo_ship_warning = false;
 
-  public states:Array<string> = ['Alabama', 'Alaska', 'Arizona', 'Arkansas',
-	'California', 'Colorado',
-	'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho',
-	'Illinois', 'Indiana', 'Iowa',
-	'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts',
-	'Michigan', 'Minnesota',
-	'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-	'New Jersey', 'New Mexico',
-	'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon',
-	'Pennsylvania', 'Rhode Island',
-	'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-	'Virginia', 'Washington',
-	'West Virginia', 'Wisconsin', 'Wyoming'];
+  public states: Array<string> = ['Alabama', 'Alaska', 'Arizona', 'Arkansas',
+    'California', 'Colorado',
+    'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho',
+    'Illinois', 'Indiana', 'Iowa',
+    'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts',
+    'Michigan', 'Minnesota',
+    'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
+    'New Jersey', 'New Mexico',
+    'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon',
+    'Pennsylvania', 'Rhode Island',
+    'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
+    'Virginia', 'Washington',
+    'West Virginia', 'Wisconsin', 'Wyoming'];
+
+  ngOnInit() {
+    // If a new customer, go to edit mode
+    if (!this.customer.customerID) { this.submitted = false; }
+  }
 
   onSubmit() { this.submitted = true; }
 
-  ShipOrder() { 
+  ShipOrder() {
     this.ship_warning = false;
-    this.customer.order_status = 'Shipped'; 
+    this.customer.order_status = 'Shipped';
   }
 
-  UndoShip() { 
+  UndoShip() {
     this.undo_ship_warning = false;
-    this.customer.order_status = 'Unfulfilled'; 
+    this.customer.order_status = 'Unfulfilled';
   }
 
 

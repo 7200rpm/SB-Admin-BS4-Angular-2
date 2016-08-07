@@ -10,6 +10,7 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
 
 export class ChartComponent implements OnInit {
 	ngOnInit() {
+
         var container:any = $('#container');
         container.highcharts({
 		    chart: {
