@@ -18,6 +18,26 @@ export class TelemetryComponent implements OnInit {
   events: any[]
   mode = 'Observable'
 
+  public chartOptions = {
+    title: 'Telemetry Stream',
+    width: '100%',
+    height: 640,
+    legend: { position: 'bottom' },
+    animation:{
+        duration: 1000,
+        easing: 'out',
+      },
+    hAxis: {
+      title: 'Time',
+      minValue: 0
+    },
+    vAxis: {
+      title: 'Events Per Hour'
+    }
+  };
+
+  public chartData: any[];
+
   constructor(
     private router: Router,
     private telemetryService: TelemetryService) { }
@@ -29,7 +49,15 @@ export class TelemetryComponent implements OnInit {
       .subscribe(
       telemetry => this.events = telemetry,
       error => this.errorMessage = <any>error,
-      () => console.log('Telemetry Loaded')
+      () => {
+        console.log('Telemetry Loaded')
+        this.chartData = [
+    ['Evolution', 'Imports', 'Exports'],
+    ['A', 8695000, 6422800],
+    ['B', 3792000, 3694000],
+    ['C', 8175000, 800800]
+    ];
+      }
       )
   }
 

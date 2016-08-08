@@ -34,7 +34,7 @@ export class GoogleChartComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    console.log('ngOnInit');
+    console.log('Google Charts ngOnInit');
     if (!GoogleChartComponent.googleLoaded) {
       GoogleChartComponent.googleLoaded = true;
       google.charts.load('current', { packages: ['corechart', 'line'] });
@@ -79,8 +79,10 @@ export class GoogleChartComponent implements OnInit, AfterViewInit {
       containerId: this._element.nativeElement
     });
     wrapper.draw();
-    console.log(wrapper.getChart().getImageURI());
-    this.imageURI = wrapper.getChart().getImageURI();
+    if(wrapper != null && wrapper.getChart() != null && wrapper.getChart().getImageURI() != null) {
+      console.log(wrapper.getChart().getImageURI());
+      this.imageURI = wrapper.getChart().getImageURI();
+    }
   }
 
   createDataTable(array: any[]): any {

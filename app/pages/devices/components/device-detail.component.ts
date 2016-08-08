@@ -52,7 +52,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
   public chartData: any[];
   public chartOptions = {
     title: 'Temperature Graph',
-    width: '100%',
+    chartArea: {width: '100%'},
     height: 640,
     legend: { position: 'bottom' },
     animation:{
