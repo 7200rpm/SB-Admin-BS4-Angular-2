@@ -83,8 +83,10 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
         this.deviceService.getDevice(id)
           .subscribe((device: Device) => {
             this.device = device;
-            var scan_data = this.buildScanData(this.device.scans[0].temperatures);
-            this.chartData = scan_data;
+            if(this.device.scans.length > 0) {
+              var scan_data = this.buildScanData(this.device.scans[0].temperatures);
+              this.chartData = scan_data;
+            }
             // this.LoadTimeline();
 
           })
