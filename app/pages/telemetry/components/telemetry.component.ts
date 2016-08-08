@@ -4,12 +4,13 @@ import {TelemetryService} 			from '../telemetry.service';
 
 import { Router }              from '@angular/router';
 import { TableTelemetryComponent }              from './telemetryTable.component';
+import {GoogleChartComponent} from '../../devices/components/ng2-google-charts'
 
 @Component({
   moduleId: module.id,
   selector: 'telemetry-cmp',
   templateUrl: 'telemetry.component.html',
-  directives: [ROUTER_DIRECTIVES, TableTelemetryComponent]
+  directives: [ROUTER_DIRECTIVES, TableTelemetryComponent,GoogleChartComponent]
 })
 
 export class TelemetryComponent implements OnInit {
