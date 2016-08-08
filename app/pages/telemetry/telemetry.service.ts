@@ -9,7 +9,7 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class TelemetryService {
 
-  private telemetryURL = 'http://wakeapi.azurewebsites.net/v1/telemetry';  // URL to web API
+  private telemetryURL = 'http://wakedotnet.azurewebsites.net/v1/telemetry';  // URL to web API
   private events: any[]
 
   constructor(private http: Http) { }

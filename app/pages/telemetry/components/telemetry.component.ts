@@ -3,12 +3,13 @@ import { ROUTER_DIRECTIVES } 	from '@angular/router';
 import {TelemetryService} 			from '../telemetry.service';
 
 import { Router }              from '@angular/router';
+import { TableTelemetryComponent }              from './telemetryTable.component';
 
 @Component({
   moduleId: module.id,
   selector: 'telemetry-cmp',
   templateUrl: 'telemetry.component.html',
-  directives: [ROUTER_DIRECTIVES]
+  directives: [ROUTER_DIRECTIVES, TableTelemetryComponent]
 })
 
 export class TelemetryComponent implements OnInit {
