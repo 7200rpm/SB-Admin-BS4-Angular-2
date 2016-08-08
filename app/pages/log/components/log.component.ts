@@ -34,7 +34,7 @@ public error: any[];
       )
   }
 
-  onRequestSelect(request:any[]) {
+  onRequestSelect(request:any) {
     if(request.error != null) {
       this.error = request.error;
     }
