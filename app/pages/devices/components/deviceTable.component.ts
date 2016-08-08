@@ -2,6 +2,7 @@ import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 import {CORE_DIRECTIVES, NgClass, NgIf} from '@angular/common';
 import {PAGINATION_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 import {NG_TABLE_DIRECTIVES} from '../../../components/ng2-table';
+import { ROUTER_DIRECTIVES } 	from '@angular/router';
 
 import { FORM_DIRECTIVES }    from '@angular/forms';
 
@@ -61,6 +62,9 @@ import {Device} 						from '../device'
        </select>
     </fieldset>
   </div>
+  <div class="col-xl-2">
+      <button class="btn btn-success" [routerLink]="['/dashboard', '/deviceAdd']">Create Device</button>
+  </div>
 <div>
 
   <ng-device-table [config]="config.sorting"
@@ -81,7 +85,7 @@ import {Device} 						from '../device'
   </pagination>
   <pre *ngIf="config.paging" class="card card-block card-header">Page: {{page}} / {{numPages}} </pre>
   `,
-    directives: [NG_TABLE_DIRECTIVES, PAGINATION_DIRECTIVES, NgClass, NgIf, CORE_DIRECTIVES, FORM_DIRECTIVES]
+    directives: [ROUTER_DIRECTIVES, NG_TABLE_DIRECTIVES, PAGINATION_DIRECTIVES, NgClass, NgIf, CORE_DIRECTIVES, FORM_DIRECTIVES]
 })
 export class TableDeviceDemoComponent implements OnInit {
 
