@@ -51,16 +51,14 @@
             </div>
         </div>
         <div class="col-xl-6">
-            <div *ngFor="let event of log_events" >
-                <div *ngIf="event.error" class="card card-danger card-inverse">
-                    <div class="card-header card-danger">
-                        Error
-                    </div>
-                    <div class="card-block bg-white">
-                        <b>Error:</b> {{event.error.error}}<br />
-                        <b>Trace:</b> {{event.error.trace}}<br />
-                        <b>Notes:</b> {{event.error.notes}}<br />
-                    </div>
+            <div *ngIf="error" class="card card-danger card-inverse">
+                <div class="card-header card-danger">
+                    Error
+                </div>
+                <div class="card-block bg-white">
+                    <b>Error:</b> {{error.error}}<br />
+                    <b>Trace:</b> {{error.trace}}<br />
+                    <b>Notes:</b> {{error.notes}}<br />
                 </div>
             </div>
         </div>
@@ -69,33 +67,8 @@
         <div class="col-xl-12 col-xl-12">
             <div class="card card-block">
             <h4>API Calls</h4>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Timestamp</th>
-                                <th>IP Address</th>
-                                <th>User</th>
-                                <th>Endpoint</th>
-                                <th>Response Code</th>
-                                <th>Execution Time</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let event of log_events" [attr.class]="event.error ? 'table-danger' : 'table-success'">
-                            <td *ngIf="event.error"><i class="fa fa-exclamation-triangle"></i></td>
-                            <td *ngIf="!event.error"></td>
-                            <td>{{event.requested_at}}</td>
-                            <td><a href="http://whatismyipaddress.com/ip/{{event.IPaddress}}" target="_blank">{{event.IPaddress}}</a></td>
-                            <td>{{event.userID}}</td>
-                            <td>{{event.verb}} {{event.req_object}}<span *ngIf="event.objectID">/{{event.objectID}}</span><span *ngIf="event.method">/{{event.method}}</span></td>
-                            <td>{{event.response_code}}</td>
-                            <td>{{event.execution_time}}</td>
-                          </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <table-api-log [data_in]=log_events (rowClicked)="onRequestSelect($event)">
+            </table-api-log>
             </div>
         </div>
     </div>
