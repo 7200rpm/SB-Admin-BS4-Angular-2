@@ -10,7 +10,7 @@ import 'rxjs/add/operator/catch';
 export class TelemetryService {
 
   private telemetryURL = 'http://wakedotnet.azurewebsites.net/v1/telemetry';  // URL to web API
-  private events: any[]
+  private telemetry: any[];
 
   constructor(private http: Http) { }
 

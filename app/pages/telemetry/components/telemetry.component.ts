@@ -15,12 +15,13 @@ import {GoogleChartComponent} from '../../devices/components/ng2-google-charts'
 
 export class TelemetryComponent implements OnInit {
   errorMessage: string
-  events: any[]
+  telemetry: any;
+  events: any[];
   mode = 'Observable'
 
   public chartOptions = {
     title: 'Telemetry Stream',
-    width: '100%',
+    width: 800,
     height: 640,
     legend: { position: 'bottom' },
     animation:{
@@ -29,11 +30,16 @@ export class TelemetryComponent implements OnInit {
       },
     hAxis: {
       title: 'Time',
-      minValue: 0
     },
-    vAxis: {
-      title: 'Events Per Hour'
-    }
+    series: {
+        0: {targetAxisIndex: 0},
+        1: {targetAxisIndex: 1}
+      },
+      vAxes: {
+        // Adds titles to each axis.
+        0: {title: 'Total Events per Hour'},
+        1: {title: 'Active Devices per Hour'}
+      }
   };
 
   public chartData: any[];
@@ -47,18 +53,24 @@ export class TelemetryComponent implements OnInit {
   getTelemetry() {
     this.telemetryService.getTelemetry()
       .subscribe(
-      telemetry => this.events = telemetry,
+      telemetry => this.telemetry = telemetry,
       error => this.errorMessage = <any>error,
       () => {
-        console.log('Telemetry Loaded')
-        this.chartData = [
-    ['Evolution', 'Imports', 'Exports'],
-    ['A', 8695000, 6422800],
-    ['B', 3792000, 3694000],
-    ['C', 8175000, 800800]
-    ];
+        console.log('Telemetry Loaded');
+        console.log(this.telemetry);
+        this.events = this.telemetry.events;
+        this.chartData = this.loadChartData();
       }
       )
   }
 
+  loadChartData() {
+    var data_out = new Array();
+    data_out.push(new Array('Timestamp','Events','Devices'));
+    for (var i = 0; i < this.telemetry.stream.length; i++) {
+      var value = new Array(new Date(this.telemetry.stream[i].time), this.telemetry.stream[i].events, this.telemetry.stream[i].devices);
+      data_out.push(value);
+    }
+    return data_out;
+  }
 }
