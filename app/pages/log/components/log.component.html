@@ -19,46 +19,37 @@
     <div class="row">
         <div class="col-xl-6 col-lg-12">
             <div class="card card-block">
-                <h4>Authentications</h4>
+                <h4>Users</h4>
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Timestamp</th>
-                                <th>IP Address</th>
                                 <th>User</th>
+                                <th>Last Request</th>
+                                <th>IP Address</th>
                             </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>2016-07-09 05:33:27</td>
-                            <td>123.456.789.123</td>
-                            <td>Will Russell</td>
-                          </tr>
-                          <tr>
-                            <td>2016-07-09 05:33:27</td>
-                            <td>123.456.789.123</td>
-                            <td>Gregory Eslinger</td>
-                          </tr>
-                          <tr>
-                            <td>2016-07-09 05:33:27</td>
-                            <td>123.456.789.123</td>
-                            <td>Brandon Brown</td>
+                          <tr *ngFor="let user of users">
+                            <td><a href="mailto:{{user.email}}">{{user.name}}</a></td>
+                            <td>{{user.last_request}}</td>
+                            <td>{{user.IPaddress}}</td>
                           </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        <div class="col-xl-6">
-            <div *ngIf="error" class="card card-danger card-inverse">
+    </div>
+    <div *ngIf="error" class="row">
+        <div class="col-xl-12">
+            <div class="card card-danger card-inverse">
                 <div class="card-header card-danger">
                     Error
                 </div>
                 <div class="card-block bg-white">
                     <b>Error:</b> {{error.error}}<br />
                     <b>Trace:</b> {{error.trace}}<br />
-                    <b>Notes:</b> {{error.notes}}<br />
                 </div>
             </div>
         </div>
@@ -67,7 +58,7 @@
         <div class="col-xl-12 col-xl-12">
             <div class="card card-block">
             <h4>API Calls</h4>
-            <table-api-log [data_in]=log_events (rowClicked)="onRequestSelect($event)">
+            <table-api-log [data_in]=APIrequests (rowClicked)="onRequestSelect($event)">
             </table-api-log>
             </div>
         </div>

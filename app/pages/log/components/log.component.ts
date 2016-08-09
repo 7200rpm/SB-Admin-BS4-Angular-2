@@ -13,11 +13,13 @@ import {TableAPILogComponent} from './logTable.component';
 })
 
 export class LogComponent implements OnInit {
-  errorMessage: string
-  log_events: any[]
+  errorMessage: string;
+  log_events: any;
+  APIrequests: any[];
+  users: any;
   mode = 'Observable'
 
-public error: any[];
+public error: any;
 
   constructor(
     private router: Router,
@@ -30,13 +32,18 @@ public error: any[];
       .subscribe(
       log => this.log_events = log,
       error => this.errorMessage = <any>error,
-      () => console.log('Log Loaded')
+      () => {
+        console.log('Log Loaded');
+        this.APIrequests = this.log_events.requests;
+        this.users = this.log_events.users;
+      }
       )
   }
 
   onRequestSelect(request:any) {
     if(request.error != null) {
-      this.error = request.error;
+      this.error = request;
+      this.error.error = JSON.parse(request.error).error;
     }
   }
 

@@ -76,7 +76,7 @@ export class TableAPILogComponent implements OnInit {
       if (values) {
          this.data = values;
          for(var i = 0; i < this.data.length; i++) {
-           var endpoint:string = this.data[i]['verb'] + " " + this.data[i]['req_object'];
+           var endpoint:string = this.data[i]['http_method'] + " " + this.data[i]['req_object'];
            if(this.data[i]['objectID'] != null) {
              endpoint += "/" + this.data[i]['objectID'];
            }
@@ -96,7 +96,7 @@ export class TableAPILogComponent implements OnInit {
   public columns: Array<any> = [
     { title: 'Timestamp', name: 'requested_at' },
     { title: 'IP Address', name: 'IPaddress' },
-    { title: 'User', name: 'userID' },
+    { title: 'User', name: 'name' },
     { title: 'Endpoint', name: 'endpoint' },
     { title: 'Response Code', name: 'response_code'},
     { title: 'Execution Time', name: 'execution_time'}
