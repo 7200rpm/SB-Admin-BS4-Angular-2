@@ -13,6 +13,16 @@ import {TelemetryService} 			from '../telemetry.service';
 @Component({
   selector: 'table-telemetry',
   template: `
+    <div class="row">
+      <div class="col-xl-12">
+        <fieldset class="form-group">
+          <input *ngIf="configEvent.filtering" placeholder="Search Events"
+            class="form-control"
+            [ngTableFiltering]="configEvent.filtering"
+            (tableChanged)="onChangeTable(configEvent)"/>
+        </fieldset>
+      </div>
+    </div>
 
     <ng-customer-table [config]="config.sorting"
                 (tableChanged)="onChangeTable(config)"
@@ -65,6 +75,12 @@ export class TableTelemetryComponent implements OnInit {
     paging: true,
     sorting: { columns: this.columns },
     filtering: { filterString: '', columnName: 'published_at' }
+  };
+
+  public configEvent: any = {
+    paging: true,
+    sorting: { columns: this.columns },
+    filtering: { filterString: '', columnName: 'event' }
   };
 
   errorMessage: string
