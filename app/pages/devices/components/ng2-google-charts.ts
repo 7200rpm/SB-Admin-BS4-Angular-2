@@ -80,7 +80,6 @@ export class GoogleChartComponent implements OnInit, AfterViewInit {
     });
     wrapper.draw();
     if(wrapper != null && wrapper.getChart() != null && wrapper.getChart().getImageURI() != null) {
-      console.log(wrapper.getChart().getImageURI());
       this.imageURI = wrapper.getChart().getImageURI();
     }
   }

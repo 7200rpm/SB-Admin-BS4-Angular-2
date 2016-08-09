@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild, AfterViewIni
 import {DeviceService} 			from '../device.service'
 import { Device } from '../device';
 import { Router, ActivatedRoute }       from '@angular/router';
-
+import { AlertComponent, BUTTON_DIRECTIVES, DROPDOWN_DIRECTIVES, PAGINATION_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 import {TableTelemetryDemoComponent} from './telemetryTable.component';
 import {TableDevicePowerComponent} from './powerTable.component';
 import {TableDeviceScanComponent} from './scanTable.component';
@@ -17,7 +17,7 @@ import {GoogleChartComponent} from './ng2-google-charts'
   moduleId: module.id,
   selector: 'device-detail-cmp',
   templateUrl: 'device-detail.component.html',
-  directives: [TableTelemetryDemoComponent, GoogleChartComponent, TableDevicePowerComponent, TableDeviceScanComponent, CHART_DIRECTIVES, VIS_DIRECTIVES]
+  directives: [AlertComponent,BUTTON_DIRECTIVES, DROPDOWN_DIRECTIVES, PAGINATION_DIRECTIVES,TableTelemetryDemoComponent, GoogleChartComponent, TableDevicePowerComponent, TableDeviceScanComponent, CHART_DIRECTIVES, VIS_DIRECTIVES]
 })
 
 export class DeviceDetailComponent implements OnInit, AfterViewInit {
@@ -42,6 +42,46 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
   public time_data: any[]; // Array of timeline data
   public selected_event: any[]; // Event the user selected
 
+  // Power plot variables
+  public powerChartData: any[];
+  public powerChartDataLength: number;
+  public powerChartOptions = {
+    title: '',
+    subtitle: '',
+    chartArea: {width: '80%'},
+    width: 500,
+    height: 640,
+    legend: { position: 'right' },
+    animation:{
+        duration: 1000,
+        easing: 'out',
+      },
+    hAxis: {
+      title: 'Time'
+    },
+    vAxis: {
+      title: 'Voltage'
+    },
+    trendlines: {
+      0: {
+        type: 'linear',
+        color: 'green',
+        lineWidth: 3,
+        opacity: 0.3,
+        showR2: true,
+        visibleInLegend: true
+      },
+      1: {
+        type: 'linear',
+        color: 'yellow',
+        lineWidth: 3,
+        opacity: 0.3,
+        showR2: true,
+        visibleInLegend: true
+      }
+    }
+  };
+
   public device: Device = new Device()
 
 
@@ -52,7 +92,8 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
   public chartData: any[];
   public chartOptions = {
     title: 'Temperature Graph',
-    chartArea: {width: '100%'},
+    chartArea: {width: '80%'},
+    width: 500,
     height: 640,
     legend: { position: 'bottom' },
     animation:{
@@ -86,6 +127,10 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
             if(this.device.scans.length > 0) {
               var scan_data = this.buildScanData(this.device.scans[0].temperatures);
               this.chartData = scan_data;
+            }
+            if(this.device.power_events.length > 0) {
+              this.powerChartData = this.buildPowerData(this.device.power_events[0].voltage);
+              console.log(this.powerChartData);
             }
             // this.LoadTimeline();
 
@@ -152,9 +197,22 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
       })
   }
 
-  onPowerSelect(i: number, power_event: any[]) {
-    this.selected_power_event = power_event;
-    this.selected_power_event_index = i;
+  buildPowerData(data: any[]) {
+    var data_out = new Array();
+    data_out.push(new Array('Timestamp','Battery Voltage','Input Voltage'));
+    for (var i = 0; i < data.length; i++) {
+      var value = new Array(new Date(data[i].timestamp), data[i].b, data[i].p);
+      //value.push({i, data[i]});
+      data_out.push(value);
+    }
+    return data_out;
+  }
+
+  onPowerSelect(power_event: any) {
+    this.powerChartData = this.buildPowerData(power_event.voltage);
+    this.powerChartDataLength = this.powerChartData.length;
+    this.powerChartOptions.title = power_event.event_type + " of " + this.device.serial_number;
+    this.powerChartOptions.subtitle = (new Date(power_event.start_time)).toString();
   }
 
   onNextPower() {

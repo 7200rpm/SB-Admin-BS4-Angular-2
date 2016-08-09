@@ -163,20 +163,26 @@
                 <div class="row">
                     <div class="col-xl-6">
                         <h3>Power Events</h3>
-                        <table-device-power [data_in]=device.power_events>
+                        <table-device-power [data_in]=device.power_events (rowClicked)="onPowerSelect($event)">
                         </table-device-power>
                     </div>
                     <div class="col-xl-6">
-                        <div *ngIf="selected_power_event">
-                            <h4>{{selected_power_event.type}}</h4> {{selected_power_event.start_time}} - {{selected_power_event.end_time}}
+                        <div *ngIf="powerChartDataLength > 1">
+                            <google-chart #yourchart id="powerchart" chartType="LineChart" [chartOptions]="powerChartOptions" [chartData]="powerChartData"></google-chart>
+                            <fieldset disabled="">
+                                <button class="btn btn-warning">Export as PNG</button>
+                            </fieldset>
                         </div>
-                        <div *ngIf="!selected_power_event">
-                            <h4>Select a power event</h4>
+                        <div *ngIf="powerChartDataLength == 1">
+                            <alert type='danger' dismissible="true">
+                                The selected duration does not contain any voltage information
+                            </alert>
                         </div>
-                        <iframe src="http://wakeapi.azurewebsites.net/charts/voltage.php" style="border:none" width="100%" height="800"></iframe>
-                        <button type="button" class="btn btn-primary" (click)="onPreviousPower()">Previous</button>
-                        <button type="button" class="btn btn-primary" (click)="onNextPower()">Next</button>
-                        <a href="#" target="_blank" class="btn btn-warning">Export as PNG</a>
+                        <div *ngIf="!powerChartDataLength">
+                            <alert type='warning' dismissible="true">
+                                Select a row for more information
+                            </alert>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -189,11 +195,13 @@
                     </div>
                     <div class="col-xl-6">
                         <!-- (chartHover)="chartHovered($event)" -->
-                        <google-chart #yourchart id="mychart" chartType="LineChart" [chartOptions]="chartOptions" [chartData]="chartData" [(imageUri)]="scanImageUri" style="width: 100%"></google-chart>
+                        <google-chart #yourchart id="mychart" chartType="LineChart" [chartOptions]="chartOptions" [chartData]="chartData" [(imageUri)]="scanImageUri"></google-chart>
                         <!-- <base-chart style="display: block; width: 100%; height: 100%" class="chart" [data]="chartData" [labels]="chartLabels" [chartType]="chartType" (chartClick)="chartClicked($event)"></base-chart> -->
                         <button type="button" class="btn btn-primary" (click)="onPreviousScan()">Previous</button>
                         <button type="button" class="btn btn-primary" (click)="onNextScan()">Next</button>
-                        <a href="{{scanImageUri}}" target="_blank" class="btn btn-warning">Export as PNG</a>
+                        <fieldset disabled="">
+                            <button class="btn btn-warning">Export as PNG</button>
+                        </fieldset>
                     </div>
                 </div>
             </div>

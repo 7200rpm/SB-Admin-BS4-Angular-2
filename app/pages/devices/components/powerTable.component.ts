@@ -53,8 +53,8 @@ export class TableDevicePowerComponent implements OnInit {
   public columns: Array<any> = [
     { title: 'Type', name: 'event_type' },
     { title: 'Start Time', name: 'start_time' },
-    { title: 'End Time', name: 'end_time' },
     { title: 'Duration', name: 'duration' },
+    { title: 'Data Points', name: 'voltage_count' }
   ];
   public page: number = 1;
   public itemsPerPage: number = 10;
