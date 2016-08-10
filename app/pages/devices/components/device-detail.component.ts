@@ -41,9 +41,10 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
 
   // Timeline variables
   public show_timeline: boolean = false; // True when timeline is to be shown
-  public loading_timeline: boolean = false; // True when the timeline is loading
   public time_data: any[]; // Array of timeline data
   public selected_event: any[]; // Event the user selected
+  private events_per_load: number = 100;
+  private loaded_events: number;
 
   // Power plot variables
   public powerChartData: any[];
@@ -160,14 +161,27 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
   }
 
   public LoadTimeline() {
+    if(!this.device.telemetry) {
+      return;
+    }
     this.show_timeline = true
-    this.loading_timeline = true;
-    var temp_time_data = Array(this.device.telemetry.length);
-    for (var i = 0; i < this.device.telemetry.length; i++) {
+    var temp_time_data = Array(this.events_per_load);
+    for (var i = 0; i < this.events_per_load; i++) {
       temp_time_data[i] = { id: this.device.telemetry[i].id, content: this.device.telemetry[i].event, start: this.device.telemetry[i].published_at };
     }
     this.time_data = temp_time_data;
-    this.loading_timeline = false;
+    this.loaded_events = this.events_per_load;
+  }
+
+  public loadMoreTimelineEvents() {
+    var temp_time_data = Array(this.events_per_load);
+    var i:number;
+    for (var j = 0; j < this.events_per_load; j++) {
+      i = this.loaded_events + j;
+      temp_time_data[j] = { id: this.device.telemetry[i].id, content: this.device.telemetry[i].event, start: this.device.telemetry[i].published_at };
+    }
+    this.time_data=  this.time_data.concat(temp_time_data);
+    this.loaded_events += this.events_per_load;
   }
 
   public save() {

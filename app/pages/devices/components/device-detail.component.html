@@ -14,6 +14,10 @@
         <div class="col-xl-12">
             <div class="card card-block">
                 <h3>Event Timeline</h3>
+                <p>
+                    <button type="button" class="btn btn-sm btn-primary" (click)="loadMoreTimelineEvents()">Load More Events</button>
+                    Showing latest {{loaded_events}} events
+                </p>
                 <ng-vis [data]="time_data" (visSelect)="onVisSelect($event)"></ng-vis>
                 <div *ngIf=selected_event>
                     <div class="row">
@@ -146,11 +150,10 @@
             </div>
         </div>
         <div class="col-xl-8">
-            <div class="card card-block">
-                <h3>Telemetry
-                    <button *ngIf="!show_timeline && !loading_timeline" type="button" class="btn btn-primary" (click)="LoadTimeline()">Load Timeline</button>
-                    <button *ngIf="loading_timeline" type="button" class="btn btn-warning"><i>Loading Timeline...</i></button>
-                    <button *ngIf="show_timeline && !loading_timeline" type="button" class="btn btn-danger" (click)="show_timeline=false">Close Timeline</button>
+            <div class="card card-block" >
+                <h3>Telemetry | 
+                    <button *ngIf="!show_timeline" type="button" class="btn btn-primary" (click)="LoadTimeline()">Load Timeline</button>
+                    <button *ngIf="show_timeline" type="button" class="btn btn-danger" (click)="show_timeline=false">Close Timeline</button>
                 </h3>
                 <table-telemetry-demo [data_in]=device.telemetry>
                 </table-telemetry-demo>
