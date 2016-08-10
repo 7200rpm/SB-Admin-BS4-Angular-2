@@ -5,11 +5,19 @@
         <div class="col-xl-12">
             <h2 class="page-header">
                 <button type="button" class="btn btn-primary" (click)="goBack()">Back</button>
-                <button type="button" class="btn btn-primary" (click)="save()">Save</button> | <i class="fa fa-barcode"></i> {{device.serial_number}}
+                <button *ngIf="is_changed && !committing_changes" type="button" class="btn btn-danger" (click)="save()">Commit Changes</button>
+                <button *ngIf="committing_changes" type="button" class="btn btn-danger">Committing Changes...</button>
+                 | <i class="fa fa-barcode"></i> {{device.serial_number}}
             </h2>
             <hr />
         </div>
     </div>
+    <alert *ngIf="is_changed" type='warning' dismissible="true">
+        You have uncommited changes. Be sure to commit the changes before leaving this page. 
+    </alert>
+    <alert *ngIf="commit_success" type='success' dismissible="true">
+        Your changes were successfully committed. 
+    </alert>
     <div *ngIf="show_timeline" class="row">
         <div class="col-xl-12">
             <div class="card card-block">

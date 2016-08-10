@@ -32,7 +32,10 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
   private sub: any;
 
   public submitted = true; // False if user is updating information
+  public is_changed = false;
+  public committing_changes = false;
   public delete_warning = false;
+  public commit_success = false;
 
   public selected_power_event: any[];
   public selected_power_event_index: number;
@@ -185,11 +188,14 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
   }
 
   public save() {
+    this.committing_changes = true;
     if (this.device.deviceID) {
       this.deviceService.updateDevice(this.device)
         .subscribe((device: Device) => {
           this.device = device;
-          this.goBack();
+          this.is_changed = false;
+          this.committing_changes = false;
+          this.commit_success = true;
         });
 
     }
@@ -197,7 +203,9 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
       this.deviceService.addDevice(this.device)
         .subscribe((device: Device) => {
           this.device = device;
-          this.goBack();
+          this.is_changed = false;
+          this.committing_changes = false;
+          this.commit_success = true;
         });
     }
   }
@@ -223,8 +231,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
   onPowerSelect(power_event: any) {
     this.powerChartData = this.buildPowerData(power_event.voltage);
     this.powerChartDataLength = this.powerChartData.length;
-    this.powerChartOptions.title = power_event.event_type + " of " + this.device.serial_number;
-    this.powerChartOptions.subtitle = (new Date(power_event.start_time)).toString();
+    this.powerChartOptions.title = power_event.event_type + " of " + this.device.serial_number + " for " + (new Date(power_event.start_time)).toString();
   }
 
   viewPowerChart() {
@@ -247,7 +254,10 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
     this.selected_power_event = this.device.power_events[this.selected_power_event_index];
   }
 
-  onSubmit() { this.submitted = true; }
+  onSubmit() { 
+    this.submitted = true; 
+    this.is_changed = true;
+  }
 
   resizeIframe(obj: any) {
     obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
