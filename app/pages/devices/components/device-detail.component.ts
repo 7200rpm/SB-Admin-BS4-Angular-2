@@ -24,7 +24,10 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
   error: any;
   navigated = false; // true if navigated here
 
-    @ViewChild('yourchart', { read: GoogleChartComponent }) gchart: GoogleChartComponent;
+    @ViewChild('scanChart', { read: GoogleChartComponent }) scanChart: GoogleChartComponent;
+    @ViewChild('powerChart', { read: GoogleChartComponent }) powerChart: GoogleChartComponent;
+    @ViewChild('scanContainer') scanContainer: any;
+    @ViewChild('powerChartContainer') powerChartContainer: any;
 
   private sub: any;
 
@@ -49,7 +52,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
     title: '',
     subtitle: '',
     chartArea: {width: '80%'},
-    width: 500,
+    width: 800,
     height: 640,
     legend: { position: 'right' },
     animation:{
@@ -130,10 +133,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
             }
             if(this.device.power_events.length > 0) {
               this.powerChartData = this.buildPowerData(this.device.power_events[0].voltage);
-              console.log(this.powerChartData);
             }
-            // this.LoadTimeline();
-
           })
       }
       else {
@@ -155,10 +155,8 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-
-    //console.log(this.gchart.chartType)
-
-
+    this.chartOptions.width = this.scanContainer.nativeElement.clientWidth;
+    this.powerChartOptions.width = this.powerChartContainer.nativeElement.clientWidth;
   }
 
   public LoadTimeline() {
@@ -213,6 +211,10 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
     this.powerChartDataLength = this.powerChartData.length;
     this.powerChartOptions.title = power_event.event_type + " of " + this.device.serial_number;
     this.powerChartOptions.subtitle = (new Date(power_event.start_time)).toString();
+  }
+
+  viewPowerChart() {
+    window.open(this.powerChart.imageURI);
   }
 
   onNextPower() {
@@ -296,6 +298,10 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
       }
     }
     return 0;
+  }
+
+  viewScanChart() {
+    window.open(this.scanChart.imageURI);
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ROUTER_DIRECTIVES } 	from '@angular/router';
 import {TelemetryService} 			from '../telemetry.service';
 
@@ -18,6 +18,7 @@ export class TelemetryComponent implements OnInit {
   telemetry: any;
   events: any[];
   mode = 'Observable'
+  @ViewChild('eventStreamContainer') eventStreamContainer: any;
 
   public chartOptions = {
     title: 'Telemetry Stream',
@@ -49,6 +50,10 @@ export class TelemetryComponent implements OnInit {
     private telemetryService: TelemetryService) { }
 
   ngOnInit() { this.getTelemetry() }
+
+  ngAfterViewInit() {
+    this.chartOptions.width = this.eventStreamContainer.nativeElement.clientWidth;
+  }
 
   getTelemetry() {
     this.telemetryService.getTelemetry()
