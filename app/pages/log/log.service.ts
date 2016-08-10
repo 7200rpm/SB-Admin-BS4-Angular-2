@@ -9,7 +9,7 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class LogService {
 
-  private logURL = 'http://wakedotnet.azurewebsites.net/v1/log';  // URL to web API
+  private logURL = 'https://wakedotnet.azurewebsites.net/v1/log';  // URL to web API
   private log_events: any[]
 
   private last_error: any[]

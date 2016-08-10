@@ -9,7 +9,7 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class CustomerService {
 
-  private customerURL = 'http://wakedotnet.azurewebsites.net/v1/customers';  // URL to web API
+  private customerURL = 'https://wakedotnet.azurewebsites.net/v1/customers';  // URL to web API
   private customers: Customer[]
 
   constructor(private http: Http) { }

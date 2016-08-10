@@ -8,7 +8,7 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class DeviceService {
 
-  private deviceURL = 'http://wakedotnet.azurewebsites.net/v1/devices';  // URL to web API
+  private deviceURL = 'https://wakedotnet.azurewebsites.net/v1/devices';  // URL to web API
   private devices: Device[]
 
   constructor(private http: Http) { }
