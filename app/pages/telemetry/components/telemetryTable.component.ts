@@ -15,12 +15,12 @@ import {TelemetryService} 			from '../telemetry.service';
   template: `
     <div class="row">
       <div class="col-xl-12">
-        <fieldset class="form-group">
-          <input *ngIf="configEvent.filtering" placeholder="Search Events"
-            class="form-control"
-            [ngTableFiltering]="configEvent.filtering"
-            (tableChanged)="onChangeTable(configEvent)"/>
-        </fieldset>
+        <div class="form-group input-group">
+          <span class="input-group-btn"><button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button></span>
+            <input *ngIf="configEvent.filtering" placeholder="Search Telemetry" type="text" class="form-control" 
+              [ngTableFiltering]="configEvent.filtering"
+              (tableChanged)="onChangeTable(configEvent)">
+        </div>
       </div>
     </div>
 
