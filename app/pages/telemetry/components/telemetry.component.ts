@@ -30,7 +30,7 @@ export class TelemetryComponent implements OnInit {
         easing: 'out',
       },
     hAxis: {
-      title: 'Time',
+      title: 'Local Time',
     },
     series: {
         0: {targetAxisIndex: 0},

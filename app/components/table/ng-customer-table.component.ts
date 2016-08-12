@@ -21,7 +21,7 @@ import { Router }      from '@angular/router';
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let row of rows" (click)="onRowClicked(row)" [attr.class]="row.devices ? 'table-success' : 'table-warning'">
+      <tr *ngFor="let row of rows" (click)="onRowClicked(row)">
         <td *ngFor="let column of columns">{{getData(row, column.name)}}</td>
       </tr>
       </tbody>
