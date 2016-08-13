@@ -35,7 +35,7 @@
 
       <div *ngIf="!customer.shipment_date" class="card card-warning card-inverse">
         <div class="card-header card-warning">
-          Units
+          Units Available for Shipment
         </div>
         <div class="card-block bg-white">
           <div class="row">
@@ -46,8 +46,8 @@
             </div>
             <div class="col-xs-8">
               <fieldset class="form-group">
-                  <select multiple="" size="8" class="form-control" name="available_devices">
-                      <option *ngFor="let available_devices of customer.available_devices">
+                  <select multiple="" size="8" class="form-control" name="available_devices" (change)="setSelectedDevices($event.target.options)">
+                      <option *ngFor="let available_devices of customer.available_devices" [value]="available_devices.deviceID">
                         {{available_devices.serial_number}}
                       </option>
                   </select>

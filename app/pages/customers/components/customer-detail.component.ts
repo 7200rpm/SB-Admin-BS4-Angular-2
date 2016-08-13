@@ -24,6 +24,8 @@ export class CustomerDetailComponent implements OnInit {
 
   public added_unit:string = "";
 
+  public selected_devices: number[];
+
   private sub: any;
   
   public delete_warning = false;
@@ -61,7 +63,12 @@ public closeAlert(i:number):void {
         let id = +params['id'];
         this.navigated = true;
         this.customerService.getCustomer(id)
-          .subscribe((customer:Customer) => this.customer = customer)
+          .subscribe((customer:Customer) => {
+            this.customer = customer;
+            if(this.customer.order_date) {
+              this.customer.order_date = new Date(this.customer.order_date).toDateString();
+            }
+          })
       }
       else{
         this.navigated = false;
@@ -86,6 +93,16 @@ public closeAlert(i:number):void {
         this.goBack();
       });
     }
+  }
+
+  setSelectedDevices(selectElement: any[]) {
+    this.selected_devices = Array();
+    for(var i = 0; i < selectElement.length; i++) {
+      if(selectElement[i].selected) {
+        this.selected_devices.push(selectElement[i].value);
+      }
+    }
+    console.log(this.selected_devices);
   }
 
   goBack() { this.router.navigate(['/dashboard/customers']); }

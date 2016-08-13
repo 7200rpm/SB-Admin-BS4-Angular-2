@@ -253,7 +253,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
     this.selected_power_event_index--;
     this.selected_power_event = this.device.power_events[this.selected_power_event_index];
   }
-
+ 
   onSubmit() { 
     this.submitted = true; 
     this.is_changed = true;

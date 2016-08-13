@@ -6,4 +6,5 @@ export class Customer {
   available_devices: Array<string>;
   quantity: number;
   order_status: string;
+  order_date: string;
 }
