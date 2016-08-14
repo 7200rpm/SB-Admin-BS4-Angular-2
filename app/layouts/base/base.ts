@@ -21,6 +21,8 @@ import {LogService} from '../../pages/log/log.service';
 
 import {AuthService} from '../../pages/login/auth.service'
 
+import {CanActivateViaAuthGuard} from '../../pages/login/authguard'
+
 import { AUTH_PROVIDERS } from 'angular2-jwt';
 
 import { AuthConfig, AuthHttp } from 'angular2-jwt';
@@ -37,6 +39,7 @@ import { AuthConfig, AuthHttp } from 'angular2-jwt';
 			TelemetryService,
 			LogService,
 			AuthService,
+			CanActivateViaAuthGuard,
 			NgClass
 		],
     directives: [ROUTER_DIRECTIVES]

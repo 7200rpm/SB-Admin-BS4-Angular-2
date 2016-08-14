@@ -25,7 +25,8 @@ export class AuthService {
     theme: {
       logo: 'assets/img/wake_logo.png'
     },
-    allowSignUp: false
+    allowSignUp: false,
+    autoclose: true
   };
 
   // Configure Auth0
@@ -35,19 +36,19 @@ export class AuthService {
 
     var profile = JSON.parse(localStorage.getItem('profile'));
 
-    if(profile) this.user = profile;
+    if (profile) this.user = profile;
 
     // Add callback for lock `authenticated` event
     this.lock.on("authenticated", (authResult: any) => {
 
-      this.lock.getProfile(authResult.idToken, (error:any, profile:any)=>{
-        if(error) return;
+      this.lock.getProfile(authResult.idToken, (error: any, profile: any) => {
+        if (error) return;
 
         this.user = profile;
 
-              localStorage.setItem('id_token', authResult.idToken);
-              localStorage.setItem('profile', JSON.stringify(profile));
-      this.router.navigate(['/dashboard/home'])
+        localStorage.setItem('id_token', authResult.idToken);
+        localStorage.setItem('profile', JSON.stringify(profile));
+        this.router.navigate(['/dashboard/home'])
 
 
       })
