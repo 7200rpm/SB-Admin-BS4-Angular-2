@@ -5,7 +5,6 @@ import { Observable }     from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
-import {AuthService} from '../login/auth.service';
 import {AuthHttp} from 'angular2-jwt';
 
 @Injectable()
@@ -14,7 +13,7 @@ export class DeviceService {
   private deviceURL = 'https://wakedotnet.azurewebsites.net/v1/devices';  // URL to web API
   private devices: Device[]
 
-  constructor(private http: Http, private authHttp: AuthHttp, private auth: AuthService) { }
+  constructor(private http: Http, private authHttp: AuthHttp) { }
 
   getDevices(): Observable<Device[]> {
     return this.authHttp.get(this.deviceURL)

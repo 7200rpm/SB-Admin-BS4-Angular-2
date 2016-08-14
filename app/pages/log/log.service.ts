@@ -5,6 +5,8 @@ import { Observable }     from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
+import {AuthHttp} from 'angular2-jwt';
+
 
 @Injectable()
 export class LogService {
@@ -14,17 +16,17 @@ export class LogService {
 
   private last_error: any[]
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private authHttp: AuthHttp) { }
 
   getLog(): Observable<any[]> {
-    return this.http.get(this.logURL)
+    return this.authHttp.get(this.logURL)
       .map(res => res.json())
       .catch(this.handleError);
   }
 
   getLogEvent(id: number): Observable<any> {
 
-    return this.http.get(this.logURL + '/' + id)
+    return this.authHttp.get(this.logURL + '/' + id)
       .map(res => res.json())
       .catch(this.handleError);
 

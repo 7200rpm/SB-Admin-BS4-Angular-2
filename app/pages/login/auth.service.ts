@@ -32,12 +32,9 @@ export class AuthService {
 
   constructor(private router: Router) {
 
-    // localStorage.getItem('profile').then(profile:any => {
-    //         this.user = JSON.parse(profile);
-    //     }).catch(error:any => {
-    //         console.log(error);
-    //     });
+    var profile = JSON.parse(localStorage.getItem('profile'));
 
+    if(profile) this.user = profile;
 
     // Add callback for lock `authenticated` event
     this.lock.on("authenticated", (authResult: any) => {
@@ -144,6 +141,7 @@ export class AuthService {
   public logout() {
     // Remove token from localStorage
     localStorage.removeItem('id_token');
+    localStorage.removeItem('profile');
     this.router.navigate([''])
   };
 }
