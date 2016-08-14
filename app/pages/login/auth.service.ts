@@ -20,9 +20,10 @@ export class AuthService {
       redirect: false,
       sso: true
     },
+    autoclose: true,
     allowedConnections: ['twitter', 'facebook', 'gregjeslgmail-onmicrosoft-com'],
     theme: {
-      logo: 'assets/img/wake_logo.png',
+      logo: 'assets/img/wake_logo.png'
     },
     allowSignUp: false
   };
