@@ -105,8 +105,7 @@ export class TableDeviceDemoComponent implements OnInit {
       { title: 'Serial Number', name: 'serial_number' },
       { title: 'Particle ID', name: 'particleID' },
       { title: 'Revision', name: 'hardware_revision' },
-      { title: 'Status', name: 'status' },
-      { title: 'Is Active', name: 'is_active' }
+      { title: 'Status', name: 'status' }
    ];
    public page: number = 1;
    public itemsPerPage: number = 10;
