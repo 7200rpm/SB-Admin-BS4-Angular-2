@@ -9,6 +9,9 @@ import { Observable }     from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
+import {AuthService} from '../login/auth.service';
+import {AuthHttp} from 'angular2-jwt';
+
 
 @Injectable()
 export class CustomerService {
@@ -16,10 +19,10 @@ export class CustomerService {
   private customerURL = 'https://wakedotnet.azurewebsites.net/v1/customers';  // URL to web API
   private customers: Customer[]
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private authHttp: AuthHttp) { }
 
   getCustomers(): Observable<Customer[]> {
-    return this.http.get(this.customerURL)
+    return this.authHttp.get(this.customerURL)
       .map(res => res.json())
       .catch(this.handleError);
   }
@@ -31,7 +34,7 @@ export class CustomerService {
     //   .toPromise()
     //   .then(res => res.json())
     //   .then(cus => cus.filter((c: Customer) => c.customerID === id)[0])
-    return this.http.get(this.customerURL + '/' + id)
+    return this.authHttp.get(this.customerURL + '/' + id)
       .map(res => res.json())
       .catch(this.handleError);
 
@@ -43,7 +46,7 @@ export class CustomerService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(this.customerURL, body)
+    return this.authHttp.post(this.customerURL, body)
       .map(res => res.json())
       .catch(this.handleError);
   }
@@ -53,7 +56,7 @@ export class CustomerService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.put(this.customerURL + '/' + customer.customerID, body)
+    return this.authHttp.put(this.customerURL + '/' + customer.customerID, body)
       .map(() => customer)
       .catch(this.handleError);
   }

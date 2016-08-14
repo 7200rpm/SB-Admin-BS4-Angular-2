@@ -5,6 +5,9 @@ import { Observable }     from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
+import {AuthService} from '../login/auth.service';
+import {AuthHttp} from 'angular2-jwt';
+
 
 @Injectable()
 export class TelemetryService {
@@ -12,17 +15,17 @@ export class TelemetryService {
   private telemetryURL = 'https://wakedotnet.azurewebsites.net/v1/telemetry';  // URL to web API
   private telemetry: any[];
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private authHttp: AuthHttp) { }
 
   getTelemetry(): Observable<any[]> {
-    return this.http.get(this.telemetryURL)
+    return this.authHttp.get(this.telemetryURL)
       .map(res => res.json())
       .catch(this.handleError);
   }
 
   getEvent(id: number): Observable<any> {
 
-    return this.http.get(this.telemetryURL + '/' + id)
+    return this.authHttp.get(this.telemetryURL + '/' + id)
       .map(res => res.json())
       .catch(this.handleError);
 
