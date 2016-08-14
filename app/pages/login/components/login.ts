@@ -19,10 +19,10 @@ export class LoginComponent {
 
 	 }
 
-	 login(){
-	 	this.auth.login().then((success:any)=>{
-	 		this.router.navigate(['/dashboard/home'])
-	 	})
-	 }
+	 // login(){
+	 // 	this.auth.login().then((success:any)=>{
+	 // 		this.router.navigate(['/dashboard/home'])
+	 // 	})
+	 // }
 
 }
