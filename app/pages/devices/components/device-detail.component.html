@@ -100,14 +100,26 @@
                         <fieldset class="form-group">
                             <label>Serial Number</label>
                             <input class="form-control" name="device-serial_number" value="{{device.serial_number}}" [(ngModel)]="device.serial_number">
+                            <div [hidden]="device.serial_number" 
+                                class="alert alert-danger">
+                                Serial Number is required
+                            </div>
                         </fieldset>
                         <fieldset class="form-group">
                             <label>Particle ID</label>
                             <input class="form-control" name="device-particleID" value="{{device.particleID}}" [(ngModel)]="device.particleID">
+                            <div [hidden]="device.particleID" 
+                                class="alert alert-danger">
+                                Particle ID is required
+                            </div>
                         </fieldset>
                         <fieldset class="form-group">
                             <label>Hardware Revision</label>
-                            <input class="form-control" name="device-hardware_revision" value="{{device.hardware_revision}}" [(ngModel)]="device.hardware_revision">
+                            <input class="form-control" required name="device-hardware_revision" value="{{device.hardware_revision}}" [(ngModel)]="device.hardware_revision">
+                            <div [hidden]="device.hardware_revision" 
+                                class="alert alert-danger">
+                                Hardware Revision is required
+                            </div>
                         </fieldset>
                         <fieldset class="form-group">
                             <label>Notes</label>
