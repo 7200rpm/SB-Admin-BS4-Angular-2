@@ -7,6 +7,9 @@ import {CHART_DIRECTIVES} from 'ng2-charts/ng2-charts';
 import {CustomerService} 			from '../../customers/customer.service'
 import {Customer} 						from '../../customers/customer'
 
+import {AuthService} from '../../login/auth.service';
+import {AuthHttp} from 'angular2-jwt';
+
 @Component({
 	moduleId: module.id,
 	selector: 'timeline-cmp',
@@ -86,7 +89,26 @@ export class HomeComponent implements OnInit {
 	}
 	/* END*/
 
-	constructor(private customerService: CustomerService) {
+	constructor(private auth: AuthService, private customerService: CustomerService) {
+
+		// First, check if there is already a JWT in local storage
+		// var idToken = localStorage.getItem('id_token');
+		// var authHash = this.auth.hash(window.location.hash);
+
+		// // If there is no JWT in local storage and there is one in the URL hash,
+		// // save it in local storage
+		// if (!idToken && authHash) {
+		// 	if (authHash.id_token) {
+		// 		idToken = authHash.id_token
+		// 		localStorage.setItem('id_token', authHash.id_token);
+		// 	}
+		// 	if (authHash.error) {
+		// 		// Handle any error conditions
+		// 		console.log("Error signing in", authHash);
+		// 	}
+		// }
+
+
 		for (let i = 0; i < 4; i++) {
 			this.addSlide();
 		}

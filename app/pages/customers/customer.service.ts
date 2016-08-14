@@ -1,4 +1,8 @@
 import { Injectable }     from '@angular/core';
+
+// import {AuthService} from '../../auth.service';
+// import {AuthHttp} from 'angular2-jwt';
+
 import { Http, Response, Headers, RequestOptions}  from '@angular/http';
 import { Customer }       from './customer';
 import { Observable }     from 'rxjs/Observable';

@@ -25,10 +25,10 @@ import {BlankPageComponent} from '../../pages/blank-page/components/blank_page';
 import {NG2Component} from '../../pages/component/components/component';
 
 export const routes: RouterConfig = [
+  //{ path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
-  {
-    path: 'dashboard', component: DashboardComponent, children: [
+  { path: 'dashboard', component: DashboardComponent, children: [
       { path: 'home', component: HomeComponent },
       { path: 'chart', component: ChartComponent },
       { path: 'customers', component: CustomerComponent },

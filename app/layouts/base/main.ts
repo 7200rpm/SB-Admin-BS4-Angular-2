@@ -3,6 +3,10 @@ import { enableProdMode, provide } from '@angular/core';
 import { bootstrap } from '@angular/platform-browser-dynamic';
 
 import { APP_ROUTER_PROVIDERS } from './app.routes';
+import { AUTH_PROVIDERS } from 'angular2-jwt';
+
+import { Http, HTTP_PROVIDERS } from '@angular/http';
+import { AuthConfig, AuthHttp } from 'angular2-jwt';
 
 import { disableDeprecatedForms, provideForms } from '@angular/forms';
 
@@ -15,12 +19,20 @@ if ('<%= ENV %>' === 'prod') { enableProdMode(); }
  * @see https://angular.io/docs/ts/latest/api/platform-browser-dynamic/index/bootstrap-function.html
  */
 bootstrap(AppComponent, [
-  APP_ROUTER_PROVIDERS,
-  disableDeprecatedForms(),
-  provideForms(),
-  provide(APP_BASE_HREF, { useValue: '<%= APP_BASE %>' })
+	APP_ROUTER_PROVIDERS,
+	AUTH_PROVIDERS,
+	HTTP_PROVIDERS,
+	disableDeprecatedForms(),
+	provideForms(),
+	provide(APP_BASE_HREF, { useValue: '<%= APP_BASE %>' }),
+	provide(AuthHttp, {
+        useFactory: (http: any) => {
+            return new AuthHttp(new AuthConfig(), http);
+        },
+        deps: [Http]
+    }),
 ])
-  .catch(err => console.error(err));
+	.catch(err => console.error(err));
 
 // In order to start the Service Worker located at "./worker.js"
 // uncomment this line. More about Service Workers here
