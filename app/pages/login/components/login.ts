@@ -5,8 +5,9 @@ import { Router }              from '@angular/router';
 import {AuthService} from '../auth.service'
 
 @Component({
+	  moduleId: module.id,
 	selector: 'login-cmp',
-	templateUrl: './pages/login/components/login.html',
+	templateUrl: 'login.html',
 	providers: [AuthService],
 	directives: [ROUTER_DIRECTIVES]
 })

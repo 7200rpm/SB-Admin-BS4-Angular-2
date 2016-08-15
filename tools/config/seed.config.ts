@@ -311,7 +311,8 @@ export class SeedConfig {
       '*': `${this.APP_BASE}node_modules/*`
     },
     packages: {
-      rxjs: { defaultExtension: false }
+      rxjs: { defaultExtension: false },
+
     }
   };
 
@@ -334,7 +335,8 @@ export class SeedConfig {
     ],
     paths: {
       [`${this.TMP_DIR}/*`]: `${this.TMP_DIR}/*`,
-      '*': 'node_modules/*'
+      '*': 'node_modules/*',
+'angular2-jwt':               'node_modules/angular2-jwt/angular2-jwt.js'
     },
     packages: {
       '@angular/core': {
@@ -370,6 +372,9 @@ export class SeedConfig {
         defaultExtension: 'js'
       },
       'rxjs': {
+        defaultExtension: 'js'
+      },
+      'angular2-jwt':{
         defaultExtension: 'js'
       }
     }
