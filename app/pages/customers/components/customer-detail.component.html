@@ -19,9 +19,45 @@
       <customer-form [customer]="customer"></customer-form>
     </div>
   </div>
+
+  <div class="row">
+    <div class="col-xl-6">
+      <div class="card card-primary card-inverse">
+        <div class="card-header card-primary">
+          Unit Available for Shipment
+        </div>
+        <div class="card-block bg-white">
+          <div class="row">
+            <div class="col-xs-8">
+              <available-devices #availabledevices [available_devices] = "customer.available_devices"></available-devices>
+            </div>
+            <div class="col-xs-4">
+              <button type="button" class="btn btn-success" (click)="addDevices()">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-6">
+      <div class="card card-success card-inverse">
+        <div class="card-header card-success">
+          Units Attached To Shipment
+        </div>
+        <div class="card-block bg-white">
+          <div class="row">
+            <div class="col-xs-8">
+              <shipment-devices #shipmentdevices [shipment_devices] = "customer.devices"></shipment-devices>
+            </div>
+            <div class="col-xs-4">
+              <button type="button" class="btn btn-danger" (click)="removeDevices()">Remove</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="row">
     <div class="col-xl-4">
-
       <div *ngIf="customer.shipment_date" class="card card-success card-inverse">
         <div class="card-header card-success">
           Shipment
@@ -30,33 +66,6 @@
           Ship Date: {{customer.shipment_date}}<br /> Shipped To: {{customer.shipment_name}}<br /> Address: <a href="#">123 Main St. Los Angeles CA 90000</a><br
           /> Email: <a href="mailto:{{customer.shipment_email}}">{{customer.shipment_email}}</a><br />{{customer.shipment_telephone}}
           <hr />
-        </div>
-      </div>
-
-      <div *ngIf="!customer.shipment_date" class="card card-warning card-inverse">
-        <div class="card-header card-warning">
-          Units Available for Shipment
-        </div>
-        <div class="card-block bg-white">
-          <div class="row">
-            <div class="col-xs-12">
-              <alert *ngFor="let order_unit of order_units;let i = index" [type]="order_unit.type" dismissible="true" (close)="closeAlert(i)">
-                {{ order_unit?.msg }}
-              </alert>
-            </div>
-            <div class="col-xs-8">
-              <fieldset class="form-group">
-                  <select multiple="" size="8" class="form-control" name="available_devices" (change)="setSelectedDevices($event.target.options)">
-                      <option *ngFor="let available_devices of customer.available_devices" [value]="available_devices.deviceID">
-                        {{available_devices.serial_number}}
-                      </option>
-                  </select>
-              </fieldset>
-            </div>
-            <div class="col-xs-4">
-              <button type="button" class="btn btn-primary" (click)="addAlert()">Add</button>
-            </div>
-          </div>
         </div>
       </div>
     </div>
