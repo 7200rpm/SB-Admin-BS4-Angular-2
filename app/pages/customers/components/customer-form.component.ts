@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, Output, OnInit} from '@angular/core';
 import { FORM_DIRECTIVES }    from '@angular/forms';
 import { Customer }    from '../customer';
+import {CustomerService} 			from '../customer.service';
+import { Router, ActivatedRoute }       from '@angular/router';
 
 @Component({
   moduleId: module.id,
@@ -10,6 +12,8 @@ import { Customer }    from '../customer';
 export class CustomerFormComponent implements OnInit {
 
   @Input() public customer: Customer;
+  @Input() public customerService: CustomerService;
+  @Input() public router: Router;
 
   submitted = true;
 
@@ -49,7 +53,12 @@ export class CustomerFormComponent implements OnInit {
     this.customer.order_status = 'Unfulfilled';
   }
 
-
+  public delete() {
+    this.customerService.deleteCustomer(this.customer)
+      .subscribe((customer: Customer) => {
+        this.router.navigate(['/dashboard/customers']);
+      })
+  }
 
   // Reset the form with a new hero AND restore 'pristine' class state
   // by toggling 'active' flag which causes the form

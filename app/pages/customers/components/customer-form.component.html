@@ -11,6 +11,10 @@
           <fieldset class="form-group">
             <label>Customer Name</label>
             <input class="form-control" name="customer-name"  value="{{customer.customer_name}}" [(ngModel)]="customer.customer_name">
+            <div [hidden]="customer.customer_name" 
+                class="alert alert-danger">
+                Customer name is requried
+            </div>
           </fieldset>
           <fieldset class="form-group">
             <label>Customer Email</label>
@@ -31,7 +35,18 @@
           <fieldset class="form-group">
             <label>Order Date</label>
             <input class="form-control" type="date" name="order-date" value="{{customer.order_date}}" [(ngModel)]="customer.order_date">
-
+            <div [hidden]="customer.order_date" 
+                class="alert alert-danger">
+                Order date is required
+            </div>
+          </fieldset>
+          <fieldset class="form-group">
+            <label>Order Quantity</label>
+            <input class="form-control" type="number" name="order-quantity" value="{{customer.order_quantity}}" [(ngModel)]="customer.order_quantity">
+            <div [hidden]="customer.order_quantity" 
+                class="alert alert-danger">
+                Order quantity is required
+            </div>
           </fieldset>
           <fieldset class="form-group">
               <label>Notes</label>
@@ -197,7 +212,7 @@
       <div class="row">
         <div class="col-xs-6">Are you sure you want to delete the order?</div>
         <div class="col-xs-6 pull-right">
-          <button class="btn btn-danger" >Yes</button>
+          <button class="btn btn-danger" (click)="delete()">Yes</button>
           <button class="btn btn-warning" (click)="delete_warning=false">No</button>
         </div>
       </div>
