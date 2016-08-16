@@ -15,6 +15,9 @@ export class CustomerFormComponent implements OnInit {
   @Input() public customerService: CustomerService;
   @Input() public router: Router;
 
+  public is_changed: boolean = false;
+  public committing_changes: boolean = false;
+
   submitted = true;
 
   active = true;

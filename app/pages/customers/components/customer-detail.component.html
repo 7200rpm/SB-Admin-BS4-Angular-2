@@ -1,12 +1,18 @@
 <div class="container-fluid" *ngIf="customer">
+  <!-- Navigation -->
   <div class="row">
     <div class="col-xl-12">
-      <h2><button type="button" class="btn btn-primary" (click)="goBack()">Back</button> <button type="button" class="btn btn-primary" (click)="save()">Save</button> | <i class="fa fa-user"></i> {{customer.customer_name}}<span *ngIf=customer.order_nickame> - {{customer.order_nickname}}</span>
+      <h2><button type="button" class="btn btn-primary" (click)="goBack()">Back</button>
+       <button *ngIf="customer_form.is_changed && !customer_form.committing_changes" type="button" class="btn btn-danger" (click)="save()">Commit Changes</button>
+        <button *ngIf="customer_form.committing_changes" type="button" class="btn btn-danger">Committing Changes...</button>
+       | <i class="fa fa-user"></i> {{customer.customer_name}}<span *ngIf=customer.order_nickame> - {{customer.order_nickname}}</span>
       </h2>
       <hr />
     </div>
 
   </div>
+
+  <!-- Alert -->
   <div *ngIf="customer.order_status=='Shipped'" class="alert alert-success">
     We have shipped Wakē(s) to this customer.
   </div>
@@ -14,9 +20,10 @@
     We have <strong>not</strong> shipped Wakē(s) to this customer.
   </div>
 
+  <!-- Customer Form -->
   <div class="row">
     <div class="col-xl-12">
-      <customer-form [customer]="customer" [customerService] = "customerService" [router]="router"></customer-form>
+      <customer-form #customerForm [customer]="customer" [customerService] = "customerService" [router]="router"></customer-form>
     </div>
   </div>
 

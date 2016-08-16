@@ -23,6 +23,8 @@ export class CustomerDetailComponent implements OnInit {
 
   @ViewChild('availabledevices') available_devices_component: any;
   @ViewChild('shipmentdevices') shipment_devices_component: any;
+  @ViewChild('customerForm') customer_form: any;
+  public form_loaded: boolean = false;
 
   error: any;
   navigated = false; // true if navigated here
@@ -42,7 +44,7 @@ export class CustomerDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    console.log(this.customer_form);
     this.sub = this.route.params.subscribe(params => {
       if(params['id'] !== undefined){
         let id = +params['id'];
@@ -54,6 +56,7 @@ export class CustomerDetailComponent implements OnInit {
               this.customer.order_date = new Date(this.customer.order_date).toDateString();
             }
             this.order_units = new Array();
+            this.form_loaded = true;
           })
       }
       else{
