@@ -4,7 +4,7 @@ import {CAROUSEL_DIRECTIVES, DROPDOWN_DIRECTIVES, AlertComponent} from 'ng2-boot
 
 import {CHART_DIRECTIVES} from 'ng2-charts/ng2-charts';
 
-import {CustomerService} 			from '../../customers/customer.service'
+import {DashboardService} 			from '../dashboard.service'
 import {Customer} 						from '../../customers/customer'
 
 import {AuthService} from '../../login/auth.service';
@@ -53,7 +53,7 @@ class NotificationComponent { }
 
 export class HomeComponent implements OnInit {
 
-	customers: Customer[] = [];
+	dash_items: any[] = [];
 	numShipped: any;
 	numStock: any;
 	/* Carousel Variable */
@@ -89,7 +89,7 @@ export class HomeComponent implements OnInit {
 	}
 	/* END*/
 
-	constructor(private auth: AuthService, private customerService: CustomerService) {
+	constructor(private auth: AuthService, private dashboardService: DashboardService) {
 
 		// First, check if there is already a JWT in local storage
 		// var idToken = localStorage.getItem('id_token');
@@ -124,25 +124,25 @@ export class HomeComponent implements OnInit {
 		});
 	}
 
-	ngOnInit() { this.getCustomers() }
+	ngOnInit() { this.dashboardService }
 
-	getCustomers() {
-		this.customerService.getCustomers()
+	getDashboard() {
+		this.dashboardService.getDashboard()
 			.subscribe(
-			customers => {
-				this.customers = customers;
+			items => {
+				this.dash_items = items;
 				this.setupChart();
 			},
 			error => { console.log("Error: " + error) },
-			() => console.log('Customers Completed!')
+			() => console.log('Dashboard Completed!')
 			)
 	}
 
 	private setupChart(): void {
-		this.numShipped = this.customers.filter(c => c.order_status == "Shipped").length;
-		this.numStock = this.customers.filter(c => c.order_status == "Unfulfilled").length;
+		//this.numShipped = this.customers.filter(c => c.order_status == "Shipped").length;
+		//this.numStock = this.customers.filter(c => c.order_status == "Unfulfilled").length;
 
-		this.chartData = [this.numShipped, this.numStock]
+		//this.chartData = [this.numShipped, this.numStock]
 	}
 
 
