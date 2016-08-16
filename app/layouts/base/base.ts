@@ -18,6 +18,7 @@ import {CustomerService} from '../../pages/customers/customer.service'
 import {DeviceService} from '../../pages/devices/device.service'
 import {TelemetryService} from '../../pages/telemetry/telemetry.service';
 import {LogService} from '../../pages/log/log.service';
+import {DashboardService} from '../../pages/home/dashboard.service';
 
 import {AuthService} from '../../pages/login/auth.service'
 
@@ -38,6 +39,7 @@ import { AuthConfig, AuthHttp } from 'angular2-jwt';
 			DeviceService,
 			TelemetryService,
 			LogService,
+			DashboardService,
 			AuthService,
 			CanActivateViaAuthGuard,
 			NgClass
