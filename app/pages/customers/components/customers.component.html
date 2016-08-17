@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-xl-12">
             <h2 class="page-header">
-                Customers
+                Customers | <button class="btn btn-success" [routerLink]="['/dashboard', '/customerAdd']">Create Customer</button>
             </h2>
             <ol class="breadcrumb">
                 <li>
@@ -17,7 +17,6 @@
     </div>
     <div class="row">
         <div class="col-xl-2">
-            <button class="btn btn-success" [routerLink]="['/dashboard', '/customerAdd']">Create Customer</button>
         </div>
     </div>
     <table-customer-demo [data_in]="customers" (rowClicked)="onSelect($event)"></table-customer-demo>

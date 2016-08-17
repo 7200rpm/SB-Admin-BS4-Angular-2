@@ -62,7 +62,6 @@ export class CustomerDetailComponent implements OnInit {
             if(this.customer.order_date) {
               this.customer.order_date = new Date(this.customer.order_date).toISOString().substr(0,10);
             }
-            this.order_units = new Array();
             this.form_loaded = true;
           })
       }
@@ -93,6 +92,25 @@ export class CustomerDetailComponent implements OnInit {
           this.committing_changes = false;
         });
     }
+  }
+
+  ShipOrder() {
+    this.ship_warning = false;
+    this.customer.order_status = 'Shipped';
+    this.is_changed = true;
+  }
+
+  UndoShip() {
+    this.undo_ship_warning = false;
+    this.customer.order_status = 'Unfulfilled';
+    this.is_changed = true;
+  }
+
+  public delete() {
+    this.customerService.deleteCustomer(this.customer)
+      .subscribe((customer: Customer) => {
+        this.router.navigate(['/dashboard/customers']);
+      })
   }
 
   addDevices() {
