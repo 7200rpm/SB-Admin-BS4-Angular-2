@@ -4,6 +4,7 @@ import { Customer } from '../customer';
 import { Router, ActivatedRoute }       from '@angular/router';
 import { Observable }     from 'rxjs/Observable';
 import {AlertComponent} from 'ng2-bootstrap/ng2-bootstrap';
+import { FORM_DIRECTIVES }    from '@angular/forms';
 
 import {CustomerFormComponent} from './customer-form.component';
 
@@ -14,7 +15,7 @@ import { ShipmentDevicesComponent } from './shipment-devices';
   moduleId: module.id,
   selector: 'customer-detail-cmp',
   templateUrl: 'customer-detail.component.html',
-  directives:[AlertComponent, CustomerFormComponent, AvailableDevicesComponent, ShipmentDevicesComponent]
+  directives:[AlertComponent, CustomerFormComponent, AvailableDevicesComponent, ShipmentDevicesComponent,FORM_DIRECTIVES]
 })
 
 export class CustomerDetailComponent implements OnInit {
@@ -26,10 +27,16 @@ export class CustomerDetailComponent implements OnInit {
   @ViewChild('customerForm') customer_form: any;
   public form_loaded: boolean = false;
 
+  // Form information
+  public is_changed: boolean = false;
+  public committing_changes: boolean = false;
+  submitted = true;
+  active = true;
+  public ship_warning = false;
+  public undo_ship_warning = false;
+
   error: any;
   navigated = false; // true if navigated here
-
-  public order_units: Array<any>;
 
   public added_unit:string = "";
 
@@ -53,7 +60,7 @@ export class CustomerDetailComponent implements OnInit {
           .subscribe((customer:Customer) => {
             this.customer = customer;
             if(this.customer.order_date) {
-              this.customer.order_date = new Date(this.customer.order_date).toDateString();
+              this.customer.order_date = new Date(this.customer.order_date).toISOString().substr(0,10);
             }
             this.order_units = new Array();
             this.form_loaded = true;
@@ -66,26 +73,34 @@ export class CustomerDetailComponent implements OnInit {
     })
   }
 
-  public save(){
-    if(this.customer.customerID){
+  public save() {
+    this.committing_changes = true;
+    console.log(this.customer);
+    if (this.customer.customerID) {
       this.customerService.updateCustomer(this.customer)
-      .subscribe((customer:Customer) => {
-        this.customer = customer;
-        this.goBack();
-      });
+        .subscribe((customer: Customer) => {
+          this.customer = customer;
+          this.is_changed = false;
+          this.committing_changes = false;
+        });
 
     }
-    else{
+    else {
       this.customerService.addCustomer(this.customer)
-      .subscribe((customer:Customer) => {
-        this.customer = customer;
-        this.goBack();
-      });
+        .subscribe((customer: Customer) => {
+          this.customer = customer;
+          this.is_changed = false;
+          this.committing_changes = false;
+        });
     }
   }
 
   addDevices() {
     // Add the devices to the order
+    if(this.customer.devices.length + this.available_devices_component.selected_devices.length > this.customer.order_quantity) {
+      alert("You have added more devices to the order than the order calls for");
+      return;
+    }
     if(this.customer.devices.length == 0) {
       this.customer.devices = this.available_devices_component.selected_devices;
     } else {
@@ -101,6 +116,8 @@ export class CustomerDetailComponent implements OnInit {
         }
       }
     }
+    // Mark the customer as changed
+    this.is_changed = true;
   }
 
   removeDevices() {
@@ -121,7 +138,14 @@ export class CustomerDetailComponent implements OnInit {
         }
       }
     }
+    // Mark the customer as changed
+    this.is_changed = true;
   }
+
+  onSubmit() { 
+    this.submitted = true;
+    this.is_changed = true;
+ }
 
   goBack() { this.router.navigate(['/dashboard/customers']); }
 

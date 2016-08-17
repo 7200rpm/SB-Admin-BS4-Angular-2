@@ -130,6 +130,10 @@
                         <th>Order Date</th>
                         <td>{{customer.order_date}}</td>
                     </tr>
+                    <tr *ngIf="customer.order_nickname"> 
+                          <th>Order Identifier</th>
+                          <td>{{customer.order_nickname}}</td>
+                      </tr>
                       <tr *ngIf="customer.order_identifier"> 
                           <th>Order Identifier</th>
                           <td>{{customer.order_identifier}}</td>

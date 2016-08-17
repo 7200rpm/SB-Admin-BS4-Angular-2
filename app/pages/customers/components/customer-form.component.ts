@@ -44,7 +44,10 @@ export class CustomerFormComponent implements OnInit {
     if (!this.customer.customerID) { this.submitted = false; }
   }
 
-  onSubmit() { this.submitted = true; }
+  onSubmit() { 
+    this.submitted = true; 
+    this.is_changed = true;
+   }
 
   ShipOrder() {
     this.ship_warning = false;

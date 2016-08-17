@@ -4,7 +4,7 @@ export class Customer {
   last_name: string;
   email: string;
   available_devices: Array<any>;
-  quantity: number;
+  order_quantity: number;
   order_status: string;
   order_date: string;
   devices: Array<any>;
