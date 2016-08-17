@@ -53,7 +53,12 @@ class NotificationComponent { }
 
 export class HomeComponent implements OnInit {
 
-	dash_items: any[] = [];
+	public total_customers: number = 0;
+	public unfulfilled_orders: number = 0;
+	public total_devices: number = 0;
+	public shipped_devices: number = 0;
+
+	dash_items: any;
 	numShipped: any;
 	numStock: any;
 	/* Carousel Variable */
@@ -124,13 +129,29 @@ export class HomeComponent implements OnInit {
 		});
 	}
 
-	ngOnInit() { this.dashboardService }
+	ngOnInit() { 
+		this.dashboardService;
+		this.getDashboard();
+	}
 
 	getDashboard() {
 		this.dashboardService.getDashboard()
 			.subscribe(
 			items => {
 				this.dash_items = items;
+				console.log(items);
+				this.total_customers = this.dash_items.customers.length;
+				for(var i = 0; i < this.dash_items.customers.length; i++) {
+					if(this.dash_items.customers[i].order_status != "Shipped") {
+						this.unfulfilled_orders++;
+					}
+				}
+				this.total_devices = this.dash_items.devices.length;
+				for(var i = 0; i < this.dash_items.devices.length; i++) {
+					if(this.dash_items.devices[i].customer_name != null) {
+						this.shipped_devices++;
+					}
+				}
 				this.setupChart();
 			},
 			error => { console.log("Error: " + error) },

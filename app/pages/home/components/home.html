@@ -11,7 +11,7 @@
                         </div>
                         <div class="col-xs-6 text-xs-right">
                             <div class="huge">
-                                <h1>83</h1>
+                                <h1>{{total_customers}}</h1>
                             </div>
                             <div>Total Customers</div>
                         </div>
@@ -33,7 +33,7 @@
                         </div>
                         <div class="col-xs-6 text-xs-right">
                             <div class="huge">
-                                <h1>24</h1>
+                                <h1>{{unfulfilled_orders}}</h1>
                             </div>
                             <div>Unfulfilled Orders</div>
                         </div>
@@ -57,7 +57,7 @@
                         </div>
                         <div class="col-xs-6 text-xs-right">
                             <div class="huge">
-                                <h1>12</h1>
+                                <h1>{{total_devices}}</h1>
                             </div>
                             <div>Total Devices</div>
                         </div>
@@ -79,7 +79,7 @@
                         </div>
                         <div class="col-xs-6 text-xs-right">
                             <div class="huge">
-                                <h1>12</h1>
+                                <h1>{{shipped_devices}}</h1>
                             </div>
                             <div>Active Devices</div>
                         </div>
@@ -95,9 +95,6 @@
             </div>
         </div>
         <div class="col-xl-6">
-            <div class="card card-block">
-                <iframe src="http://wakeapi.azurewebsites.net/charts/devices.php" style="border:none" width="100%" height="500"></iframe>
-            </div>
         </div>
     </div>
 
@@ -109,9 +106,6 @@
 
     <div class="row">
         <div class="col-xl-8">
-            <div class="card card-block">
-                <iframe src="http://wakeapi.azurewebsites.net/charts/telemetry.php" style="border:none" width="100%" height="500"></iframe>
-            </div>
         </div>
         <div class="col-xl-4">
             <div class="card card-default">
