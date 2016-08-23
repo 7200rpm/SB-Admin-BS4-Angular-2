@@ -15,12 +15,20 @@ import {Device} 						from '../device'
   selector: 'table-telemetry-demo',
   template: `
     <div class="row">
-      <div class="col-xl-12">
+      <div class="col-xl-6">
         <div class="form-group input-group">
           <span class="input-group-btn"><button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button></span>
-            <input *ngIf="configEvent.filtering" placeholder="Search Telemetry" type="text" class="form-control" 
+            <input *ngIf="configEvent.filtering" placeholder="Search Events" type="text" class="form-control" 
               [ngTableFiltering]="configEvent.filtering"
               (tableChanged)="onChangeTable(configEvent)">
+        </div>
+      </div>
+      <div class="col-xl-6">
+        <div class="form-group input-group">
+          <span class="input-group-btn"><button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button></span>
+            <input *ngIf="configData.filtering" placeholder="Search Data" type="text" class="form-control" 
+              [ngTableFiltering]="configData.filtering"
+              (tableChanged)="onChangeTable(configData)">
         </div>
       </div>
     </div>
@@ -80,6 +88,12 @@ export class TableTelemetryDemoComponent implements OnInit {
     paging: true,
     sorting: { columns: this.columns },
     filtering: { filterString: '', columnName: 'event' }
+  };
+
+  public configData: any = {
+    paging: true,
+    sorting: { columns: this.columns },
+    filtering: { filterString: '', columnName: 'data' }
   };
 
   errorMessage: string
