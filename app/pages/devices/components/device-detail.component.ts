@@ -134,7 +134,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
           .subscribe((device: Device) => {
             this.device = device;
             if(this.device.scans.length > 0) {
-              var scan_data = this.buildScanData(this.device.scans[0].temperatures,this.device.scans[0].started_at);
+              var scan_data = this.buildScanData(this.device.scans[0].temperatures,this.device.scans[0].started_at,this.device.scans[0].target);
               this.chartData = scan_data;
             }
             if(this.device.power_events.length > 0) {
@@ -287,11 +287,16 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
     }
   }
 
-  buildScanData(data: number[],scan_date: string) {
+  buildScanData(data: number[],scan_date: string,target: number) {
     var data_out = new Array();
-    data_out.push(new Array('id', 'Temperature'));
+    data_out.push(new Array<Object>({label: "id"}, {label: "Temperature"}, {label: "Target", role: "annotation"}));
     for (var i = 0; i < data.length; i++) {
-      var value = new Array(i, 1.8*data[i]+32.0);
+      if(i == target) {
+        var value = new Array<Object>(i, 1.8*data[i]+32.0,"Target (" + target.toString() + ")");
+      } else {
+        var value = new Array<Object>(i, 1.8*data[i]+32.0,null);
+      }
+      
       //value.push({i, data[i]});
       data_out.push(value);
     }
@@ -300,21 +305,21 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
   }
 
   onScanSelect(scan: any) {
-    this.chartData = this.buildScanData(scan.temperatures,scan.started_at);
+    this.chartData = this.buildScanData(scan.temperatures,scan.started_at,scan.target);
     this.selected_scan_event_index = this.FindScanIndex(scan.id);
   }
 
   onPreviousScan() {
     if (this.selected_scan_event_index > 0) {
       this.selected_scan_event_index--;
-      this.chartData = this.buildScanData(this.device.scans[this.selected_scan_event_index].temperatures,this.device.scans[this.selected_scan_event_index].started_at);
+      this.chartData = this.buildScanData(this.device.scans[this.selected_scan_event_index].temperatures,this.device.scans[this.selected_scan_event_index].started_at,this.device.scans[this.selected_scan_event_index].target);
     }
   }
 
   onNextScan() {
     if (this.selected_scan_event_index < this.device.scans.length - 1) {
       this.selected_scan_event_index++;
-      this.chartData = this.buildScanData(this.device.scans[this.selected_scan_event_index].temperatures,this.device.scans[this.selected_scan_event_index].started_at);
+      this.chartData = this.buildScanData(this.device.scans[this.selected_scan_event_index].temperatures,this.device.scans[this.selected_scan_event_index].started_at,this.device.scans[this.selected_scan_event_index].target);
     }
   }
 

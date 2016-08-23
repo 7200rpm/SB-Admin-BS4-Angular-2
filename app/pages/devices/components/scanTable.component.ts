@@ -53,7 +53,7 @@ export class TableDeviceScanComponent implements OnInit {
   public columns: Array<any> = [
     { title: 'Start Time', name: 'started_at' },
     { title: 'End Time', name: 'finished_at' },
-    { title: 'ID', name: 'id' }
+    { title: 'Target', name: 'target' }
   ];
   public page: number = 1;
   public itemsPerPage: number = 10;
@@ -83,6 +83,12 @@ export class TableDeviceScanComponent implements OnInit {
     paging: true,
     sorting: { columns: this.columns },
     filtering: { filterString: '', columnName: 'id' }
+  };
+
+  public configTarget: any = {
+    paging: true,
+    sorting: { columns: this.columns },
+    filtering: { filterString: '', columnName: 'target' }
   };
 
   errorMessage: string
