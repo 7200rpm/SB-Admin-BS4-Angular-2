@@ -4,6 +4,8 @@ import {CAROUSEL_DIRECTIVES, DROPDOWN_DIRECTIVES, AlertComponent} from 'ng2-boot
 
 import {CHART_DIRECTIVES} from 'ng2-charts/ng2-charts';
 
+import { Router, ActivatedRoute }       from '@angular/router';
+
 import {DashboardService} 			from '../dashboard.service'
 import {Customer} 						from '../../customers/customer'
 
@@ -61,40 +63,13 @@ export class HomeComponent implements OnInit {
 	dash_items: any;
 	numShipped: any;
 	numStock: any;
-	/* Carousel Variable */
-	myInterval: number = 5000;
-	index: number = 0;
-	slides: Array<any> = [];
-	imgUrl: Array<any> = [
-		`assets/img/slider1.jpg`,
-		`assets/img/slider2.jpg`,
-		`assets/img/slider3.jpg`,
-		`assets/img/slider0.jpg`
-	];
 
-	public chartLabels: string[] = ['Shipped', 'Unfulfilled']
-	public chartData: number[];
-	public chartType: string = 'pie';
-	/* END */
-	/* Alert component */
-	public alerts: Array<Object> = [
-		{
-			type: 'danger',
-			msg: 'Oh snap! Change a few things up and try submitting again.'
-		},
-		{
-			type: 'success',
-			msg: 'Well done! You successfully read this important alert message.',
-			closable: true
-		}
-	];
+	public numCustomers: number = 0;
+	public numUnfulfilledOrders: number = 0;
+	public numDevices: number = 0;
+	public numShippedDevices: number = 0;
 
-	public closeAlert(i: number): void {
-		this.alerts.splice(i, 1);
-	}
-	/* END*/
-
-	constructor(private auth: AuthService, private dashboardService: DashboardService) {
+	constructor(private auth: AuthService, private dashboardService: DashboardService, private router: Router) {
 
 		// First, check if there is already a JWT in local storage
 		// var idToken = localStorage.getItem('id_token');
@@ -112,68 +87,37 @@ export class HomeComponent implements OnInit {
 		// 		console.log("Error signing in", authHash);
 		// 	}
 		// }
-
-
-		for (let i = 0; i < 4; i++) {
-			this.addSlide();
-		}
-	}
-
-	/* Carousel */
-	addSlide() {
-		let i = this.slides.length;
-		this.slides.push({
-			image: this.imgUrl[i],
-			text: `${['Dummy ', 'Dummy ', 'Dummy ', 'Dummy '][this.slides.length % 4]}
-      			${['text 0', 'text 1', 'text 2', 'text 3'][this.slides.length % 4]}`
-		});
 	}
 
 	ngOnInit() { 
-		this.dashboardService;
 		this.getDashboard();
-	}
+	 }
 
 	getDashboard() {
 		this.dashboardService.getDashboard()
 			.subscribe(
 			items => {
 				this.dash_items = items;
-				console.log(items);
-				this.total_customers = this.dash_items.customers.length;
-				for(var i = 0; i < this.dash_items.customers.length; i++) {
-					if(this.dash_items.customers[i].order_status != "Shipped") {
-						this.unfulfilled_orders++;
-					}
-				}
-				this.total_devices = this.dash_items.devices.length;
-				for(var i = 0; i < this.dash_items.devices.length; i++) {
-					if(this.dash_items.devices[i].customer_name != null) {
-						this.shipped_devices++;
-					}
-				}
-				this.setupChart();
+				console.log(this.dash_items);
+				this.getStatistics();
 			},
 			error => { console.log("Error: " + error) },
 			() => console.log('Dashboard Completed!')
 			)
 	}
 
-	private setupChart(): void {
-		//this.numShipped = this.customers.filter(c => c.order_status == "Shipped").length;
-		//this.numStock = this.customers.filter(c => c.order_status == "Unfulfilled").length;
-
-		//this.chartData = [this.numShipped, this.numStock]
+	getStatistics() {
+		for(var i = 0; i < this.dash_items.customers.length; i++) {
+			this.numCustomers++;
+			if(this.dash_items.customers[i].order_status == "Unfulfilled") {
+				this.numUnfulfilledOrders++;
+			}
+		}
+		for(var i = 0; i < this.dash_items.devices.length; i++) {
+			this.numDevices++;
+			if(this.dash_items.devices[i].customer_name != null) {
+				this.numShippedDevices++;
+			}
+		}
 	}
-
-
-	// events
-	public chartClicked(e: any): void {
-
-	}
-
-	public chartHovered(e: any): void {
-
-	}
-	/* END */
 }
