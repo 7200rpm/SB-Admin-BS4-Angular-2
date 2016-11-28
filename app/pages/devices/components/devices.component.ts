@@ -51,7 +51,7 @@ export class DeviceComponent implements OnInit {
   }
 
   onSelect(device: Device) {
-    this.router.navigate(['/dashboard/device', device.deviceID]);
+    this.router.navigate(['/dashboard/device', device.coreID]);
   }
 
   onVisSelect(properties: any) {

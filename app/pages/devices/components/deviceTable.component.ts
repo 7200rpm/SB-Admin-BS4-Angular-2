@@ -102,9 +102,9 @@ export class TableDeviceDemoComponent implements OnInit {
    public rows: Array<any> = [];
    public columns: Array<any> = [
       { title: 'Nickname', name: 'nickname' },
-      { title: 'Serial Number', name: 'serial_number' },
-      { title: 'Particle ID', name: 'particleID' },
-      { title: 'Revision', name: 'hardware_revision' },
+      { title: 'Serial Number', name: 'serialNumber' },
+      { title: 'Particle ID', name: 'coreID' },
+      { title: 'Revision', name: 'hardwareVersion' },
       { title: 'Status', name: 'status' }
    ];
    public page: number = 1;
@@ -116,14 +116,14 @@ export class TableDeviceDemoComponent implements OnInit {
    public config: any = {
       paging: true,
       sorting: { columns: this.columns },
-      filtering: { filterString: '', columnName: 'serial_number' }
+      filtering: { filterString: '', columnName: 'serialNumber' }
    };
 
 
    public configSerialNumber: any = {
       paging: true,
       sorting: { columns: this.columns },
-      filtering: { filterString: '', columnName: 'serial_number' }
+      filtering: { filterString: '', columnName: 'serialNumber' }
    };
 
    public configNickname: any = {
@@ -135,13 +135,13 @@ export class TableDeviceDemoComponent implements OnInit {
    public configParticleID: any = {
       paging: true,
       sorting: { columns: this.columns },
-      filtering: { filterString: '', columnName: 'particleID' }
+      filtering: { filterString: '', columnName: 'coreID' }
    };
 
    public configHardwareRevision: any = {
       paging: true,
       sorting: { columns: this.columns },
-      filtering: { filterString: '', columnName: 'hardware_revision' }
+      filtering: { filterString: '', columnName: 'hardwareVersion' }
    };
 
    public configStatus: any = {

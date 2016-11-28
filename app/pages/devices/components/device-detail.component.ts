@@ -128,11 +128,12 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
 
     this.sub = this.route.params.subscribe(params => {
       if (params['id'] !== undefined) {
-        let id = +params['id'];
+        let id = params['id'];
         this.navigated = true;
         this.deviceService.getDevice(id)
           .subscribe((device: Device) => {
             this.device = device;
+            /*
             if(this.device.scans.length > 0) {
               var scan_data = this.buildScanData(this.device.scans[0].temperatures,this.device.scans[0].started_at,this.device.scans[0].target);
               this.chartData = scan_data;
@@ -140,6 +141,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
             if(this.device.power_events.length > 0) {
               this.powerChartData = this.buildPowerData(this.device.power_events[0].voltage);
             }
+            */
           })
       }
       else {
@@ -166,13 +168,13 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
   }
 
   public LoadTimeline() {
-    if(!this.device.telemetry) {
+    if(!this.device.events) {
       return;
     }
     this.show_timeline = true
     var temp_time_data = Array(this.events_per_load);
     for (var i = 0; i < this.events_per_load; i++) {
-      temp_time_data[i] = { id: this.device.telemetry[i].id, content: this.device.telemetry[i].event, start: this.device.telemetry[i].published_at };
+      temp_time_data[i] = { id: this.device.events[i].id, content: this.device.events[i].event, start: this.device.events[i].published_at };
     }
     this.time_data = temp_time_data;
     this.loaded_events = this.events_per_load;
@@ -183,7 +185,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
     var i:number;
     for (var j = 0; j < this.events_per_load; j++) {
       i = this.loaded_events + j;
-      temp_time_data[j] = { id: this.device.telemetry[i].id, content: this.device.telemetry[i].event, start: this.device.telemetry[i].published_at };
+      temp_time_data[j] = { id: this.device.events[i].id, content: this.device.events[i].event, start: this.device.events[i].published_at };
     }
     this.time_data=  this.time_data.concat(temp_time_data);
     this.loaded_events += this.events_per_load;
@@ -191,7 +193,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
 
   public save() {
     this.committing_changes = true;
-    if (this.device.deviceID) {
+    if (this.device.coreID) {
       this.deviceService.updateDevice(this.device)
         .subscribe((device: Device) => {
           this.device = device;
@@ -233,13 +235,13 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
   onPowerSelect(power_event: any) {
     this.powerChartData = this.buildPowerData(power_event.voltage);
     this.powerChartDataLength = this.powerChartData.length;
-    this.powerChartOptions.title = power_event.event_type + " of " + this.device.serial_number + " for " + (new Date(power_event.start_time)).toString();
+    this.powerChartOptions.title = power_event.event_type + " of " + this.device.serialNumber + " for " + (new Date(power_event.start_time)).toString();
   }
 
   viewPowerChart() {
     window.open(this.powerChart.imageURI);
   }
-
+  /*
   onNextPower() {
     if (this.device.power_events.length == this.selected_power_event_index - 1 || this.selected_power_event_index == null) {
       return;
@@ -255,7 +257,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
     this.selected_power_event_index--;
     this.selected_power_event = this.device.power_events[this.selected_power_event_index];
   }
- 
+ */
   onSubmit() { 
     this.submitted = true; 
     this.is_changed = true;
@@ -270,7 +272,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
   // ngOnDestroy() {
   //   this.sub.unsubscribe()
   // }
-
+/*
   onVisSelect(properties: any) {
     // Find the selected event
     if (properties.x.items.length == 0) {
@@ -335,5 +337,5 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
   viewScanChart() {
     window.open(this.scanChart.imageURI);
   }
-
+*/
 }

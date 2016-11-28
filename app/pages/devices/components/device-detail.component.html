@@ -5,7 +5,7 @@
                 <button type="button" class="btn btn-primary" (click)="goBack()">Back</button>
                 <button *ngIf="is_changed && !committing_changes" type="button" class="btn btn-danger" (click)="save()">Commit Changes</button>
                 <button *ngIf="committing_changes" type="button" class="btn btn-danger">Committing Changes...</button>
-                 | <i class="fa fa-barcode"></i> {{device.serial_number}}
+                 | <i class="fa fa-barcode"></i> {{device.serialNumber}}
             </h2>
             <hr />
         </div>
@@ -57,15 +57,15 @@
                                 </tr>
                                 <tr>
                                     <th>Serial Number</th>
-                                    <td>{{device.serial_number}}</td>
+                                    <td>{{device.serialNumber}}</td>
                                 </tr>
                                 <tr>
                                     <th>Particle ID</th>
-                                    <td>{{device.particleID}}</td>
+                                    <td>{{device.coreID}}</td>
                                 </tr>
                                 <tr>
                                     <th>Hardware Revision</th>
-                                    <td>{{device.hardware_revision}}</td>
+                                    <td>{{device.hardwareVersion}}</td>
                                 </tr>
                                 <tr *ngIf="device.notes">
                                     <td colspan="2"><b>Notes:</b> {{device.notes}}</td>
@@ -99,7 +99,7 @@
                         </fieldset>
                         <fieldset class="form-group">
                             <label>Serial Number</label>
-                            <input class="form-control" name="device-serial_number" value="{{device.serial_number}}" [(ngModel)]="device.serial_number">
+                            <input class="form-control" name="device-serial_number" value="{{device.serialNumber}}" [(ngModel)]="device.serialNumber">
                             <div [hidden]="device.serial_number" 
                                 class="alert alert-danger">
                                 Serial Number is required
@@ -107,7 +107,7 @@
                         </fieldset>
                         <fieldset class="form-group">
                             <label>Particle ID</label>
-                            <input class="form-control" name="device-particleID" value="{{device.particleID}}" [(ngModel)]="device.particleID">
+                            <input class="form-control" name="device-particleID" value="{{device.coreID}}" [(ngModel)]="device.coreID">
                             <div [hidden]="device.particleID" 
                                 class="alert alert-danger">
                                 Particle ID is required
@@ -115,7 +115,7 @@
                         </fieldset>
                         <fieldset class="form-group">
                             <label>Hardware Revision</label>
-                            <input class="form-control" required name="device-hardware_revision" value="{{device.hardware_revision}}" [(ngModel)]="device.hardware_revision">
+                            <input class="form-control" required name="device-hardware_revision" value="{{device.hardwareVersion}}" [(ngModel)]="device.hardwareVersion">
                             <div [hidden]="device.hardware_revision" 
                                 class="alert alert-danger">
                                 Hardware Revision is required
@@ -173,7 +173,7 @@
                     <button *ngIf="!show_timeline" type="button" class="btn btn-primary" (click)="LoadTimeline()">Load Timeline</button>
                     <button *ngIf="show_timeline" type="button" class="btn btn-danger" (click)="show_timeline=false">Close Timeline</button>
                 </h3>
-                <table-telemetry-demo [data_in]=device.telemetry>
+                <table-telemetry-demo [data_in]=device.events>
                 </table-telemetry-demo>
             </div>
         </div>
@@ -205,6 +205,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="card card-block">
                 <h3>Scans</h3>
                 <div class="row">

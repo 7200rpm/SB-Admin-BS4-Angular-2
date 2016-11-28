@@ -10,7 +10,7 @@ import {AuthHttp} from 'angular2-jwt';
 @Injectable()
 export class DeviceService {
 
-  private deviceURL = 'https://wakedotnet.azurewebsites.net/v1/devices';  // URL to web API
+  private deviceURL = 'https://wakeuserapi.azurewebsites.net/v1/devices';  // URL to web API
   private devices: Device[]
 
   constructor(private http: Http, private authHttp: AuthHttp) { }
@@ -21,7 +21,7 @@ export class DeviceService {
       .catch(this.handleError);
   }
 
-  getDevice(id: number): Observable<Device> {
+  getDevice(id: string): Observable<Device> {
     //console.log(this.customers)
     //return this.customers.filter(customer => customer.customerID === id)
     return this.authHttp.get(this.deviceURL + '/' + id)
@@ -45,7 +45,7 @@ export class DeviceService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    return this.authHttp.post(this.deviceURL + '/' + device.deviceID, body)
+    return this.authHttp.post(this.deviceURL + '/' + device.coreID, body)
       .map(() => device)
       .catch(this.handleError);
   }
@@ -55,7 +55,7 @@ export class DeviceService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    return this.authHttp.post(this.deviceURL + '/' + device.deviceID + '/delete', body)
+    return this.authHttp.post(this.deviceURL + '/' + device.coreID + '/delete', body)
       .map(() => device)
       .catch(this.handleError);
   }

@@ -69,7 +69,7 @@ export class TableTelemetryDemoComponent implements OnInit {
   public rows: Array<any> = [];
   public columns: Array<any> = [
     { title: 'Timestamp', name: 'published_at' },
-    { title: 'Event', name: 'event' },
+    { title: 'Event', name: 'name' },
     { title: 'Data', name: 'data' },
   ];
   public page: number = 1;
@@ -87,7 +87,7 @@ export class TableTelemetryDemoComponent implements OnInit {
   public configEvent: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'event' }
+    filtering: { filterString: '', columnName: 'name' }
   };
 
   public configData: any = {
