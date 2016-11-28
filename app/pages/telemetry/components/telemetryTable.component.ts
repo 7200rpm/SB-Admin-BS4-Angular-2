@@ -69,8 +69,8 @@ export class TableTelemetryComponent implements OnInit {
   public rows: Array<any> = [];
   public columns: Array<any> = [
     { title: 'Timestamp', name: 'published_at' },
-    { title: 'Particle ID', name: 'coreid' },
-    { title: 'Event', name: 'event' },
+    { title: 'Particle ID', name: 'coreID' },
+    { title: 'Event', name: 'name' },
     { title: 'Data', name: 'data' }
   ];
   public page: number = 1;

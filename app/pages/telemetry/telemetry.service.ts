@@ -12,7 +12,7 @@ import {AuthHttp} from 'angular2-jwt';
 @Injectable()
 export class TelemetryService {
 
-  private telemetryURL = 'https://wakedotnet.azurewebsites.net/v1/telemetry';  // URL to web API
+  private telemetryURL = 'https://wakeuserapi.azurewebsites.net/v1/devices/telemetry';  // URL to web API
   private telemetry: any[];
 
   constructor(private http: Http, private authHttp: AuthHttp) { }

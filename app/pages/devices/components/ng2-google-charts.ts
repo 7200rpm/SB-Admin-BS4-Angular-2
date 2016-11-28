@@ -70,7 +70,6 @@ export class GoogleChartComponent implements OnInit, AfterViewInit {
     if (!GoogleChartComponent.googleLoaded) return;
 
     if (!this.data) return;
-
     var wrapper: any;
     wrapper = new google.visualization.ChartWrapper({
       chartType: this.chartType,
