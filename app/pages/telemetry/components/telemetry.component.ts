@@ -70,12 +70,12 @@ export class TelemetryComponent implements OnInit {
   loadChartData() {
     var data_out = new Array();
     data_out.push(new Array('Timestamp','Events','Devices'));
-    /*
+    
     for (var i = 0; i < this.telemetry.statistics.length; i++) {
       var value = new Array(new Date(this.telemetry.statistics[i].startTime), this.telemetry.statistics[i].telemetryCount, this.telemetry.statistics[i].deviceCount);
       data_out.push(value);
     }
-    */
+    
     return data_out;
   }
 }

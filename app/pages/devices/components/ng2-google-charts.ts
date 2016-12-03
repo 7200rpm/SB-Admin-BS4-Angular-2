@@ -37,10 +37,10 @@ export class GoogleChartComponent implements OnInit, AfterViewInit {
     console.log('Google Charts ngOnInit');
     if (!GoogleChartComponent.googleLoaded) {
       GoogleChartComponent.googleLoaded = true;
-      google.charts.load('current', { packages: ['corechart', 'line'] });
+      //google.charts.load('current', { packages: [] });
 
     }
-    google.charts.setOnLoadCallback(() => this.drawGraph());
+    google.setOnLoadCallback(() => this.drawGraph());
   }
 
   ngAfterViewInit() {
