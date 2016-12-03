@@ -1,133 +1,308 @@
 <div class="container-fluid" *ngIf="customer">
+  <!-- Navigation -->
   <div class="row">
     <div class="col-xl-12">
-      <h2><button type="button" class="btn btn-primary" (click)="goBack()">Back</button> | <i class="fa fa-user"></i> {{customer.name}}
+      <h2><button type="button" class="btn btn-primary" (click)="goBack()">Back</button>
+      <button *ngIf="is_changed && !committing_changes" type="button" class="btn btn-danger" (click)="save()">Commit Changes</button>
+      <button *ngIf="committing_changes" type="button" class="btn btn-danger">Committing Changes...</button>
+       | <i class="fa fa-user"></i> {{customer.customer_name}}<span *ngIf=customer.order_nickame> - {{customer.order_nickname}}</span>
       </h2>
       <hr />
     </div>
+
   </div>
-  <div *ngIf=customer.devices class="alert alert-success">
+
+  <!-- Alert -->
+  <div *ngIf="customer.order_status=='Shipped'" class="alert alert-success">
     We have shipped Wakē(s) to this customer.
   </div>
-  <div *ngIf=!customer.devices class="alert alert-warning">
+  <div *ngIf="customer.order_status=='Unfulfilled'" class="alert alert-warning">
     We have <strong>not</strong> shipped Wakē(s) to this customer.
   </div>
 
+  <!-- Customer Form -->
   <div class="row">
-    <div class="col-xl-4">
+    <div class="col-xl-12">
+      <div class="card card-warning card-inverse">
+        <div class="card-header card-warning">
+          Customer Information
+        </div>
+        <div class="card-block bg-white" [hidden]="submitted">
 
+          <form *ngIf="active" (ngSubmit)="onSubmit()" #customerForm="ngForm">
+            <div class="row">
+              <div class="col-xl-6">
+
+                <fieldset class="form-group">
+                  <label>Customer Name</label>
+                  <input class="form-control" name="customer-name"  value="{{customer.customer_name}}" [(ngModel)]="customer.customer_name">
+                  <div [hidden]="customer.customer_name" 
+                      class="alert alert-danger">
+                      Customer name is requried
+                  </div>
+                </fieldset>
+                <fieldset class="form-group">
+                  <label>Customer Email</label>
+                  <input class="form-control" name="customer-email" value="{{customer.customer_email}}" [(ngModel)]="customer.customer_email">
+                </fieldset>
+                <fieldset class="form-group">
+                  <label>Phone Number</label>
+                  <input class="form-control" name="customer-phone" value="{{customer.customer_telephone}}" [(ngModel)]="customer.customer_telephone">
+                </fieldset>
+                <fieldset class="form-group">
+                  <label>Order Nickname</label>
+                  <input class="form-control" name="order-nickname" value="{{customer.order_nickname}}" [(ngModel)]="customer.order_nickname">
+                </fieldset>
+                <fieldset class="form-group">
+                  <label>Order Identifier</label>
+                  <input class="form-control" name="order-identifier" value="{{customer.order_identifier}}" [(ngModel)]="customer.order_identifier">
+                </fieldset>
+                <fieldset class="form-group">
+                  <label>Order Date</label>
+                  <input class="form-control" type="date" name="order-date" value="{{customer.order_date}}" [(ngModel)]="customer.order_date">
+                  <div [hidden]="customer.order_date" 
+                      class="alert alert-danger">
+                      Order date is required
+                  </div>
+                </fieldset>
+                <fieldset class="form-group">
+                  <label>Order Quantity</label>
+                  <input class="form-control" type="number" name="order-quantity" value="{{customer.order_quantity}}" [(ngModel)]="customer.order_quantity">
+                  <div [hidden]="customer.order_quantity" 
+                      class="alert alert-danger">
+                      Order quantity is required
+                  </div>
+                </fieldset>
+                <fieldset class="form-group">
+                    <label>Notes</label>
+                    <textarea class="form-control" name="customer-notes" rows="3" value="{{customer.notes}}" [(ngModel)]="customer.notes"></textarea>
+                </fieldset>
+              </div>
+              <div class="col-xl-6">
+                <fieldset class="form-group">
+                  <label>Shipment To</label>
+                  <input class="form-control" name="shipment-name" value="{{customer.shipment_name}}" [(ngModel)]="customer.shipment_name">
+                </fieldset>
+                <fieldset class="form-group">
+                  <label>Shipment Email</label>
+                  <input class="form-control" name="shipment-email" value="{{customer.shipment_email}}" [(ngModel)]="customer.shipment_email">
+                </fieldset>
+                <fieldset class="form-group">
+                  <label>Shipment Telephone</label>
+                  <input class="form-control" name="shipment-telephone" value="{{customer.shipment_telephone}}" [(ngModel)]="customer.shipment_telephone">
+                </fieldset>
+                <fieldset class="form-group">
+                  <label>Street Address</label>
+                  <input class="form-control" name="shipment-street-address" value="{{customer.shipment_street_address}}" [(ngModel)]="customer.shipment_street_address">
+                </fieldset>
+                <fieldset class="form-group">
+                  <label>City</label>
+                  <input class="form-control" name="shipment-city" value="{{customer.shipment_city}}" [(ngModel)]="customer.shipment_city">
+                </fieldset>
+                <fieldset class="form-group">
+                  <label>State</label>
+                  <input class="form-control" name="shipment-state" value="{{customer.shipment_state}}" [(ngModel)]="customer.shipment_state">
+                </fieldset>
+                <fieldset class="form-group">
+                  <label>Country</label>
+                  <input class="form-control" name="shipment-country" value="{{customer.shipment_country}}" [(ngModel)]="customer.shipment_country">
+                </fieldset>
+                <fieldset class="form-group">
+                  <label>Postal Code</label>
+                  <input class="form-control" name="shipment-postal-code" value="{{customer.shipment_postal_code}}" [(ngModel)]="customer.shipment_postal_code">
+                </fieldset>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="reset" class="btn btn-secondary">Reset</button>
+          </form>
+        </div>
+
+        <div class="card-block bg-white" [hidden]="!submitted">
+          <div class="row">
+            <div class="col-xl-6">
+              <h4>Customer</h4>
+              <div class="card">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                          <tr *ngIf="customer.order_nickname">
+                                <th>Order Nickname</th>
+                                <td>{{customer.order_nickname}}</td>
+                            </tr>
+                            <tr>
+                                <th>Customer Name</th>
+                                <td>{{customer.customer_name}}</td>
+                            </tr>
+                            <tr>
+                                <th>Customer Email</th>
+                                <td><a href="mailto:{{customer.customer_email}}">{{customer.customer_email}}</a></td>
+                            </tr>
+                            <tr>
+                                <th>Customer Telephone</th>
+                                <td>{{customer.customer_telephone}}</td>
+                            </tr>
+                          </tbody>
+                    </table>
+                </div>
+              </div>
+              <h4>Order</h4>
+              <div class="card">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                              <th>Order Date</th>
+                              <td>{{customer.order_date}}</td>
+                          </tr>
+                          <tr *ngIf="customer.order_nickname"> 
+                                <th>Order Identifier</th>
+                                <td>{{customer.order_nickname}}</td>
+                            </tr>
+                            <tr *ngIf="customer.order_identifier"> 
+                                <th>Order Identifier</th>
+                                <td>{{customer.order_identifier}}</td>
+                            </tr>
+                            <tr>
+                                <th>Order Quantity</th>
+                                <td>{{customer.order_quantity}}</td>
+                            </tr>
+                            <tr>
+                                <th>Order Status</th>
+                                <td>{{customer.order_status}}</td>
+                            </tr>
+                            <tr *ngIf="customer.notes">
+                                <td colspan="2"><b>Notes:</b> {{customer.notes}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-6">
+              <h4>Shipment</h4>
+              <div class="card">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>Ship To</th>
+                                <td>{{customer.shipment_name}}</td>
+                            </tr>
+                            <tr>
+                                <th>Shipment Email</th>
+                                <td>{{customer.shipment_email}}</td>
+                            </tr>
+                            <tr>
+                                <th>Shipment Telephone</th>
+                                <td>{{customer.shipment_telephone}}</td>
+                            </tr>
+                            <tr>
+                                <th>Shipment Address</th>
+                                <td><span *ngIf=customer.shipment_street_address>{{customer.shipment_street_address}}<br /></span><span *ngIf=customer.shipment_city>{{customer.shipment_city}}, </span><span *ngIf=customer.shipment_state>{{customer.shipment_state}}<br /></span>{{customer.shipment_country}}</td>
+                            </tr>
+                            <tr> 
+                                <th>Shipment Date</th>
+                                <td>{{customer.shipment_date}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <button class="btn btn-primary" (click)="submitted=false">Edit</button>
+          <button *ngIf="customer.order_status=='Shipped'" type="button" class="btn btn-danger" (click)="undo_ship_warning=true">Undo Shipment</button>
+          <button *ngIf="customer.order_status=='Unfulfilled'" type="button" class="btn btn-warning" (click)="ship_warning=true">Ship Order</button>
+          <button type="button" class="btn btn-danger" (click)="delete_warning=true">Delete Order</button>
+          <div *ngIf="ship_warning" >
+            <hr>
+            <div class="row">
+              <div class="col-xs-6">Are you sure you want to ship this order?</div>
+              <div class="col-xs-6 pull-right">
+                <button class="btn btn-danger" (click)="ShipOrder()">Yes</button>
+                <button class="btn btn-warning" (click)="ship_warning=false">No</button>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="undo_ship_warning" >
+            <hr>
+            <div class="row">
+              <div class="col-xs-6">Are you sure you want to undo the shipment?</div>
+              <div class="col-xs-6 pull-right">
+                <button class="btn btn-danger" (click)="UndoShip()">Yes</button>
+                <button class="btn btn-warning" (click)="undo_ship_warning=false">No</button>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="delete_warning" >
+            <hr>
+            <div class="row">
+              <div class="col-xs-6">Are you sure you want to delete the order?</div>
+              <div class="col-xs-6 pull-right">
+                <button class="btn btn-danger" (click)="delete()">Yes</button>
+                <button class="btn btn-warning" (click)="delete_warning=false">No</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="customer.order_status != 'Shipped'" class="row">
+    <div class="col-xl-6">
       <div class="card card-primary card-inverse">
         <div class="card-header card-primary">
-          Order
-        </div>
-        <div class="card-block bg-white">
-          Source: {{customer.source}}<br /> Source ID: 1234567890<br /> Order Date: 2016-07-04<br /> Quantity: {{customer.quantity}}<br
-          /> Name: {{customer.name}}<br /> Email: <a href="mailto:{{customer.email}}">{{customer.email}}</a><br />
-        </div>
-      </div>
-
-      <div *ngIf="customer.devices" class="card card-success card-inverse">
-        <div class="card-header card-success">
-          Shipment
-        </div>
-        <div class="card-block bg-white">
-          Ship Date: {{customer.ship_date}}<br /> Shipped To: {{customer.name}}<br /> Address: <a href="#">123 Main St. Los Angeles CA 90000</a><br
-          /> Email: <a href="mailto:{{customer.email}}">{{customer.email}}</a><br /> Telephone: 123-456-7890
-          <hr />
-          <button type="button" class="btn btn-danger">Undo Shipment</button>
-        </div>
-      </div>
-
-      <div *ngIf="!customer.devices" class="card card-warning card-inverse">
-        <div class="card-header card-warning">
-          Units
+          Unit Available for Shipment
         </div>
         <div class="card-block bg-white">
           <div class="row">
-            <div class="col-xs-12">
-              <alert *ngFor="let order_unit of order_units;let i = index" [type]="order_unit.type" dismissible="true" (close)="closeAlert(i)">
-                {{ order_unit?.msg }}
-              </alert>
-            </div>
             <div class="col-xs-8">
-              <fieldset class="form-group">
-                <select class="form-control" [(ngModel)]="added_unit">
-                  <option value="">Select Unit</option>
-              <option *ngFor="let available_devices of customer.available_devices">
-                {{available_devices.serial_number}}
-              </option>
-            </select>
-              </fieldset>
+              <available-devices #availabledevices [available_devices] = "customer.available_devices"></available-devices>
             </div>
             <div class="col-xs-4">
-              <button type="button" class="btn btn-primary" (click)="addAlert()">Add</button>
+              <button type="button" class="btn btn-success" (click)="addDevices()">Add</button>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-    <div class="col-xl-8">
-      <div *ngIf="!customer.devices" class="card card-warning card-inverse">
-        <div class="card-header card-warning">
-          Ship To
+    <div class="col-xl-6">
+      <div class="card card-success card-inverse">
+        <div class="card-header card-success">
+          Units Attached To Shipment
         </div>
         <div class="card-block bg-white">
-          <form role="form">
-            <div class="row">
-              <div class="col-xl-6">
-                <fieldset class="form-group">
-                  <label>Ship To</label>
-                  <input class="form-control" value="{{customer.name}}" [(ngModel)]="customer.name">
-                </fieldset>
-                <fieldset class="form-group">
-                  <label>Email</label>
-                  <input class="form-control" value="{{customer.email}}" [(ngModel)]="customer.email">
-                </fieldset>
-                <fieldset class="form-group">
-                  <label>Phone Number</label>
-                  <input class="form-control" value="{{customer.phone_number}}" [(ngModel)]="customer.telephone_number">
-                </fieldset>
-                <fieldset class="form-group">
-                  <label>Notes</label>
-                  <textarea class="form-control" rows="5" value="{{customer.notes}}" [(ngModel)]="customer.notes"></textarea>
-                </fieldset>
-              </div>
-              <div class="col-xl-6">
-                <fieldset class="form-group">
-                  <label>Street Address</label>
-                  <input class="form-control" value="{{customer.street_address}}" [(ngModel)]="customer.street_address">
-                </fieldset>
-                <fieldset class="form-group">
-                  <label>City</label>
-                  <input class="form-control" value="{{customer.city}}" [(ngModel)]="customer.city">
-                </fieldset>
-                <fieldset class="form-group">
-                  <label>State</label>
-                  <select class="form-control" value="{{customer.state}}" [(ngModel)]="customer.state">
-                    <option></option>
-                    <option *ngFor="let state of states">{{state}}</option>
-                  </select>
-                </fieldset>
-                <fieldset class="form-group">
-                  <label>Country</label>
-                  <input class="form-control" value="{{customer.county}}" [(ngModel)]="customer.country">
-                </fieldset>
-                <fieldset class="form-group">
-                  <label>Postal Code</label>
-                  <input class="form-control" value="{{customer.postal_code}}" [(ngModel)]="customer.postal_code">
-                </fieldset>
-              </div>
+          <div class="row">
+            <div class="col-xs-8">
+              <shipment-devices #shipmentdevices [shipment_devices] = "customer.devices"></shipment-devices>
             </div>
-            <button type="submit" class="btn btn-primary">Save Information</button>
-            <button type="reset" class="btn btn-secondary">Reset</button>
-          </form>
-          <hr/>
-          <button type="submit" class="btn btn-danger">Ship Order</button>
-          <button type="submit" class="btn btn-warning">Print Shipping Label</button>
+            <div class="col-xs-4">
+              <button type="button" class="btn btn-danger" (click)="removeDevices()">Remove</button>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xl-4">
+      <div *ngIf="customer.shipment_date" class="card card-success card-inverse">
+        <div class="card-header card-success">
+          Shipment
+        </div>
+        <div class="card-block bg-white">
+          Ship Date: {{customer.shipment_date}}<br /> Shipped To: {{customer.shipment_name}}<br /> Address: <a href="#">123 Main St. Los Angeles CA 90000</a><br
+          /> Email: <a href="mailto:{{customer.shipment_email}}">{{customer.shipment_email}}</a><br />{{customer.shipment_telephone}}
+          <hr />
+        </div>
+      </div>
+    </div>
 
+    <div class="col-xl-8">
       <div *ngIf="customer.devices" class="card card-block">
         <h4>Devices</h4>
         <div class="table-responsive">
@@ -150,7 +325,7 @@
         </div>
       </div>
 
-      <div *ngIf=customer.devices class="card card-primary card-inverse">
+      <div *ngIf=customer.city class="card card-primary card-inverse">
         <div class="card-header card-primary">
           Location
         </div>
@@ -162,7 +337,7 @@
             height: 0;
             overflow: hidden;
           }
-          
+
           .google-maps iframe {
             position: absolute;
             top: 0;

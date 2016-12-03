@@ -14,25 +14,26 @@ import {TableCustomerDemoComponent} from './customerTable.component'
 
 export class CustomerComponent implements OnInit {
   errorMessage: string
-  customers: Customer[]
+  customers: Customer[] = [];
   mode = 'Observable'
 
   constructor(
     private router: Router,
     private customerService: CustomerService) { }
 
-  ngOnInit() {  }
-  //
-  // getCustomers() {
-  //   this.customerService.getCustomers()
-  //     .subscribe(
-  //     customers => this.customers = customers,
-  //     error => this.errorMessage = <any>error,
-  //     () => console.log('Customers Completed!')
-  //     )
-  // }
+  ngOnInit() { this.getCustomers() }
+
+  getCustomers() {
+    this.customerService.getCustomers()
+      .subscribe(
+      customers => { this.customers = customers },
+      error => {this.errorMessage = <any>error; console.log("Error: " + error)},
+      () => console.log('Customers Completed!')
+      )
+  }
 
   onSelect(customer: Customer) {
-    this.router.navigate(['/dashboard/customer', customer.orderID]);
+    this.router.navigate(['/dashboard/customer', customer.customerID]);
   }
+
 }

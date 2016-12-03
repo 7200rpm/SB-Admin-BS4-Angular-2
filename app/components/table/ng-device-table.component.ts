@@ -7,7 +7,7 @@ import { Router }      from '@angular/router';
 @Component({
   selector: 'ng-device-table',
   template: `
-    <table class="table table-striped table-bordered dataTable"
+    <table class="table table-striped table-bordered dataTable table-hover"
            role="grid" style="width: 100%;">
       <thead>
       <tr role="row">
@@ -16,13 +16,14 @@ import { Router }      from '@angular/router';
           <i *ngIf="config && column.sort" class="pull-right fa"
             [ngClass]="{'fa-chevron-down': column.sort === 'desc', 'fa-chevron-up': column.sort === 'asc'}"></i>
         </th>
+        <th>Customer</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let row of rows" (click)="onRowClicked(row)" [attr.class]="row.order ? 'table-success' : 'table-warning'">
         <td *ngFor="let column of columns">{{getData(row, column.name)}}</td>
-        <td *ngIf='row.order'><a [routerLink]="['/dashboard','/customer', row.orderID]">{{row.order?.name}}</a></td>
-        <td *ngIf='!row.order'></td>
+        <td *ngIf="row.customerID"><a [routerLink]="['/dashboard','/customer', row.customerID]">{{row.customer_name}}</a></td>
+        <td *ngIf="!row.customerID"></td>
       </tr>
       </tbody>
     </table>

@@ -10,25 +10,16 @@ import {AuthHttp} from 'angular2-jwt';
 
 
 @Injectable()
-export class TelemetryService {
+export class DashboardService {
 
-  private telemetryURL = 'https://wakeuserapi.azurewebsites.net/v1/devices/telemetry';  // URL to web API
-  private telemetry: any[];
+  private dashboardURL = 'https://wakedotnet.azurewebsites.net/v1/dashboard';  // URL to web API
 
   constructor(private http: Http, private authHttp: AuthHttp) { }
 
-  getTelemetry(): Observable<any[]> {
-    return this.authHttp.get(this.telemetryURL)
+  getDashboard(): Observable<any[]> {
+    return this.authHttp.get(this.dashboardURL)
       .map(res => res.json())
       .catch(this.handleError);
-  }
-
-  getEvent(id: number): Observable<any> {
-
-    return this.authHttp.get(this.telemetryURL + '/' + id)
-      .map(res => res.json())
-      .catch(this.handleError);
-
   }
 
   private handleError(error: any) {

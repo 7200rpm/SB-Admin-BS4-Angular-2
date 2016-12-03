@@ -3,6 +3,8 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
 import {CORE_DIRECTIVES} from '@angular/common';
 import {DROPDOWN_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 
+import {AuthService} from '../../pages/login/auth.service'
+
 @Component({
     moduleId: module.id,
     selector: 'top-nav',
@@ -11,4 +13,6 @@ import {DROPDOWN_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
     directives: [DROPDOWN_DIRECTIVES, CORE_DIRECTIVES, ROUTER_DIRECTIVES]
 })
 
-export class TopNavComponent {}
+export class TopNavComponent {
+	constructor(private auth: AuthService){}
+}

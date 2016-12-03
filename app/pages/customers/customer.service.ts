@@ -1,21 +1,28 @@
 import { Injectable }     from '@angular/core';
+
+// import {AuthService} from '../../auth.service';
+// import {AuthHttp} from 'angular2-jwt';
+
 import { Http, Response, Headers, RequestOptions}  from '@angular/http';
 import { Customer }       from './customer';
 import { Observable }     from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
+import {AuthService} from '../login/auth.service';
+import {AuthHttp} from 'angular2-jwt';
+
 
 @Injectable()
 export class CustomerService {
 
-  private customerURL = 'http://wakeapi.azurewebsites.net/v1/customers';  // URL to web API
+  private customerURL = 'https://wakedotnet.azurewebsites.net/v1/customers';  // URL to web API
   private customers: Customer[]
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private authHttp: AuthHttp) { }
 
   getCustomers(): Observable<Customer[]> {
-    return this.http.get(this.customerURL)
+    return this.authHttp.get(this.customerURL)
       .map(res => res.json())
       .catch(this.handleError);
   }
@@ -27,18 +34,19 @@ export class CustomerService {
     //   .toPromise()
     //   .then(res => res.json())
     //   .then(cus => cus.filter((c: Customer) => c.customerID === id)[0])
-    return this.http.get(this.customerURL + '/' + id)
+    return this.authHttp.get(this.customerURL + '/' + id)
       .map(res => res.json())
       .catch(this.handleError);
 
   }
 
   addCustomer(customer: Customer): Observable<Customer> {
+    
     let body = JSON.stringify({ customer });
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(this.customerURL, body, options)
+    return this.authHttp.post(this.customerURL, body)
       .map(res => res.json())
       .catch(this.handleError);
   }
@@ -48,7 +56,17 @@ export class CustomerService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.put(this.customerURL + '/' + customer.orderID, body, options)
+    return this.authHttp.post(this.customerURL + '/' + customer.customerID, body)
+      .map(() => customer)
+      .catch(this.handleError);
+  }
+
+  deleteCustomer(customer: Customer): Observable<Customer> {
+    let body = JSON.stringify({ customer });
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.authHttp.post(this.customerURL + '/' + customer.customerID + '/delete', body)
       .map(() => customer)
       .catch(this.handleError);
   }

@@ -1,42 +1,48 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, ViewChild, Input, OnInit, Output, AfterViewInit} from '@angular/core';
 import {CustomerService} 			from '../customer.service'
 import { Customer } from '../customer';
 import { Router, ActivatedRoute }       from '@angular/router';
 import { Observable }     from 'rxjs/Observable';
 import {AlertComponent} from 'ng2-bootstrap/ng2-bootstrap';
+import { FORM_DIRECTIVES }    from '@angular/forms';
+
+import {CustomerFormComponent} from './customer-form.component';
+
+import { AvailableDevicesComponent } from './available-devices';
+import { ShipmentDevicesComponent } from './shipment-devices';
 
 @Component({
   moduleId: module.id,
   selector: 'customer-detail-cmp',
   templateUrl: 'customer-detail.component.html',
-  directives:[AlertComponent]
+  directives:[AlertComponent, CustomerFormComponent, AvailableDevicesComponent, ShipmentDevicesComponent,FORM_DIRECTIVES]
 })
 
 export class CustomerDetailComponent implements OnInit {
   @Input() customer: Customer;
   @Output() close = new EventEmitter();
+
+  @ViewChild('availabledevices') available_devices_component: any;
+  @ViewChild('shipmentdevices') shipment_devices_component: any;
+  @ViewChild('customerForm') customer_form: any;
+  public form_loaded: boolean = false;
+
+  // Form information
+  public is_changed: boolean = false;
+  public committing_changes: boolean = false;
+  submitted = true;
+  active = true;
+  public ship_warning = false;
+  public undo_ship_warning = false;
+
   error: any;
   navigated = false; // true if navigated here
-
-  public states:Array<string> = ['Alabama', 'Alaska', 'Arizona', 'Arkansas',
-	'California', 'Colorado',
-	'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho',
-	'Illinois', 'Indiana', 'Iowa',
-	'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts',
-	'Michigan', 'Minnesota',
-	'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-	'New Jersey', 'New Mexico',
-	'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon',
-	'Pennsylvania', 'Rhode Island',
-	'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-	'Virginia', 'Washington',
-	'West Virginia', 'Wisconsin', 'Wyoming'];
-
-  public order_units: Array<Object> = [];
 
   public added_unit:string = "";
 
   private sub: any;
+  
+  public delete_warning = false;
 
   constructor(
     private customerService: CustomerService,
@@ -44,39 +50,120 @@ export class CustomerDetailComponent implements OnInit {
     private router: Router
   ) { }
 
-public closeAlert(i:number):void {
-		this.order_units.splice(i, 1);
-	}
-	public addAlert():void {
-    if(this.added_unit == "") {
-      return;
-    }
-    if(this.order_units.length == this.customer.quantity) {
-      alert("You've tried to add " + (this.customer.quantity + 1).toString() + " units to an order of " + this.customer.quantity.toString() + " units");
-      return;
-    }
-    if(this.order_units.indexOf(this.added_unit) >= 0) {
-      alert("You've tried to add duplicate units");
-      return;
-    }
-		this.order_units.push({msg: this.added_unit, type: 'success', closable: true});
-    var index = this.customer.available_devices.indexOf(this.added_unit);
-    this.customer.available_devices.splice(index,1);
-	}
-
   ngOnInit() {
-
-    // this.route.params
-    //   .map(params => params['id'])
-    //   .subscribe((id) => {
-    //     this.customerService.getCustomer(id)
-    //       .subscribe((customer:Customer) => this.customer = customer)
-    //   })
-
-    let id = +this.route.snapshot.params['id'];
-    this.customerService.getCustomer(id)
-      .subscribe((customer:Customer) => this.customer = customer)
+    console.log(this.customer_form);
+    this.sub = this.route.params.subscribe(params => {
+      if(params['id'] !== undefined){
+        let id = +params['id'];
+        this.navigated = true;
+        this.customerService.getCustomer(id)
+          .subscribe((customer:Customer) => {
+            this.customer = customer;
+            if(this.customer.order_date) {
+              this.customer.order_date = new Date(this.customer.order_date).toISOString().substr(0,10);
+            }
+            this.form_loaded = true;
+          })
+      }
+      else{
+        this.navigated = false;
+        this.customer = new Customer();
+      }
+    })
   }
+
+  public save() {
+    this.committing_changes = true;
+    console.log(this.customer);
+    if (this.customer.customerID) {
+      this.customerService.updateCustomer(this.customer)
+        .subscribe((customer: Customer) => {
+          this.customer = customer;
+          this.is_changed = false;
+          this.committing_changes = false;
+        });
+
+    }
+    else {
+      this.customerService.addCustomer(this.customer)
+        .subscribe((customer: Customer) => {
+          this.customer = customer;
+          this.is_changed = false;
+          this.committing_changes = false;
+        });
+    }
+  }
+
+  ShipOrder() {
+    this.ship_warning = false;
+    this.customer.order_status = 'Shipped';
+    this.is_changed = true;
+  }
+
+  UndoShip() {
+    this.undo_ship_warning = false;
+    this.customer.order_status = 'Unfulfilled';
+    this.is_changed = true;
+  }
+
+  public delete() {
+    this.customerService.deleteCustomer(this.customer)
+      .subscribe((customer: Customer) => {
+        this.router.navigate(['/dashboard/customers']);
+      })
+  }
+
+  addDevices() {
+    // Add the devices to the order
+    if(this.customer.devices.length + this.available_devices_component.selected_devices.length > this.customer.order_quantity) {
+      alert("You have added more devices to the order than the order calls for");
+      return;
+    }
+    if(this.customer.devices.length == 0) {
+      this.customer.devices = this.available_devices_component.selected_devices;
+    } else {
+      for(var i = 0; i < this.available_devices_component.selected_devices.length; i++) {
+        this.customer.devices.push(this.available_devices_component.selected_devices[i]);
+      }
+    }
+    // Splice out the selected devices
+    for(var i = 0; i < this.available_devices_component.selected_devices.length; i++) {
+      for(var j = 0; j < this.customer.available_devices.length; j++) {
+        if(this.available_devices_component.selected_devices[i].deviceID == this.customer.available_devices[j].deviceID) {
+          this.customer.available_devices.splice(j,1);
+        }
+      }
+    }
+    // Mark the customer as changed
+    this.is_changed = true;
+  }
+
+  removeDevices() {
+    console.log(this.shipment_devices_component.selected_devices);
+    // Add the devices back to the available list
+    if(this.customer.available_devices.length == 0) {
+      this.customer.available_devices = this.shipment_devices_component.selected_devices;
+    } else {
+      for(var i = 0; i < this.shipment_devices_component.selected_devices.length; i++) {
+        this.customer.available_devices.push(this.shipment_devices_component.selected_devices[i]);
+      }
+    }
+    // Splice out the selected devices
+    for(var i = 0; i < this.shipment_devices_component.selected_devices.length; i++) {
+      for(var j = 0; j < this.customer.devices.length; j++) {
+        if(this.shipment_devices_component.selected_devices[i].deviceID == this.customer.devices[j].deviceID) {
+          this.customer.devices.splice(j,1);
+        }
+      }
+    }
+    // Mark the customer as changed
+    this.is_changed = true;
+  }
+
+  onSubmit() { 
+    this.submitted = true;
+    this.is_changed = true;
+ }
 
   goBack() { this.router.navigate(['/dashboard/customers']); }
 

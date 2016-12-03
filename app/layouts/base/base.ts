@@ -1,6 +1,6 @@
 import {Component, ViewEncapsulation, ViewContainerRef} from '@angular/core';
 import { ROUTER_DIRECTIVES } from '@angular/router';
-import { HTTP_PROVIDERS } from '@angular/http';
+import { HTTP_PROVIDERS, Http } from '@angular/http';
 import {NgClass} from '@angular/common';
 
 import 'rxjs/add/operator/catch';
@@ -18,7 +18,15 @@ import {CustomerService} from '../../pages/customers/customer.service'
 import {DeviceService} from '../../pages/devices/device.service'
 import {TelemetryService} from '../../pages/telemetry/telemetry.service';
 import {LogService} from '../../pages/log/log.service';
+import {DashboardService} from '../../pages/home/dashboard.service';
 
+import {AuthService} from '../../pages/login/auth.service'
+
+import {CanActivateViaAuthGuard} from '../../pages/login/authguard'
+
+import { AUTH_PROVIDERS } from 'angular2-jwt';
+
+import { AuthConfig, AuthHttp } from 'angular2-jwt';
 
 
 @Component({
@@ -31,7 +39,9 @@ import {LogService} from '../../pages/log/log.service';
 			DeviceService,
 			TelemetryService,
 			LogService,
-			HTTP_PROVIDERS,
+			DashboardService,
+			AuthService,
+			CanActivateViaAuthGuard,
 			NgClass
 		],
     directives: [ROUTER_DIRECTIVES]

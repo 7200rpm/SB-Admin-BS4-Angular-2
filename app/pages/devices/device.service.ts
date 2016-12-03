@@ -5,24 +5,26 @@ import { Observable }     from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
+import {AuthHttp} from 'angular2-jwt';
+
 @Injectable()
 export class DeviceService {
 
-  private deviceURL = 'http://wakeapi.azurewebsites.net/v1/devices';  // URL to web API
+  private deviceURL = 'https://wakeuserapi.azurewebsites.net/v1/devices';  // URL to web API
   private devices: Device[]
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private authHttp: AuthHttp) { }
 
   getDevices(): Observable<Device[]> {
-    return this.http.get(this.deviceURL)
+    return this.authHttp.get(this.deviceURL)
       .map(res => res.json())
       .catch(this.handleError);
   }
 
-  getDevice(id: number): Observable<Device> {
+  getDevice(id: string): Observable<Device> {
     //console.log(this.customers)
     //return this.customers.filter(customer => customer.customerID === id)
-    return this.http.get(this.deviceURL + '/' + id)
+    return this.authHttp.get(this.deviceURL + '/' + id)
       .map(res => res.json())
       .catch(this.handleError);
 
@@ -33,7 +35,7 @@ export class DeviceService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(this.deviceURL, body, options)
+    return this.authHttp.post(this.deviceURL, body)
       .map(res => res.json())
       .catch(this.handleError);
   }
@@ -43,7 +45,17 @@ export class DeviceService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.put(this.deviceURL + '/' + device.deviceID, body, options)
+    return this.authHttp.post(this.deviceURL + '/' + device.coreID, body)
+      .map(() => device)
+      .catch(this.handleError);
+  }
+
+  deleteDevice(device: Device): Observable<Device> {
+    let body = JSON.stringify({ device });
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.authHttp.post(this.deviceURL + '/' + device.coreID + '/delete', body)
       .map(() => device)
       .catch(this.handleError);
   }

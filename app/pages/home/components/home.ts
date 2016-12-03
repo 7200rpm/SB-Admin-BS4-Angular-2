@@ -1,6 +1,16 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from '@angular/common';
 import {CAROUSEL_DIRECTIVES, DROPDOWN_DIRECTIVES, AlertComponent} from 'ng2-bootstrap/ng2-bootstrap';
+
+import {CHART_DIRECTIVES} from 'ng2-charts/ng2-charts';
+
+import { Router, ActivatedRoute }       from '@angular/router';
+
+import {DashboardService} 			from '../dashboard.service'
+import {Customer} 						from '../../customers/customer'
+
+import {AuthService} from '../../login/auth.service';
+import {AuthHttp} from 'angular2-jwt';
 
 @Component({
 	moduleId: module.id,
@@ -16,7 +26,7 @@ class TimelineComponent { }
 	templateUrl: 'chat.html',
 	directives: [CORE_DIRECTIVES, DROPDOWN_DIRECTIVES]
 })
-class ChatComponent {}
+class ChatComponent { }
 
 @Component({
 	moduleId: module.id,
@@ -39,54 +49,70 @@ class NotificationComponent { }
 		NotificationComponent,
 		CAROUSEL_DIRECTIVES,
 		CORE_DIRECTIVES,
-		FORM_DIRECTIVES ]
+		FORM_DIRECTIVES,
+		CHART_DIRECTIVES]
 })
 
-export class HomeComponent {
+export class HomeComponent implements OnInit {
 
-	/* Carousel Variable */
-	myInterval: number = 5000;
-	index: number = 0;
-	slides: Array<any> = [];
-	imgUrl: Array<any> = [
-		`assets/img/slider1.jpg`,
-		`assets/img/slider2.jpg`,
-		`assets/img/slider3.jpg`,
-		`assets/img/slider0.jpg`
-	];
-	/* END */
-	/* Alert component */
-	public alerts:Array<Object> = [
-	   {
-	     type: 'danger',
-	     msg: 'Oh snap! Change a few things up and try submitting again.'
-	   },
-	   {
-	     type: 'success',
-	     msg: 'Well done! You successfully read this important alert message.',
-	     closable: true
-	   }
-	 ];
+	dash_items: any = [];
+	numShipped: any;
+	numStock: any;
 
-	 public closeAlert(i:number):void {
-	   this.alerts.splice(i, 1);
+	public numCustomers: number = 0;
+	public numUnfulfilledOrders: number = 0;
+	public numDevices: number = 0;
+	public numShippedDevices: number = 0;
+
+	constructor(private auth: AuthService, private dashboardService: DashboardService, private router: Router) {
+
+		// First, check if there is already a JWT in local storage
+		// var idToken = localStorage.getItem('id_token');
+		// var authHash = this.auth.hash(window.location.hash);
+
+		// // If there is no JWT in local storage and there is one in the URL hash,
+		// // save it in local storage
+		// if (!idToken && authHash) {
+		// 	if (authHash.id_token) {
+		// 		idToken = authHash.id_token
+		// 		localStorage.setItem('id_token', authHash.id_token);
+		// 	}
+		// 	if (authHash.error) {
+		// 		// Handle any error conditions
+		// 		console.log("Error signing in", authHash);
+		// 	}
+		// }
+	}
+
+	ngOnInit() { 
+		this.getDashboard();
 	 }
-	/* END*/
 
-	constructor() {
-		for (let i = 0; i < 4; i++) {
-			this.addSlide();
+	getDashboard() {
+		this.dashboardService.getDashboard()
+			.subscribe(
+			items => {
+				this.dash_items = items;
+				console.log(this.dash_items);
+				this.getStatistics();
+			},
+			error => { console.log("Error: " + error) },
+			() => console.log('Dashboard Completed!')
+			)
+	}
+
+	getStatistics() {
+		for(var i = 0; i < this.dash_items.customers.length; i++) {
+			this.numCustomers++;
+			if(this.dash_items.customers[i].order_status == "Unfulfilled") {
+				this.numUnfulfilledOrders++;
+			}
+		}
+		for(var i = 0; i < this.dash_items.devices.length; i++) {
+			this.numDevices++;
+			if(this.dash_items.devices[i].customer_name != null) {
+				this.numShippedDevices++;
+			}
 		}
 	}
-
-	/* Carousel */
-	addSlide() {
-		let i = this.slides.length;
-		this.slides.push({
-			image: this.imgUrl[i],
-			text: `${['Dummy ', 'Dummy ', 'Dummy ', 'Dummy '][this.slides.length % 4]}
-      			${['text 0', 'text 1', 'text 2', 'text 3'][this.slides.length % 4]}`
-		});
-	}
-	/* END */
 }

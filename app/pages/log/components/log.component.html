@@ -19,44 +19,37 @@
     <div class="row">
         <div class="col-xl-6 col-lg-12">
             <div class="card card-block">
-                <h4>Authentications</h4>
+                <h4>Users</h4>
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Timestamp</th>
-                                <th>IP Address</th>
                                 <th>User</th>
+                                <th>Last Request</th>
+                                <th>IP Address</th>
                             </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>2016-07-09 05:33:27</td>
-                            <td>123.456.789.123</td>
-                            <td>Will Russell</td>
-                          </tr>
-                          <tr>
-                            <td>2016-07-09 05:33:27</td>
-                            <td>123.456.789.123</td>
-                            <td>Gregory Eslinger</td>
-                          </tr>
-                          <tr>
-                            <td>2016-07-09 05:33:27</td>
-                            <td>123.456.789.123</td>
-                            <td>Brandon Brown</td>
+                          <tr *ngFor="let user of users">
+                            <td><a href="mailto:{{user.email}}">{{user.name}}</a></td>
+                            <td>{{user.last_request}}</td>
+                            <td>{{user.IPaddress}}</td>
                           </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        <div class="col-xl-6">
+    </div>
+    <div *ngIf="error" class="row">
+        <div class="col-xl-12">
             <div class="card card-danger card-inverse">
                 <div class="card-header card-danger">
-                    Last Error
+                    Error
                 </div>
                 <div class="card-block bg-white">
-                    Card content
+                    <b>Error:</b> {{error.error}}<br />
+                    <b>Trace:</b> {{error.trace}}<br />
                 </div>
             </div>
         </div>
@@ -65,33 +58,8 @@
         <div class="col-xl-12 col-xl-12">
             <div class="card card-block">
             <h4>API Calls</h4>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Timestamp</th>
-                                <th>IP Address</th>
-                                <th>User</th>
-                                <th>Endpoint</th>
-                                <th>Response Code</th>
-                                <th>Execution Time</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let event of log_events" [attr.class]="event.error ? 'table-danger' : 'table-success'">
-                            <td *ngIf="event.error"><i class="fa fa-exclamation-triangle"></i></td>
-                            <td *ngIf="!event.error"></td>
-                            <td>{{event.requested_at}}</td>
-                            <td><a href="http://whatismyipaddress.com/ip/{{event.IPaddress}}" target="_blank">{{event.IPaddress}}</a></td>
-                            <td>{{event.userID}}</td>
-                            <td>{{event.verb}} {{event.req_object}}<span *ngIf="event.objectID">/{{event.objectID}}</span><span *ngIf="event.method">/{{event.method}}</span></td>
-                            <td>{{event.response_code}}</td>
-                            <td>{{event.execution_time}}</td>
-                          </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <table-api-log [data_in]=APIrequests (rowClicked)="onRequestSelect($event)">
+            </table-api-log>
             </div>
         </div>
     </div>

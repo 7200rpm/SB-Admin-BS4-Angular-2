@@ -301,6 +301,7 @@ export class SeedConfig {
       [this.BOOTSTRAP_MODULE]: `${this.APP_BASE}${this.BOOTSTRAP_MODULE}`,
       '@angular/core': `${this.APP_BASE}node_modules/@angular/core/bundles/core.umd.js`,
       '@angular/common': `${this.APP_BASE}node_modules/@angular/common/bundles/common.umd.js`,
+      '@angular/forms': `${this.APP_BASE}node_modules/@angular/forms/bundles/forms.umd.js`,
       '@angular/compiler': `${this.APP_BASE}node_modules/@angular/compiler/bundles/compiler.umd.js`,
       '@angular/http': `${this.APP_BASE}node_modules/@angular/http/bundles/http.umd.js`,
       '@angular/platform-browser': `${this.APP_BASE}node_modules/@angular/platform-browser/bundles/platform-browser.umd.js`,
@@ -310,7 +311,8 @@ export class SeedConfig {
       '*': `${this.APP_BASE}node_modules/*`
     },
     packages: {
-      rxjs: { defaultExtension: false }
+      rxjs: { defaultExtension: false },
+
     }
   };
 
@@ -333,7 +335,8 @@ export class SeedConfig {
     ],
     paths: {
       [`${this.TMP_DIR}/*`]: `${this.TMP_DIR}/*`,
-      '*': 'node_modules/*'
+      '*': 'node_modules/*',
+'angular2-jwt':               'node_modules/angular2-jwt/angular2-jwt.js'
     },
     packages: {
       '@angular/core': {
@@ -345,6 +348,10 @@ export class SeedConfig {
         defaultExtension: 'js'
       },
       '@angular/common': {
+        main: 'index.js',
+        defaultExtension: 'js'
+      },
+      '@angular/forms': {
         main: 'index.js',
         defaultExtension: 'js'
       },
@@ -365,6 +372,9 @@ export class SeedConfig {
         defaultExtension: 'js'
       },
       'rxjs': {
+        defaultExtension: 'js'
+      },
+      'angular2-jwt':{
         defaultExtension: 'js'
       }
     }

@@ -11,7 +11,7 @@
                         </div>
                         <div class="col-xs-6 text-xs-right">
                             <div class="huge">
-                                <h1>83</h1>
+                                <h1>{{numCustomers}}</h1>
                             </div>
                             <div>Total Customers</div>
                         </div>
@@ -33,7 +33,7 @@
                         </div>
                         <div class="col-xs-6 text-xs-right">
                             <div class="huge">
-                                <h1>24</h1>
+                                <h1>{{numUnfulfilledOrders}}</h1>
                             </div>
                             <div>Unfulfilled Orders</div>
                         </div>
@@ -57,7 +57,7 @@
                         </div>
                         <div class="col-xs-6 text-xs-right">
                             <div class="huge">
-                                <h1>12</h1>
+                                <h1>{{numDevices}}</h1>
                             </div>
                             <div>Total Devices</div>
                         </div>
@@ -79,9 +79,9 @@
                         </div>
                         <div class="col-xs-6 text-xs-right">
                             <div class="huge">
-                                <h1>12</h1>
+                                <h1>{{numShippedDevices}}</h1>
                             </div>
-                            <div>Active Devices</div>
+                            <div>Shipped Devices</div>
                         </div>
                     </div>
                 </div>
@@ -91,43 +91,6 @@
                         <span class="pull-xs-right"><i class="fa fa-arrow-circle-right"></i></span>
                         <div class="clearfix"></div>
                     </a>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-6">
-            <div class="card card-block">
-                <iframe src="http://wakeapi.azurewebsites.net/charts/devices.php" style="border:none" width="100%" height="500"></iframe>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xl-8">
-            <div class="card card-block">
-                <iframe src="http://wakeapi.azurewebsites.net/charts/telemetry.php" style="border:none" width="100%" height="500"></iframe>
-            </div>
-        </div>
-        <div class="col-xl-4">
-            <div class="card card-default">
-                <div class="card-header">
-                    <i class="fa fa-history fa-fw"></i> Recent Activity
-                </div>
-                <div class="panel-body">
-                    <div class="list-group">
-                        <a href="dashboard/device/1" class="list-group-item">
-                            <i class="fa fa-plus fa-fw"></i> Will Russell created an order
-                            <span class="pull-right text-muted small"><em>4 minutes ago</em></span>
-                        </a>
-                        <a href="dashboard/device/2" class="list-group-item">
-                            <i class="fa fa-pencil fa-fw"></i> Gregory Eslinger updated a device
-                            <span class="pull-right text-muted small"><em>12 minutes ago</em></span>
-                        </a>
-                        <a href="#" class="list-group-item">
-                            <i class="fa fa-minus fa-fw"></i> Brandon Brown deleted a device
-                            <span class="pull-right text-muted small"><em>27 minutes ago</em></span>
-                        </a>
-                    </div>
-                    <!-- /.list-group -->
-                    <a href="dashboard/log" class="btn btn-default btn-block">View Log</a>
                 </div>
             </div>
         </div>

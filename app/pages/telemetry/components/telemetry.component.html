@@ -16,47 +16,24 @@
         </div>
     </div>
     <!-- /.row -->
+    
     <div class="row">
-        <div class="col-xl-12">
+        <div #eventStreamContainer class="col-xl-12">
             <div class="card card-block">
                 <h3>Event Stream</h3>
-                <iframe src="http://wakeapi.azurewebsites.net/charts/telemetry.php" style="border:none" width="100%" height="500"></iframe>
+                <p>TODO: Resolve googe chart issue</p>
+                <!--
+                <google-chart #yourchart id="mychart" chartType="LineChart" [chartOptions]="chartOptions" [chartData]="chartData" [(imageUri)]="scanImageUri" style="width: 100%"></google-chart>
+                -->
             </div>
         </div>
     </div>
-
     <div class="row">
-        <div class="col-xl-9">
+        <div class="col-xl-12">
           <div class="card card-block">
           <h3>Events</h3>
-          <form role="form">
-            <div class="form-group input-group">
-              <input type="text" class="form-control" placeholder="Search measurands">
-              <span class="input-group-btn"><button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button></span>
-            </div>
-          </form>
-            <div class="table-responsive">
-              <table class="table table-hover">
-                <thead>
-                  <tr>
-                    <th>Timestamp</th>
-                    <th>Device</th>
-                    <th>Event</th>
-                    <th>Data</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let event of events" (click)="onSelect(events)">
-                    <td>{{event.published_at}}</td>
-                    <td>Unknown</td>
-                    <td>{{event.name}}</td>
-                    <td>
-                      <span *ngFor="let datum of event.telemetry">{{datum.measurand}}: {{datum.value}}<br /></span>
-                    <td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <table-telemetry [data_in]="events">
+            </table-telemetry>
           </div>
         </div>
     </div>

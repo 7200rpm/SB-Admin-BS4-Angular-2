@@ -24,17 +24,22 @@ import {BSElementComponent} from '../../pages/bootstrap-element/components/bs_el
 import {BlankPageComponent} from '../../pages/blank-page/components/blank_page';
 import {NG2Component} from '../../pages/component/components/component';
 
+import {CanActivateViaAuthGuard} from '../../pages/login/authguard'
+import {AuthService} from '../../pages/login/auth.service'
+
 export const routes: RouterConfig = [
+  //{ path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
-  {
-    path: 'dashboard', component: DashboardComponent, children: [
+  { path: 'dashboard', component: DashboardComponent, canActivate: [CanActivateViaAuthGuard], children: [
       { path: 'home', component: HomeComponent },
       { path: 'chart', component: ChartComponent },
       { path: 'customers', component: CustomerComponent },
       { path: 'customer/:id', component: CustomerDetailComponent },
+      { path: 'customerAdd', component: CustomerDetailComponent },
       { path: 'devices', component: DeviceComponent },
       { path: 'device/:id', component: DeviceDetailComponent },
+      {path: 'deviceAdd', component: DeviceDetailComponent},
       { path: 'telemetry', component: TelemetryComponent },
       { path: 'log', component: LogComponent },
       { path: 'table', component: TableComponent },
@@ -48,5 +53,7 @@ export const routes: RouterConfig = [
 ];
 
 export const APP_ROUTER_PROVIDERS = [
-  provideRouter(routes)
+  provideRouter(routes),
+  CanActivateViaAuthGuard,
+  AuthService
 ];

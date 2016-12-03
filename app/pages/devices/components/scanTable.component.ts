@@ -1,58 +1,19 @@
-import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
+import {Component, OnInit, EventEmitter, Input, Output, OnChanges, SimpleChange } from '@angular/core';
 import {CORE_DIRECTIVES, NgClass, NgIf} from '@angular/common';
 import {PAGINATION_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 import {NG_TABLE_DIRECTIVES} from '../../../components/ng2-table';
 
 import { FORM_DIRECTIVES }    from '@angular/forms';
 
-import {CustomerService} 			from '../customer.service'
-import {Customer} 						from '../customer'
+import {DeviceService} 			from '../device.service'
+import {Device} 						from '../device'
 
 // webpack html imports
 //let template = require('./table-demo.html');
 
 @Component({
-  selector: 'table-customer-demo',
+  selector: 'table-device-scan',
   template: `
-
-  <div class="row">
-    <div class="col-xl-3">
-      <fieldset class="form-group">
-        <input *ngIf="configNickname.filtering" placeholder="Order Nickname"
-          class="form-control"
-           [ngTableFiltering]="configNickname.filtering"
-           (tableChanged)="onChangeTable(configNickname)"/>
-      </fieldset>
-    </div>
-    <div class="col-xl-3">
-      <fieldset class="form-group">
-        <input *ngIf="configName.filtering" placeholder="Customer Name"
-          class="form-control"
-           [ngTableFiltering]="configName.filtering"
-           (tableChanged)="onChangeTable(configName)"/>
-      </fieldset>
-    </div>
-    <div class="col-xl-3">
-      <fieldset class="form-group">
-        <input *ngIf="configEmail.filtering" placeholder="Customer Email"
-          class="form-control"
-           [ngTableFiltering]="configEmail.filtering"
-           (tableChanged)="onChangeTable(configEmail)"/>
-      </fieldset>
-    </div>
-    <div class="col-xl-3">
-      <fieldset class="form-group">
-        <select *ngIf="configStatus.filtering"
-          class="form-control"
-           [ngTableFiltering]="configStatus.filtering"
-           (tableChanged)="onChangeTable(configStatus)">
-           <option value="">Select Status</option>
-           <option>Unfulfilled</option>
-           <option>Shipped</option>
-        </select>
-      </fieldset>
-    </div>
-  <div>
 
     <ng-customer-table [config]="config.sorting"
                 (tableChanged)="onChangeTable(config)"
@@ -76,26 +37,23 @@ import {Customer} 						from '../customer'
   `,
   directives: [NG_TABLE_DIRECTIVES, PAGINATION_DIRECTIVES, NgClass, NgIf, CORE_DIRECTIVES, FORM_DIRECTIVES]
 })
-export class TableCustomerDemoComponent implements OnInit {
+export class TableDeviceScanComponent implements OnInit {
 
-  @Input() public set data_in(values: Array<any>){
+   @Input() public set data_in(values: Array<any>) {
       if (values) {
          this.data = values;
          this.length = this.data.length;
          this.onChangeTable(this.config);
       }
-  }
+   }
 
   @Output() public rowClicked: EventEmitter<any> = new EventEmitter();
 
   public rows: Array<any> = [];
   public columns: Array<any> = [
-    { title: 'Order Date', name: 'order_date' },
-    { title: 'Order Nickname', name: 'order_nickname' },
-    { title: 'Customer Name', name: 'customer_name' },
-    { title: 'Customer Email', name: 'customer_email' },
-    { title: 'Order Quantity', name: 'order_quantity' },
-    { title: 'Order Status', name: 'order_status' }
+    { title: 'Start Time', name: 'started_at' },
+    { title: 'End Time', name: 'finished_at' },
+    { title: 'Target', name: 'target' }
   ];
   public page: number = 1;
   public itemsPerPage: number = 10;
@@ -106,47 +64,35 @@ export class TableCustomerDemoComponent implements OnInit {
   public config: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'order_date' }
+    filtering: { filterString: '', columnName: 'started_at' }
   };
 
-  public configOrderDate: any = {
+  public configStartTime: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'order_date' }
+    filtering: { filterString: '', columnName: 'started_at' }
   };
 
-  public configNickname: any = {
+  public configEndTime: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'order_nickname' }
+    filtering: { filterString: '', columnName: 'finished_at' }
   };
 
-  public configName: any = {
+  public configID: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'customer_name' }
+    filtering: { filterString: '', columnName: 'id' }
   };
 
-  public configEmail: any = {
+  public configTarget: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'customer_email' }
-  };
-
-  public configQuantity: any = {
-    paging: true,
-    sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'order_quantity' }
-  };
-
-  public configStatus: any = {
-    paging: true,
-    sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'order_status' }
+    filtering: { filterString: '', columnName: 'target' }
   };
 
   errorMessage: string
-  customers: Customer[]
+  events: any[]
   mode = 'Observable'
 
   private data: Array<any>;// = TableData;

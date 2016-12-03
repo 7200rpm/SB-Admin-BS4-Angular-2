@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {CORE_DIRECTIVES, NgClass} from '@angular/common';
+import {CORE_DIRECTIVES, NgClass, DatePipe} from '@angular/common';
 import {NgTableSortingDirective} from './ng-table-sorting.directive';
 import { ROUTER_DIRECTIVES } from '@angular/router';
 import { Router }      from '@angular/router';
@@ -9,7 +9,7 @@ import { Router }      from '@angular/router';
   template: `
   <div class="row">
   <div class="col-xl-12">
-    <table class="table table-striped table-bordered dataTable"
+    <table class="table table-striped table-bordered dataTable table-hover"
            role="grid" style="width: 100%;">
       <thead>
       <tr role="row">
@@ -21,7 +21,7 @@ import { Router }      from '@angular/router';
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let row of rows" (click)="onRowClicked(row)" [attr.class]="row.devices ? 'table-success' : 'table-warning'">
+      <tr *ngFor="let row of rows" (click)="onRowClicked(row)">
         <td *ngFor="let column of columns">{{getData(row, column.name)}}</td>
       </tr>
       </tbody>
@@ -94,6 +94,11 @@ export class NgCustomerTableComponent {
     // else {
     //   return propertyName.split('.').reduce((prev: any, curr: string) => prev[curr], row);
     // }
+    if(propertyName == 'order_date'){
+      var raw = propertyName.split('.').reduce((prev: any, curr: string) => prev[curr], row);
+      return new DatePipe().transform(raw, 'yyyy-MM-dd');
+    }
+
     return propertyName.split('.').reduce((prev: any, curr: string) => prev[curr], row);
   }
 }

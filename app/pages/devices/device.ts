@@ -1,6 +1,10 @@
 export class Device {
-  deviceID: number;
-  serial_number: string;
-  particleID: string;
-  hardware_revision: string;
+  coreID: string;
+  serialNumber: string;
+  nickname: string;
+  hardwareVersion: string;
+  shipmentID: number;
+  notes: string;
+  created_at: string;
+  events: any[];
 }
