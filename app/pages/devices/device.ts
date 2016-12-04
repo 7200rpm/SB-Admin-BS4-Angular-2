@@ -7,4 +7,5 @@ export class Device {
   notes: string;
   created_at: string;
   events: any[];
+  powerData: any[];
 }

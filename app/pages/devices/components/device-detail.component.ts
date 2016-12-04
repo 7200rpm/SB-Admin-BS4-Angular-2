@@ -68,7 +68,8 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
     },
     vAxis: {
       title: 'Voltage'
-    },
+    }
+    /*,
     trendlines: {
       0: {
         type: 'linear',
@@ -87,6 +88,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
         visibleInLegend: true
       }
     }
+    */
   };
 
   public device: Device = new Device()
@@ -137,11 +139,10 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
             if(this.device.scans.length > 0) {
               var scan_data = this.buildScanData(this.device.scans[0].temperatures,this.device.scans[0].started_at,this.device.scans[0].target);
               this.chartData = scan_data;
-            }
-            if(this.device.power_events.length > 0) {
-              this.powerChartData = this.buildPowerData(this.device.power_events[0].voltage);
-            }
             */
+            if(this.device.powerData.length > 0) {
+              this.powerChartData = this.buildPowerData(this.device.powerData[0].voltage);
+            }
           })
       }
       else {
@@ -225,8 +226,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
     var data_out = new Array();
     data_out.push(new Array('Timestamp','Battery Voltage','Input Voltage'));
     for (var i = 0; i < data.length; i++) {
-      var value = new Array(new Date(data[i].timestamp), data[i].b, data[i].p);
-      //value.push({i, data[i]});
+      var value = new Array(new Date(data[i].timestamp), data[i].batteryVoltage, data[i].powerVoltage);
       data_out.push(value);
     }
     return data_out;
@@ -234,6 +234,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
 
   onPowerSelect(power_event: any) {
     this.powerChartData = this.buildPowerData(power_event.voltage);
+    console.log(this.powerChartData);
     this.powerChartDataLength = this.powerChartData.length;
     this.powerChartOptions.title = power_event.event_type + " of " + this.device.serialNumber + " for " + (new Date(power_event.start_time)).toString();
   }

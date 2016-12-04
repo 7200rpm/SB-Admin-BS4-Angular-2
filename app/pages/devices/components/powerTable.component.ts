@@ -51,8 +51,8 @@ export class TableDevicePowerComponent implements OnInit {
 
   public rows: Array<any> = [];
   public columns: Array<any> = [
-    { title: 'Type', name: 'event_type' },
-    { title: 'Start Time', name: 'start_time' },
+    { title: 'Type', name: 'eventType' },
+    { title: 'Start Time', name: 'startTime' },
     { title: 'Duration', name: 'duration' },
     { title: 'Data Points', name: 'voltage_count' }
   ];
@@ -65,13 +65,13 @@ export class TableDevicePowerComponent implements OnInit {
   public config: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'event_type' }
+    filtering: { filterString: '', columnName: 'eventType' }
   };
 
   public configType: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'event_type' }
+    filtering: { filterString: '', columnName: 'eventType' }
   };
 
   errorMessage: string
