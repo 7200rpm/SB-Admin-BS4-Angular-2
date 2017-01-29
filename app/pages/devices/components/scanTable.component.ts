@@ -51,8 +51,8 @@ export class TableDeviceScanComponent implements OnInit {
 
   public rows: Array<any> = [];
   public columns: Array<any> = [
-    { title: 'Start Time', name: 'started_at' },
-    { title: 'End Time', name: 'finished_at' },
+    { title: 'Start Time', name: 'startTime' },
+    { title: 'End Time', name: 'endTime' },
     { title: 'Target', name: 'target' }
   ];
   public page: number = 1;
@@ -64,25 +64,19 @@ export class TableDeviceScanComponent implements OnInit {
   public config: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'started_at' }
+    filtering: { filterString: '', columnName: 'startTime' }
   };
 
   public configStartTime: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'started_at' }
+    filtering: { filterString: '', columnName: 'startTime' }
   };
 
   public configEndTime: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'finished_at' }
-  };
-
-  public configID: any = {
-    paging: true,
-    sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'id' }
+    filtering: { filterString: '', columnName: 'endTime' }
   };
 
   public configTarget: any = {

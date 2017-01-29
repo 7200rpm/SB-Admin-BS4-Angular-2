@@ -105,6 +105,7 @@ export class TableDeviceDemoComponent implements OnInit {
       { title: 'Serial Number', name: 'serialNumber' },
       { title: 'Particle ID', name: 'coreID' },
       { title: 'Revision', name: 'hardwareVersion' },
+      { title: 'Telemetry Count', name: 'telemetryCount' },
       { title: 'Status', name: 'status' }
    ];
    public page: number = 1;
@@ -142,6 +143,12 @@ export class TableDeviceDemoComponent implements OnInit {
       paging: true,
       sorting: { columns: this.columns },
       filtering: { filterString: '', columnName: 'hardwareVersion' }
+   };
+
+   public configTelemetryCount: any = {
+      paging: true,
+      sorting: { columns: this.columns },
+      filtering: { filterString: '', columnName: 'telemetryCount' }
    };
 
    public configStatus: any = {

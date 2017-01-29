@@ -8,4 +8,5 @@ export class Device {
   created_at: string;
   events: any[];
   powerData: any[];
+  wakeups: any[];
 }

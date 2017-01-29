@@ -210,7 +210,7 @@
                 <h3>Scans</h3>
                 <div class="row">
                     <div #scanContainer class="col-xl-6">
-                        <table-device-scan [data_in]=device.scans (rowClicked)="onScanSelect($event)">
+                        <table-device-scan [data_in]=device.wakeups (rowClicked)="onScanSelect($event)">
                         </table-device-scan>
                     </div>
                     <div *ngIf="chartData" class="col-xl-6">

@@ -135,11 +135,11 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
         this.deviceService.getDevice(id)
           .subscribe((device: Device) => {
             this.device = device;
-            /*
-            if(this.device.scans.length > 0) {
-              var scan_data = this.buildScanData(this.device.scans[0].temperatures,this.device.scans[0].started_at,this.device.scans[0].target);
+            if(this.device.wakeups.length > 0) {
+              console.log("Building scan data...")
+              var scan_data = this.buildScanData(this.device.wakeups[0].temperature,this.device.wakeups[0].startTime,this.device.wakeups[0].target);
               this.chartData = scan_data;
-            */
+            } 
             if(this.device.powerData.length > 0) {
               this.powerChartData = this.buildPowerData(this.device.powerData[0].voltage);
             }
@@ -273,7 +273,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
   // ngOnDestroy() {
   //   this.sub.unsubscribe()
   // }
-/*
+  /*
   onVisSelect(properties: any) {
     // Find the selected event
     if (properties.x.items.length == 0) {
@@ -289,6 +289,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
       this.selected_event = this.device.telemetry[i];
     }
   }
+  */
 
   buildScanData(data: number[],scan_date: string,target: number) {
     var data_out = new Array();
@@ -303,32 +304,32 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
       //value.push({i, data[i]});
       data_out.push(value);
     }
-    this.chartOptions.title = "Temperature Plot for " + this.device.serial_number + " on " + (new Date(scan_date)).toString();
+    this.chartOptions.title = "Temperature Plot for " + this.device.serialNumber + " on " + (new Date(scan_date)).toString();
     return data_out;
   }
 
   onScanSelect(scan: any) {
-    this.chartData = this.buildScanData(scan.temperatures,scan.started_at,scan.target);
+    this.chartData = this.buildScanData(scan.temperature,scan.startTime,scan.target);
     this.selected_scan_event_index = this.FindScanIndex(scan.id);
   }
 
   onPreviousScan() {
     if (this.selected_scan_event_index > 0) {
       this.selected_scan_event_index--;
-      this.chartData = this.buildScanData(this.device.scans[this.selected_scan_event_index].temperatures,this.device.scans[this.selected_scan_event_index].started_at,this.device.scans[this.selected_scan_event_index].target);
+      this.chartData = this.buildScanData(this.device.wakeups[this.selected_scan_event_index].temperature,this.device.wakeups[this.selected_scan_event_index].startTime,this.device.wakeups[this.selected_scan_event_index].target);
     }
   }
 
   onNextScan() {
-    if (this.selected_scan_event_index < this.device.scans.length - 1) {
+    if (this.selected_scan_event_index < this.device.wakeups.length - 1) {
       this.selected_scan_event_index++;
-      this.chartData = this.buildScanData(this.device.scans[this.selected_scan_event_index].temperatures,this.device.scans[this.selected_scan_event_index].started_at,this.device.scans[this.selected_scan_event_index].target);
+      this.chartData = this.buildScanData(this.device.wakeups[this.selected_scan_event_index].temperature,this.device.wakeups[this.selected_scan_event_index].startTime,this.device.wakeups[this.selected_scan_event_index].target);
     }
   }
 
   FindScanIndex(scan_id: string) {
-    for (var i = 0; i < this.device.scans.length; i++) {
-      if (this.device.scans[i].id == scan_id) {
+    for (var i = 0; i < this.device.wakeups.length; i++) {
+      if (this.device.wakeups[i].id == scan_id) {
         return i;
       }
     }
@@ -338,5 +339,4 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
   viewScanChart() {
     window.open(this.scanChart.imageURI);
   }
-*/
 }
