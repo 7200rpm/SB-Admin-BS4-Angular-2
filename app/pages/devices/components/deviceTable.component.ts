@@ -218,7 +218,7 @@ export class TableDeviceDemoComponent implements OnInit {
       }
 
       let filteredData: Array<any> = data.filter((item: any) =>
-         item[config.filtering.columnName].toLowerCase().match(this.config.filtering.filterString.toLowerCase()));
+         item[config.filtering.columnName]!= null && item[config.filtering.columnName].toLowerCase().match(this.config.filtering.filterString.toLowerCase()));
 
       return filteredData;
    }

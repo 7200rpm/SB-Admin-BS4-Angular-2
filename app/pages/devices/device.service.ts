@@ -44,8 +44,7 @@ export class DeviceService {
     let body = JSON.stringify({ device });
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-
-    return this.authHttp.post(this.deviceURL + '/' + device.coreID, body)
+    return this.authHttp.put(this.deviceURL + '/' + device.coreID, body, options)
       .map(() => device)
       .catch(this.handleError);
   }

@@ -3,9 +3,8 @@ export class Device {
   serialNumber: string;
   nickname: string;
   hardwareVersion: string;
-  shipmentID: number;
   notes: string;
-  created_at: string;
+  telemetryCount: number;
   events: any[];
   powerData: any[];
   wakeups: any[];
