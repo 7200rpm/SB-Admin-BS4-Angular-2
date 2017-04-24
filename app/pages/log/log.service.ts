@@ -11,7 +11,7 @@ import {AuthHttp} from 'angular2-jwt';
 @Injectable()
 export class LogService {
 
-  private logURL = 'https://wakedotnet.azurewebsites.net/v1/log';  // URL to web API
+  private logURL = 'https://wakedashboardapi.azurewebsites.net/events/significant';  // URL to web API
   private log_events: any[]
 
   private last_error: any[]
@@ -40,4 +40,5 @@ export class LogService {
     console.error(errMsg); // log to console instead
     return Observable.throw(errMsg);
   }
+
 }

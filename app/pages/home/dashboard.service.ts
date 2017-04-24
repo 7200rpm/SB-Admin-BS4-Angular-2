@@ -12,7 +12,7 @@ import {AuthHttp} from 'angular2-jwt';
 @Injectable()
 export class DashboardService {
 
-  private dashboardURL = 'https://wakedotnet.azurewebsites.net/v1/dashboard';  // URL to web API
+  private dashboardURL = 'https://wakeuserapi.azurewebsites.net/v1/dashboard';  // URL to web API
 
   constructor(private http: Http, private authHttp: AuthHttp) { }
 

@@ -1,37 +1,19 @@
-import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
-import {CORE_DIRECTIVES, NgClass, NgIf} from '@angular/common';
-import {PAGINATION_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
-import {NG_TABLE_DIRECTIVES} from '../../../components/ng2-table';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { CORE_DIRECTIVES, NgClass, NgIf } from '@angular/common';
+import { PAGINATION_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
+import { NG_TABLE_DIRECTIVES } from '../../../components/ng2-table';
 
-import { FORM_DIRECTIVES }    from '@angular/forms';
+import { FORM_DIRECTIVES } from '@angular/forms';
 
-import {CustomerService} 			from '../customer.service'
-import {Customer} 						from '../customer'
+import { CustomerService } from '../customer.service'
+import { CustomerDetail } from '../customer'
 
 // webpack html imports
 //let template = require('./table-demo.html');
 
 @Component({
-  selector: 'table-customer-demo',
+  selector: 'table-customer-wakeup',
   template: `
-  <div class="row">
-    <div class="col-xl-8">
-      <fieldset class="form-group">
-        <input *ngIf="configName.filtering" placeholder="Name/Email"
-          class="form-control"
-           [ngTableFiltering]="configName.filtering"
-           (tableChanged)="onChangeTable(configName)"/>
-      </fieldset>
-    </div>
-    <div class="col-xl-4">
-      <fieldset class="form-group">
-        <input *ngIf="configDevice.filtering" placeholder="Device"
-          class="form-control"
-           [ngTableFiltering]="configDevice.filtering"
-           (tableChanged)="onChangeTable(configDevice)"/>
-      </fieldset>
-    </div>
-  <div>
     <ng-customer-table [config]="config.sorting"
                 (tableChanged)="onChangeTable(config)"
                 (rowClicked)="onRowClicked($event)"
@@ -54,23 +36,24 @@ import {Customer} 						from '../customer'
   `,
   directives: [NG_TABLE_DIRECTIVES, PAGINATION_DIRECTIVES, NgClass, NgIf, CORE_DIRECTIVES, FORM_DIRECTIVES]
 })
-export class TableCustomerDemoComponent implements OnInit {
+export class TableCustomerWakeupComponent implements OnInit {
 
-  @Input() public set data_in(values: Array<any>){
-      if (values) {
-         this.data = values;
-         this.length = this.data.length;
-         this.onChangeTable(this.config);
-      }
+  @Input() public set data_in(values: Array<any>) {
+    if (values) {
+      console.log("Data received");
+      this.data = values;
+      this.length = this.data.length;
+      this.onChangeTable(this.config);
+    }
   }
 
   @Output() public rowClicked: EventEmitter<any> = new EventEmitter();
 
   public rows: Array<any> = [];
   public columns: Array<any> = [
-    { title: 'Name', name: 'name' },
-    { title: 'Device', name: 'serialNumber' },
-    { title: 'Wakeup Count', name: 'wakeupCount' }
+    { title: 'Date', name: 'localDate' },
+    { title: 'Time', name: 'localTime' },
+    { title: 'Target', name: 'target' }
   ];
   public page: number = 1;
   public itemsPerPage: number = 10;
@@ -81,23 +64,10 @@ export class TableCustomerDemoComponent implements OnInit {
   public config: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'name' }
-  };
-
-  public configName: any = {
-    paging: true,
-    sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'name' }
-  };
-
-  public configDevice: any = {
-    paging: true,
-    sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'serialNumber' }
+    filtering: { filterString: '', columnName: 'localDate' }
   };
 
   errorMessage: string
-  customers: Customer[]
   mode = 'Observable'
 
   private data: Array<any>;// = TableData;

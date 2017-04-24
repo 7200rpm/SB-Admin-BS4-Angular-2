@@ -1,12 +1,12 @@
-import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
-import {CORE_DIRECTIVES, NgClass, NgIf} from '@angular/common';
-import {PAGINATION_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
-import {NG_TABLE_DIRECTIVES} from '../../../components/ng2-table';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { CORE_DIRECTIVES, NgClass, NgIf } from '@angular/common';
+import { PAGINATION_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
+import { NG_TABLE_DIRECTIVES } from '../../../components/ng2-table';
 
-import { FORM_DIRECTIVES }    from '@angular/forms';
+import { FORM_DIRECTIVES } from '@angular/forms';
 
-import {DeviceService} 			from '../device.service'
-import {Device} 						from '../device'
+import { DeviceService } from '../device.service'
+import { EventLog } from '../device'
 
 // webpack html imports
 //let template = require('./table-demo.html');
@@ -15,23 +15,41 @@ import {Device} 						from '../device'
   selector: 'table-telemetry-demo',
   template: `
     <div class="row">
-      <div class="col-xl-6">
-        <div class="form-group input-group">
-          <span class="input-group-btn"><button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button></span>
-            <input *ngIf="configEvent.filtering" placeholder="Search Events" type="text" class="form-control" 
-              [ngTableFiltering]="configEvent.filtering"
-              (tableChanged)="onChangeTable(configEvent)">
-        </div>
-      </div>
-      <div class="col-xl-6">
-        <div class="form-group input-group">
-          <span class="input-group-btn"><button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button></span>
-            <input *ngIf="configData.filtering" placeholder="Search Data" type="text" class="form-control" 
-              [ngTableFiltering]="configData.filtering"
-              (tableChanged)="onChangeTable(configData)">
-        </div>
-      </div>
-    </div>
+  <div class="col-xl-3">
+    <fieldset class="form-group">
+      <select *ngIf="configLevel.filtering" 
+        class="form-control"
+         [ngTableFiltering]="configLevel.filtering"
+         (tableChanged)="onChangeTable(configLevel)">
+         <option value="">All Levels</option>
+         <option>Error</option>
+         <option>Warning</option>
+         <option>Info</option>
+      </select>
+    </fieldset>
+  </div>
+  <div class="col-xl-6">
+    <fieldset class="form-group">
+      <input *ngIf="configMessage.filtering" placeholder="Message"
+        class="form-control"
+         [ngTableFiltering]="configMessage.filtering"
+         (tableChanged)="onChangeTable(configMessage)"/>
+    </fieldset>
+  </div>
+  <div class="col-xl-3">
+    <fieldset class="form-group">
+      <select *ngIf="configSource.filtering" 
+      class="form-control"
+         [ngTableFiltering]="configSource.filtering"
+         (tableChanged)="onChangeTable(configSource)">
+          <option value="">All Sources</option>
+          <option *ngFor="#source of sources">
+            {{source}}
+          </option>
+      </select>
+    </fieldset>
+  </div>
+<div>
     <ng-customer-table [config]="config.sorting"
                 (tableChanged)="onChangeTable(config)"
                 (rowClicked)="onRowClicked($event)"
@@ -56,21 +74,29 @@ import {Device} 						from '../device'
 })
 export class TableTelemetryDemoComponent implements OnInit {
 
-   @Input() public set data_in(values: Array<any>) {
-      if (values) {
-         this.data = values;
-         this.length = this.data.length;
-         this.onChangeTable(this.config);
-      }
-   }
+  @Input() public set data_in(values: Array<EventLog>) {
+    if (values) {
+      this.data = values;
+      for(var i = 0; i < this.data.length; i++) {
+           if(!this.sources.some(x => x == this.data[i]['source'])) {
+             this.sources.push(this.data[i]['source']);
+           }
+         }
+      this.length = this.data.length;
+      this.onChangeTable(this.config);
+    }
+  }
 
   @Output() public rowClicked: EventEmitter<any> = new EventEmitter();
 
+  private sources: Array<string> = [];
+
   public rows: Array<any> = [];
   public columns: Array<any> = [
-    { title: 'Timestamp', name: 'published_at' },
-    { title: 'Event', name: 'name' },
-    { title: 'Data', name: 'data' },
+    { title: 'Timestamp', name: 'timestamp' },
+    { title: 'Level', name: 'level' },
+    { title: 'Message', name: 'message' },
+    { title: 'Source', name: 'source' }
   ];
   public page: number = 1;
   public itemsPerPage: number = 10;
@@ -81,19 +107,25 @@ export class TableTelemetryDemoComponent implements OnInit {
   public config: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'published_at' }
+    filtering: { filterString: '', columnName: 'timestamp' }
   };
 
-  public configEvent: any = {
+  public configLevel: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'name' }
+    filtering: { filterString: '', columnName: 'level' }
   };
 
-  public configData: any = {
+  public configMessage: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'data' }
+    filtering: { filterString: '', columnName: 'message' }
+  };
+
+  public configSource: any = {
+    paging: true,
+    sorting: { columns: this.columns },
+    filtering: { filterString: '', columnName: 'source' }
   };
 
   errorMessage: string

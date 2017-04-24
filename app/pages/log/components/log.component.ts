@@ -1,9 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ROUTER_DIRECTIVES } 	from '@angular/router';
-import {LogService} 			from '../log.service';
+import { ROUTER_DIRECTIVES } from '@angular/router';
+import { LogService } from '../log.service';
 
-import { Router }              from '@angular/router';
-import {TableAPILogComponent} from './logTable.component';
+import { Router } from '@angular/router';
+import { TableAPILogComponent } from './logTable.component';
+
+import { EventLog } from '../log'
 
 @Component({
   moduleId: module.id,
@@ -13,13 +15,9 @@ import {TableAPILogComponent} from './logTable.component';
 })
 
 export class LogComponent implements OnInit {
-  errorMessage: string;
-  log_events: any;
-  APIrequests: any[];
-  users: any;
+  log_events: EventLog[];
+  selectedEvent: EventLog;
   mode = 'Observable'
-
-public error: any;
 
   constructor(
     private router: Router,
@@ -29,22 +27,24 @@ public error: any;
 
   getLog() {
     this.logService.getLog()
-      .subscribe(
-      log => this.log_events = log,
-      error => this.errorMessage = <any>error,
-      () => {
-        console.log('Log Loaded');
-        this.APIrequests = this.log_events.requests;
-        this.users = this.log_events.users;
-      }
-      )
+      .subscribe(log => this.log_events = log)
   }
 
-  onRequestSelect(request:any) {
-    if(request.error != null) {
-      this.error = request;
-      this.error.error = JSON.parse(request.error).error;
+  onEventSelect(event: EventLog) {
+    console.log("Selected event");
+    console.log(event);
+    this.selectedEvent = event;
+  }
+
+  goToDevice() {
+    if(this.selectedEvent.device != null) {
+      this.router.navigate(['/dashboard/device', this.selectedEvent.device.coreID]);
     }
   }
 
+  goToUser() {
+    if(this.selectedEvent.user != null) {
+      this.router.navigate(['/dashboard/customer', this.selectedEvent.user.userID]);
+    }
+  }
 }

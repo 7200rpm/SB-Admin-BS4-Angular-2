@@ -5,11 +5,12 @@
                 <button type="button" class="btn btn-primary" (click)="goBack()">Back</button>
                 <button *ngIf="is_changed && !committing_changes" type="button" class="btn btn-danger" (click)="save()">Commit Changes</button>
                 <button *ngIf="committing_changes" type="button" class="btn btn-danger">Committing Changes...</button>
-                 | <i class="fa fa-barcode"></i> {{device.serialNumber}}
+                 | <i class="fa fa-barcode"></i> {{device.serialNumber}} ({{device.coreID}})
             </h2>
             <hr />
         </div>
     </div>
+    <!--
     <alert *ngIf="is_changed" type='warning' dismissible="true">
         You have uncommited changes. Be sure to commit the changes before leaving this page. 
     </alert>
@@ -41,7 +42,10 @@
             </div>
         </div>
     </div>
+    -->
+
     <div class="row">
+        <!--
         <div class="col-xl-4">
             <div *ngIf="submitted" class="card card-primary card-inverse">
                 <div class="card-header card-primary">
@@ -163,11 +167,14 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-8">
+        -->
+        <div class="col-xl-12">
             <div class="card card-block" >
-                <h3>Telemetry | 
+                <h3>Telemetry
+                    <!-- | 
                     <button *ngIf="!show_timeline" type="button" class="btn btn-primary" (click)="LoadTimeline()">Load Timeline</button>
                     <button *ngIf="show_timeline" type="button" class="btn btn-danger" (click)="show_timeline=false">Close Timeline</button>
+                    -->
                 </h3>
                 <table-telemetry-demo [data_in]=device.events>
                 </table-telemetry-demo>
@@ -216,6 +223,8 @@
                         <button type="button" class="btn btn-primary" (click)="onPreviousScan()">Previous</button>
                         <button type="button" class="btn btn-primary" (click)="onNextScan()">Next</button>
                         <button type="button" class="btn btn-warning" (click)="viewScanChart()">Export as PNG</button>
+                        <br />
+                        <p style="word-wrap: break-word">Scan Values: [{{scanValues}}]</p>
                     </div>
                 </div>
             </div>

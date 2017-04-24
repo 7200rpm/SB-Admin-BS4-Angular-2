@@ -1,10 +1,6 @@
 import { Injectable }     from '@angular/core';
-
-// import {AuthService} from '../../auth.service';
-// import {AuthHttp} from 'angular2-jwt';
-
 import { Http, Response, Headers, RequestOptions}  from '@angular/http';
-import { Customer }       from './customer';
+import { Customer, CustomerDetail }       from './customer';
 import { Observable }     from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -16,7 +12,7 @@ import {AuthHttp} from 'angular2-jwt';
 @Injectable()
 export class CustomerService {
 
-  private customerURL = 'https://wakedotnet.azurewebsites.net/v1/customers';  // URL to web API
+  private customerURL = 'https://wakedashboardapi.azurewebsites.net/users';  // URL to web API
   private customers: Customer[]
 
   constructor(private http: Http, private authHttp: AuthHttp) { }
@@ -27,19 +23,12 @@ export class CustomerService {
       .catch(this.handleError);
   }
 
-  getCustomer(id: number): Observable<Customer> {
-    //console.log(this.customers)
-    //return this.customers.filter(customer => customer.customerID === id)
-    // return this.http.get(this.customerURL)
-    //   .toPromise()
-    //   .then(res => res.json())
-    //   .then(cus => cus.filter((c: Customer) => c.customerID === id)[0])
+  getCustomer(id: number): Observable<CustomerDetail> {
     return this.authHttp.get(this.customerURL + '/' + id)
       .map(res => res.json())
       .catch(this.handleError);
-
   }
-
+/*
   addCustomer(customer: Customer): Observable<Customer> {
     
     let body = JSON.stringify({ customer });
@@ -78,7 +67,7 @@ export class CustomerService {
     //return body.data || {};
     return body;
   }
-
+*/
   private handleError(error: any) {
     // In a real world app, we might use a remote logging infrastructure
     // We'd also dig deeper into the error to get a better message

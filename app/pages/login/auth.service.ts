@@ -5,6 +5,7 @@ import {Observable} from 'rxjs/Rx';
 
 import { ROUTER_DIRECTIVES } from '@angular/router';
 import { Router }              from '@angular/router';
+import {AuthHttp} from 'angular2-jwt';
 
 // Avoid name not found warnings
 declare var Auth0Lock: any;
@@ -44,15 +45,12 @@ export class AuthService {
         if (error) return;
 
         this.user = profile;
-
+        
         localStorage.setItem('id_token', authResult.idToken);
         localStorage.setItem('profile', JSON.stringify(profile));
         this.router.navigate(['/dashboard/home'])
 
-
       })
-
-
 
     });
 

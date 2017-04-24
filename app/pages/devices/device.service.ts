@@ -10,11 +10,11 @@ import {AuthHttp} from 'angular2-jwt';
 @Injectable()
 export class DeviceService {
 
-  private deviceURL = 'https://wakeuserapi.azurewebsites.net/v1/devices';  // URL to web API
+  private deviceURL = 'https://wakedashboardapi.azurewebsites.net/devices';  // URL to web API
   private devices: Device[]
 
   constructor(private http: Http, private authHttp: AuthHttp) { }
-
+  
   getDevices(): Observable<Device[]> {
     return this.authHttp.get(this.deviceURL)
       .map(res => res.json())

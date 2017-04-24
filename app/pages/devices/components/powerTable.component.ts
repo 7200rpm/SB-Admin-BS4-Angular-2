@@ -6,7 +6,7 @@ import {NG_TABLE_DIRECTIVES} from '../../../components/ng2-table';
 import { FORM_DIRECTIVES }    from '@angular/forms';
 
 import {DeviceService} 			from '../device.service'
-import {Device} 						from '../device'
+import {PowerData} 						from '../device'
 
 // webpack html imports
 //let template = require('./table-demo.html');
@@ -39,7 +39,7 @@ import {Device} 						from '../device'
 })
 export class TableDevicePowerComponent implements OnInit {
 
-   @Input() public set data_in(values: Array<any>) {
+   @Input() public set data_in(values: Array<PowerData>) {
       if (values) {
          this.data = values;
          this.length = this.data.length;
@@ -51,10 +51,9 @@ export class TableDevicePowerComponent implements OnInit {
 
   public rows: Array<any> = [];
   public columns: Array<any> = [
-    { title: 'Type', name: 'eventType' },
+    { title: 'Type', name: 'type' },
     { title: 'Start Time', name: 'startTime' },
-    { title: 'Duration', name: 'duration' },
-    { title: 'Data Points', name: 'voltage_count' }
+    { title: 'Data Points', name: 'count' }
   ];
   public page: number = 1;
   public itemsPerPage: number = 10;
@@ -65,13 +64,13 @@ export class TableDevicePowerComponent implements OnInit {
   public config: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'eventType' }
+    filtering: { filterString: '', columnName: 'type' }
   };
 
   public configType: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'eventType' }
+    filtering: { filterString: '', columnName: 'type' }
   };
 
   errorMessage: string

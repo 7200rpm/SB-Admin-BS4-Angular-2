@@ -7,7 +7,7 @@
             </h2>
             <ol class="breadcrumb">
                 <li>
-                    <i class="fa fa-dashboard"></i>  <a href="Javascript:void(0);" [routerLink]="['/dashboard','/home']">Dashboard</a>
+                    <i class="fa fa-dashboard"></i> <a href="Javascript:void(0);" [routerLink]="['/dashboard','/home']">Dashboard</a>
                 </li>
                 <li class="active">
                     <i class="fa fa-table"></i> Log
@@ -16,6 +16,81 @@
         </div>
     </div>
     <!-- /.row -->
+    <div *ngIf="selectedEvent != null" class="row">
+        <div  class="col-xl-3 col-lg-12">
+            <div *ngIf="selectedEvent.device != null" class="card card-primary card-inverse">
+                <div class="card-header card-primary">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-barcode fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-xs-right">
+                            <div class="huge">
+                                <h1>{{selectedEvent.device.serialNumber}}</h1>
+                            </div>
+                            <div>Device</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer card-default">
+                    <a (click)="goToDevice()">
+                        <span class="pull-xs-left">View Device</span>
+                        <span class="pull-xs-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </a>
+                </div>
+            </div>
+            <div *ngIf="selectedEvent.user != null" class="card card-primary card-inverse">
+                <div class="card-header card-primary">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <i class="fa fa-plus fa-2x"></i>
+                        </div>
+                        <div class="col-xs-8 text-xs-right">
+                            <div>User</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 text-xs-center">
+                            {{selectedEvent.user.name}}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer card-default">
+                    <a (click)="goToUser()">
+                        <span class="pull-xs-left">View User</span>
+                        <span class="pull-xs-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-9 col-lg-12">
+            <div *ngIf="selectedEvent.level == 'Warning'" class="card card-warning card-inverse">
+                <div class="card-header card-warning">
+                    Warning
+                </div>
+                <div class="card-block bg-white">
+                    <b>Timestamp:</b> {{selectedEvent.timestamp}}<br />
+                    <b>Source:</b> {{selectedEvent.source}}<br />
+                    <b>Message:</b> {{selectedEvent.message}}<br />
+                    <b *ngIf="selectedEvent.data != null">Data:</b> <pre>{{selectedEvent.data}}</pre>
+                </div>
+            </div>
+            <div *ngIf="selectedEvent.level == 'Error'" class="card card-danger card-inverse">
+                <div class="card-header card-danger">
+                    Error
+                </div>
+                <div class="card-block bg-white">
+                    <b>Timestamp:</b> {{selectedEvent.timestamp}}<br />
+                    <b>Source:</b> {{selectedEvent.source}}<br />
+                    <b>Message:</b> {{selectedEvent.message}}<br />
+                    <b *ngIf="selectedEvent.data != null">Data:</b> <pre>{{selectedEvent.data}}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--
     <div class="row">
         <div class="col-xl-6 col-lg-12">
             <div class="card card-block">
@@ -41,6 +116,8 @@
             </div>
         </div>
     </div>
+    -->
+    <!--
     <div *ngIf="error" class="row">
         <div class="col-xl-12">
             <div class="card card-danger card-inverse">
@@ -54,12 +131,13 @@
             </div>
         </div>
     </div>
+    -->
     <div class="row">
-        <div class="col-xl-12 col-xl-12">
+        <div class="col-xl-12">
             <div class="card card-block">
-            <h4>API Calls</h4>
-            <table-api-log [data_in]=APIrequests (rowClicked)="onRequestSelect($event)">
-            </table-api-log>
+                <h4>API Calls</h4>
+                <table-api-log [data_in]=log_events (rowClicked)="onEventSelect($event)">
+                </table-api-log>
             </div>
         </div>
     </div>

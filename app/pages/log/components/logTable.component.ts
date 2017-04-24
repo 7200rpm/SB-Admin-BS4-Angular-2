@@ -16,34 +16,35 @@ import {LogService} 			from '../log.service'
   <div class="row">
   <div class="col-xl-3">
     <fieldset class="form-group">
-      <input *ngIf="configIPaddress.filtering" placeholder="IP Address"
+      <select *ngIf="configLevel.filtering" 
         class="form-control"
-         [ngTableFiltering]="configIPaddress.filtering"
-         (tableChanged)="onChangeTable(configIPaddress)"/>
+         [ngTableFiltering]="configLevel.filtering"
+         (tableChanged)="onChangeTable(configLevel)">
+         <option value="">All Levels</option>
+         <option>Error</option>
+         <option>Warning</option>
+      </select>
+    </fieldset>
+  </div>
+  <div class="col-xl-6">
+    <fieldset class="form-group">
+      <input *ngIf="configMessage.filtering" placeholder="Message"
+        class="form-control"
+         [ngTableFiltering]="configMessage.filtering"
+         (tableChanged)="onChangeTable(configMessage)"/>
     </fieldset>
   </div>
   <div class="col-xl-3">
     <fieldset class="form-group">
-      <input *ngIf="configUser.filtering" placeholder="User"
-        class="form-control"
-         [ngTableFiltering]="configUser.filtering"
-         (tableChanged)="onChangeTable(configUser)"/>
-    </fieldset>
-  </div>
-  <div class="col-xl-4">
-    <fieldset class="form-group">
-      <input *ngIf="configEndpoint.filtering" placeholder="Endpoint"
+      <select *ngIf="configSource.filtering" 
       class="form-control"
-         [ngTableFiltering]="configEndpoint.filtering"
-         (tableChanged)="onChangeTable(configEndpoint)"/>
-    </fieldset>
-  </div>
-  <div class="col-xl-2">
-    <fieldset class="form-group">
-      <input *ngIf="configResponseCode.filtering" placeholder="Response Code"
-      class="form-control"
-         [ngTableFiltering]="configResponseCode.filtering"
-         (tableChanged)="onChangeTable(configResponseCode)"/>
+         [ngTableFiltering]="configSource.filtering"
+         (tableChanged)="onChangeTable(configSource)">
+          <option value="">All Sources</option>
+          <option *ngFor="#source of sources">
+            {{source}}
+          </option>
+      </select>
     </fieldset>
   </div>
 <div>
@@ -76,14 +77,9 @@ export class TableAPILogComponent implements OnInit {
       if (values) {
          this.data = values;
          for(var i = 0; i < this.data.length; i++) {
-           var endpoint:string = this.data[i]['http_method'] + " " + this.data[i]['req_object'];
-           if(this.data[i]['objectID'] != null) {
-             endpoint += "/" + this.data[i]['objectID'];
+           if(!this.sources.some(x => x == this.data[i]['source'])) {
+             this.sources.push(this.data[i]['source']);
            }
-           if(this.data[i]['method'] != null) {
-             endpoint += "/" + this.data[i]['method'];
-           }
-           this.data[i]['endpoint'] = endpoint;
          }
          this.length = this.data.length;
          this.onChangeTable(this.config);
@@ -92,14 +88,14 @@ export class TableAPILogComponent implements OnInit {
 
   @Output() public rowClicked: EventEmitter<any> = new EventEmitter();
 
+  private sources: Array<string> = [];
+
   public rows: Array<any> = [];
   public columns: Array<any> = [
-    { title: 'Timestamp', name: 'requested_at' },
-    { title: 'IP Address', name: 'IPaddress' },
-    { title: 'User', name: 'name' },
-    { title: 'Endpoint', name: 'endpoint' },
-    { title: 'Response Code', name: 'response_code'},
-    { title: 'Execution Time', name: 'execution_time'}
+    { title: 'Timestamp', name: 'timestamp' },
+    { title: 'Level', name: 'level' },
+    { title: 'Message', name: 'message' },
+    { title: 'Source', name: 'source' }
   ];
   public page: number = 1;
   public itemsPerPage: number = 10;
@@ -110,31 +106,25 @@ export class TableAPILogComponent implements OnInit {
   public config: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'requested_at' }
+    filtering: { filterString: '', columnName: 'timestamp' }
   };
 
-  public configIPaddress: any = {
+  public configLevel: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'IPaddress' }
+    filtering: { filterString: '', columnName: 'level' }
   };
 
-  public configUser: any = {
+  public configMessage: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'userID' }
+    filtering: { filterString: '', columnName: 'message' }
   };
 
-  public configEndpoint: any = {
+  public configSource: any = {
     paging: true,
     sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'endpoint' }
-  };
-
-  public configResponseCode: any = {
-    paging: true,
-    sorting: { columns: this.columns },
-    filtering: { filterString: '', columnName: 'response_code' }
+    filtering: { filterString: '', columnName: 'source' }
   };
 
   errorMessage: string

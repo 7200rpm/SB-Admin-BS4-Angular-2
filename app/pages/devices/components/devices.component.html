@@ -13,6 +13,11 @@
             </ol>
         </div>
     </div>
-
-    <table-device-demo [data_in]="devices" (rowClicked)="onSelect($event)"></table-device-demo>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card card-block">
+                <table-device-demo [data_in]="devices" (rowClicked)="onSelect($event)"></table-device-demo>
+            </div>
+        </div>
+    </div>
 </div>

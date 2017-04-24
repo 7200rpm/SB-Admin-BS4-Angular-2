@@ -7,19 +7,22 @@ import {AlertComponent} from 'ng2-bootstrap/ng2-bootstrap';
 import { FORM_DIRECTIVES }    from '@angular/forms';
 
 import {CustomerFormComponent} from './customer-form.component';
+import {TableCustomerWakeupComponent} from './customerWakeupTable';
+import {TableCustomerEventsComponent} from './customerEventsTable';
 
 import { AvailableDevicesComponent } from './available-devices';
 import { ShipmentDevicesComponent } from './shipment-devices';
+import {CustomerDetail} from '../customer'
 
 @Component({
   moduleId: module.id,
   selector: 'customer-detail-cmp',
   templateUrl: 'customer-detail.component.html',
-  directives:[AlertComponent, CustomerFormComponent, AvailableDevicesComponent, ShipmentDevicesComponent,FORM_DIRECTIVES]
+  directives:[AlertComponent, TableCustomerWakeupComponent, TableCustomerEventsComponent, CustomerFormComponent, AvailableDevicesComponent, ShipmentDevicesComponent,FORM_DIRECTIVES]
 })
 
 export class CustomerDetailComponent implements OnInit {
-  @Input() customer: Customer;
+  @Input() customer: CustomerDetail;
   @Output() close = new EventEmitter();
 
   @ViewChild('availabledevices') available_devices_component: any;
@@ -51,31 +54,28 @@ export class CustomerDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.customer_form);
     this.sub = this.route.params.subscribe(params => {
       if(params['id'] !== undefined){
         let id = +params['id'];
         this.navigated = true;
         this.customerService.getCustomer(id)
-          .subscribe((customer:Customer) => {
+          .subscribe((customer:CustomerDetail) => {
             this.customer = customer;
-            if(this.customer.order_date) {
-              this.customer.order_date = new Date(this.customer.order_date).toISOString().substr(0,10);
-            }
+            console.log(customer);
             this.form_loaded = true;
           })
       }
       else{
         this.navigated = false;
-        this.customer = new Customer();
+        this.customer = new CustomerDetail();
       }
     })
   }
-
+/*
   public save() {
     this.committing_changes = true;
     console.log(this.customer);
-    if (this.customer.customerID) {
+    if (this.customer.userID) {
       this.customerService.updateCustomer(this.customer)
         .subscribe((customer: Customer) => {
           this.customer = customer;
@@ -164,8 +164,10 @@ export class CustomerDetailComponent implements OnInit {
     this.submitted = true;
     this.is_changed = true;
  }
-
+*/
   goBack() { this.router.navigate(['/dashboard/customers']); }
+  goToDevice() { this.router.navigate(['/dashboard/devices', this.customer.device]); }
+  goToUser() { this.router.navigate(['/dashboard/devices', this.customer.secondaryUser.userID]); }
 
   // ngOnDestroy() {
   //   this.sub.unsubscribe()

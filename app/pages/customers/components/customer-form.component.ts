@@ -41,9 +41,9 @@ export class CustomerFormComponent implements OnInit {
 
   ngOnInit() {
     // If a new customer, go to edit mode
-    if (!this.customer.customerID) { this.submitted = false; }
+    if (!this.customer.userID) { this.submitted = false; }
   }
-
+/*
   onSubmit() { 
     this.submitted = true; 
     this.is_changed = true;
@@ -65,7 +65,7 @@ export class CustomerFormComponent implements OnInit {
         this.router.navigate(['/dashboard/customers']);
       })
   }
-
+*/
   // Reset the form with a new hero AND restore 'pristine' class state
   // by toggling 'active' flag which causes the form
   // to be removed/re-added in a tick via NgIf

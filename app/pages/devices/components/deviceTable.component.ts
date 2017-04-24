@@ -16,15 +16,7 @@ import {Device} 						from '../device'
     template: `
 
 <div class="row">
-  <div class="col-xl-2">
-    <fieldset class="form-group">
-      <input *ngIf="configNickname.filtering" placeholder="Nickname"
-        class="form-control"
-         [ngTableFiltering]="configNickname.filtering"
-         (tableChanged)="onChangeTable(configNickname)"/>
-    </fieldset>
-  </div>
-  <div class="col-xl-2">
+  <div class="col-xl-3">
     <fieldset class="form-group">
       <input *ngIf="configSerialNumber.filtering" placeholder="Serial Number"
         class="form-control"
@@ -32,7 +24,7 @@ import {Device} 						from '../device'
          (tableChanged)="onChangeTable(configSerialNumber)"/>
     </fieldset>
   </div>
-  <div class="col-xl-3">
+  <div class="col-xl-5">
     <fieldset class="form-group">
       <input *ngIf="configParticleID.filtering" placeholder="Particle ID"
       class="form-control"
@@ -40,38 +32,24 @@ import {Device} 						from '../device'
          (tableChanged)="onChangeTable(configParticleID)"/>
     </fieldset>
   </div>
-  <div class="col-xl-1">
-    <fieldset class="form-group">
-      <input *ngIf="configHardwareRevision.filtering" placeholder="Revision"
-      class="form-control"
-       [ngTableFiltering]="configHardwareRevision.filtering"
-       (tableChanged)="onChangeTable(configHardwareRevision)"/>
-    </fieldset>
+  <div class="col-xl-4">
+    <button type="button" class="btn btn-primary" (click)="toggleDisabledDevices()">
+      <div *ngIf="!onlyDisabledDevices">Show Charge-Disabled Devices</div>
+      <div *ngIf="onlyDisabledDevices">Show All Devices</div>
+    </button>
   </div>
-  <div class="col-xl-2">
-    <fieldset class="form-group">
-      <select *ngIf="configStatus.filtering" placeholder="Status"
-      class="form-control"
-       [ngTableFiltering]="configStatus.filtering"
-       (tableChanged)="onChangeTable(configStatus)">
-        <option value="">All Status</option>
-        <option>In Stock</option>
-        <option>Sold</option>
-        <option>Shipped</option>
-        <option>In Use</option>
-       </select>
-    </fieldset>
-  </div>
+  <!--
   <div class="col-xl-2">
       <button class="btn btn-success" [routerLink]="['/dashboard', '/deviceAdd']">Create Device</button>
   </div>
+  -->
 <div>
 
-  <ng-device-table [config]="config.sorting"
+  <ng-customer-table [config]="config.sorting"
              (tableChanged)="onChangeTable(config)"
              (rowClicked)="onRowClicked($event)"
              [rows]="rows" [columns]="columns">
-  </ng-device-table>
+  </ng-customer-table>
   <pagination *ngIf="config.paging"
               class="pagination-sm"
               [(ngModel)]="page"
@@ -91,6 +69,7 @@ export class TableDeviceDemoComponent implements OnInit {
 
    @Input() public set data_in(values: Array<any>) {
       if (values) {
+          this.allData = values;
          this.data = values;
          this.length = this.data.length;
          this.onChangeTable(this.config);
@@ -99,14 +78,29 @@ export class TableDeviceDemoComponent implements OnInit {
 
    @Output() public rowClicked: EventEmitter<any> = new EventEmitter();
 
+   public onlyDisabledDevices: boolean = false;
+   private allData: Device[];
+
+   public toggleDisabledDevices() {
+     console.log("Toggling disabled devices");
+    if(!this.onlyDisabledDevices) {
+      this.onlyDisabledDevices = true;
+      this.data = this.allData.filter(x => x.chargingDisabled == true);
+      console.log(this.data);
+    } else {
+      this.onlyDisabledDevices = false;
+      this.data = this.allData;
+    }
+    this.onChangeTable(this.config);
+   }
+
    public rows: Array<any> = [];
    public columns: Array<any> = [
-      { title: 'Nickname', name: 'nickname' },
       { title: 'Serial Number', name: 'serialNumber' },
-      { title: 'Particle ID', name: 'coreID' },
-      { title: 'Revision', name: 'hardwareVersion' },
-      { title: 'Telemetry Count', name: 'telemetryCount' },
-      { title: 'Status', name: 'status' }
+      { title: 'Particle ID', name: 'coreID' }
+      // { title: 'Revision', name: 'hardwareVersion' },
+      // { title: 'Telemetry Count', name: 'telemetryCount' },
+      // { title: 'Status', name: 'status' }
    ];
    public page: number = 1;
    public itemsPerPage: number = 10;
@@ -127,43 +121,18 @@ export class TableDeviceDemoComponent implements OnInit {
       filtering: { filterString: '', columnName: 'serialNumber' }
    };
 
-   public configNickname: any = {
-      paging: true,
-      sorting: { columns: this.columns },
-      filtering: { filterString: '', columnName: 'nickname' }
-   };
-
    public configParticleID: any = {
       paging: true,
       sorting: { columns: this.columns },
       filtering: { filterString: '', columnName: 'coreID' }
    };
 
-   public configHardwareRevision: any = {
-      paging: true,
-      sorting: { columns: this.columns },
-      filtering: { filterString: '', columnName: 'hardwareVersion' }
-   };
-
-   public configTelemetryCount: any = {
-      paging: true,
-      sorting: { columns: this.columns },
-      filtering: { filterString: '', columnName: 'telemetryCount' }
-   };
-
-   public configStatus: any = {
-      paging: true,
-      sorting: { columns: this.columns },
-      filtering: { filterString: '', columnName: 'status' }
-   };
-
-
 
    errorMessage: string
    devices: Device[]
    mode = 'Observable'
 
-   private data: Array<any>;// = TableData;
+   private data: Array<Device>;// = TableData;
 
    public constructor() { }
 

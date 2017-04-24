@@ -13,6 +13,8 @@ import {VIS_DIRECTIVES} from './ng2-vis'
 
 import {GoogleChartComponent} from './ng2-google-charts'
 
+import {DeviceDetail, PowerData, Wakeup} from '../device'
+
 @Component({
   moduleId: module.id,
   selector: 'device-detail-cmp',
@@ -37,7 +39,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
   public delete_warning = false;
   public commit_success = false;
 
-  public selected_power_event: any[];
+  public selected_power_event: PowerData;
   public selected_power_event_index: number;
 
   public selected_scan_event_index: number = 0;
@@ -58,7 +60,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
     chartArea: {width: '80%'},
     width: 800,
     height: 640,
-    legend: { position: 'right' },
+    legend: { position: 'bottom' },
     animation:{
         duration: 1000,
         easing: 'out',
@@ -67,7 +69,8 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
       title: 'Time'
     },
     vAxis: {
-      title: 'Voltage'
+      title: 'Voltage',
+      gridlines: {count: 11}
     }
     /*,
     trendlines: {
@@ -91,12 +94,12 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
     */
   };
 
-  public device: Device = new Device()
+  public device: DeviceDetail = new DeviceDetail();
 
 
   // Scan plot variables
   public scanImageUri: string;
-
+  public scanValues: string;
   public chartLabels: number[];
   public chartData: any[];
   public chartOptions = {
@@ -133,21 +136,25 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
         let id = params['id'];
         this.navigated = true;
         this.deviceService.getDevice(id)
-          .subscribe((device: Device) => {
+          .subscribe((device: DeviceDetail) => {
             this.device = device;
             if(this.device.wakeups.length > 0) {
               console.log("Building scan data...")
-              var scan_data = this.buildScanData(this.device.wakeups[0].temperature,this.device.wakeups[0].startTime,this.device.wakeups[0].target);
+              var scan_data = this.buildScanData(this.device.wakeups[0]);
               this.chartData = scan_data;
+              if(this.device.wakeups.length > 0) {
+                this.selected_scan_event_index = this.device.wakeups.length - 1;
+              }
+              this.onScanSelect(this.device.wakeups[this.selected_scan_event_index]);
             } 
             if(this.device.powerData.length > 0) {
-              this.powerChartData = this.buildPowerData(this.device.powerData[0].voltage);
+              this.powerChartData = this.buildPowerData(this.device.powerData[0]);
             }
           })
       }
       else {
         this.navigated = false;
-        this.device = new Device();
+        this.device = new DeviceDetail();
         this.submitted = false;
       }
     })
@@ -167,7 +174,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
     this.chartOptions.width = this.scanContainer.nativeElement.clientWidth;
     this.powerChartOptions.width = this.powerChartContainer.nativeElement.clientWidth;
   }
-
+/*
   public LoadTimeline() {
     if(!this.device.events) {
       return;
@@ -191,7 +198,8 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
     this.time_data=  this.time_data.concat(temp_time_data);
     this.loaded_events += this.events_per_load;
   }
-
+  */
+/*
   public save() {
     this.committing_changes = true;
     if (this.device.coreID) {
@@ -221,22 +229,22 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
         this.goBack();
       })
   }
-
-  buildPowerData(data: any[]) {
+*/
+  buildPowerData(data: PowerData) {
     var data_out = new Array();
     data_out.push(new Array('Timestamp','Battery Voltage','Input Voltage'));
-    for (var i = 0; i < data.length; i++) {
-      var value = new Array(new Date(data[i].timestamp), data[i].batteryVoltage, data[i].powerVoltage);
+    for (var i = 0; i < data.count; i++) {
+      var value = new Array<any>(new Date(data.voltage[i].timestamp), data.voltage[i].batteryVoltage, data.voltage[i].powerInVoltage);
       data_out.push(value);
     }
     return data_out;
   }
 
-  onPowerSelect(power_event: any) {
-    this.powerChartData = this.buildPowerData(power_event.voltage);
+  onPowerSelect(power_event: PowerData) {
+    this.powerChartData = this.buildPowerData(power_event);
     console.log(this.powerChartData);
     this.powerChartDataLength = this.powerChartData.length;
-    this.powerChartOptions.title = power_event.event_type + " of " + this.device.serialNumber + " for " + (new Date(power_event.start_time)).toString();
+    this.powerChartOptions.title = power_event.type + " of " + this.device.serialNumber + " starting at " + (new Date(power_event.startTime)).toString();
   }
 
   viewPowerChart() {
@@ -291,45 +299,48 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
   }
   */
 
-  buildScanData(data: number[],scan_date: string,target: number) {
+  buildScanData(wakeup: Wakeup) {
     var data_out = new Array();
     data_out.push(new Array<Object>({label: "id"}, {label: "Temperature"}, {label: "Target", role: "annotation"}));
-    for (var i = 0; i < data.length; i++) {
-      if(i == target) {
-        var value = new Array<Object>(i, 1.8*data[i]+32.0,"Target (" + target.toString() + ")");
+    if(wakeup.temperatures == null) {
+      return null;
+    }
+    for (var i = 0; i < wakeup.temperatures.length; i++) {
+      if(i == wakeup.target) {
+        var value = new Array<Object>(i, 1.8*wakeup.temperatures[i]+32.0,"Target (" + wakeup.temperatures[i].toString() + ")");
       } else {
-        var value = new Array<Object>(i, 1.8*data[i]+32.0,null);
+        var value = new Array<Object>(i, 1.8*wakeup.temperatures[i]+32.0,null);
       }
-      
       //value.push({i, data[i]});
       data_out.push(value);
     }
-    this.chartOptions.title = "Temperature Plot for " + this.device.serialNumber + " on " + (new Date(scan_date)).toString();
+    this.scanValues = wakeup.temperatures.join();
+    this.chartOptions.title = "Temperature Plot for " + this.device.serialNumber + " on " + wakeup.localDate + " at " + wakeup.localTime + "L";
     return data_out;
   }
 
-  onScanSelect(scan: any) {
-    this.chartData = this.buildScanData(scan.temperature,scan.startTime,scan.target);
-    this.selected_scan_event_index = this.FindScanIndex(scan.id);
+  onScanSelect(wakeup: Wakeup) {
+    this.chartData = this.buildScanData(wakeup);
+    this.selected_scan_event_index = this.FindScanIndex(wakeup.wakeupID);
   }
 
   onPreviousScan() {
     if (this.selected_scan_event_index > 0) {
       this.selected_scan_event_index--;
-      this.chartData = this.buildScanData(this.device.wakeups[this.selected_scan_event_index].temperature,this.device.wakeups[this.selected_scan_event_index].startTime,this.device.wakeups[this.selected_scan_event_index].target);
+      this.chartData = this.buildScanData(this.device.wakeups[this.selected_scan_event_index]);
     }
   }
 
   onNextScan() {
     if (this.selected_scan_event_index < this.device.wakeups.length - 1) {
       this.selected_scan_event_index++;
-      this.chartData = this.buildScanData(this.device.wakeups[this.selected_scan_event_index].temperature,this.device.wakeups[this.selected_scan_event_index].startTime,this.device.wakeups[this.selected_scan_event_index].target);
+      this.chartData = this.buildScanData(this.device.wakeups[this.selected_scan_event_index]);
     }
   }
 
-  FindScanIndex(scan_id: string) {
+  FindScanIndex(scan_id: number) {
     for (var i = 0; i < this.device.wakeups.length; i++) {
-      if (this.device.wakeups[i].id == scan_id) {
+      if (this.device.wakeups[i].wakeupID == scan_id) {
         return i;
       }
     }
