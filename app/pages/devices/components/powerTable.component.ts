@@ -131,7 +131,9 @@ export class TableDevicePowerComponent implements OnInit {
     if (!config.filtering) {
       return data;
     }
-
+    if(data == null) {
+      return
+    }
     let filteredData: Array<any> = data.filter((item: any) =>
       item[config.filtering.columnName].toLowerCase().match(this.config.filtering.filterString.toLowerCase()));
 
